@@ -8,7 +8,7 @@ const logo = () => {
       strokeMiterlimit="2"
       clipRule="evenodd"
       viewBox="0 0 390 255"
-      className="w-60 h-12 mx-auto"
+      className="w-52 h-12 mx-auto"
     >
       <path
         fillRule="nonzero"
