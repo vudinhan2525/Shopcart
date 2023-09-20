@@ -4,9 +4,14 @@ import { UserIcon, CartIcon } from '../../utils/IconSVG/index';
 import Search from './Search/Search';
 function HeaderComponent() {
   return (
-    <div className=" flex py-3 items-center">
+    <div className=" flex py-3 items-center shadow-sm fixed top-0 right-0 left-0 bg-white">
       <Link to="/" className="basis-1/4">
-        {logo()}
+        <div className="w-52 mx-auto h-12 relative">
+          {logo()}
+          <p className="absolute top-[50%] translate-y-[-50%] right-[5%] font-bold text-xl text-primary-color">
+            ShopCart
+          </p>
+        </div>
       </Link>
       <div className="basis-2/4 ">
         <Search />
