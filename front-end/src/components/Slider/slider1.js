@@ -4,10 +4,8 @@ function Slider1() {
     <div
       key={1}
       style={{ backgroundImage: `url(${img1})` }}
-      className="h-full bg-cover bg-no-repeat bg-left animate-slideRightIn transition-all"
-    >
-      {' '}
-    </div>
+      className="h-[500px] w-full  bg-cover bg-no-repeat bg-left "
+    ></div>
   );
 }
 

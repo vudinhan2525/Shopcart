@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react';
 import slider from '../../components/Slider';
-
+import Slider from 'react-slick';
 function SliderComponent() {
-  const [slide, setSlide] = useState(0);
-  useEffect(() => {
-    const intervalSlider = setInterval(() => {
-      setSlide((prev) => {
-        if (prev >= 2) return 0;
-        else return prev + 1;
-      });
-    }, 4000);
-    return () => {
-      clearInterval(intervalSlider);
-    };
-  }, []);
-  return <div className="w-full h-[500px] bg-gray-200"></div>;
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    pauseOnHover: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  return (
+    <Slider {...settings}>
+      <div>{slider[0]}</div>
+      <div>{slider[1]}</div>
+      <div>{slider[2]}</div>
+    </Slider>
+  );
 }
 
 export default SliderComponent;

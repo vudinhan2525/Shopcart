@@ -5,7 +5,7 @@ function Search() {
     <div className="w-[500px] mx-auto flex bg-gray-100 rounded-full">
       <input
         type="text"
-        placeholder="Tìm kiếm sản phẩm"
+        placeholder="Search product"
         className=" outline-0 py-3 px-6  w-full bg-gray-100 rounded-full"
         spellCheck="false"
       ></input>

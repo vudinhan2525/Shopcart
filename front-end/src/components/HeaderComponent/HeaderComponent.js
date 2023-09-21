@@ -19,11 +19,11 @@ function HeaderComponent() {
       <ul className="flex basis-1/4 gap-5">
         <li className="flex items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full bg-primary-color text-white hover:opacity-90">
           {UserIcon()}
-          <p>Tài khoản</p>
+          <p>Account</p>
         </li>
         <li className="flex items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full hover:bg-gray-100">
           {CartIcon()}
-          <p>Giỏ Hàng</p>
+          <p>Cart</p>
         </li>
       </ul>
     </div>
