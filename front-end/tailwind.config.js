@@ -9,6 +9,20 @@ module.exports = {
       fontFamily: {
         OpenSans: ['"Open Sans"', 'sans-serif'],
       },
+      keyframes: {
+        slideRightIn: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        fadeOut: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
+      },
+      animation: {
+        slideRightIn: 'slideRightIn 1s ease-in-out',
+        fadeOut: 'fadeOut 1s linear',
+      },
     },
   },
   plugins: [],
