@@ -7,7 +7,7 @@ function CartComponent() {
     <div className=" bg-white shadow-lg cursor-pointer hover:scale-[1.05] transition-all">
       <div
         style={{ backgroundImage: `url(${img})` }}
-        className="h-[250px] w-[250px] text-center bg-no-repeat bg-contain mt-2 mx-auto"
+        className="h-[200px] w-[200px] text-center bg-no-repeat bg-contain mt-2 mx-auto"
       ></div>
       <div className="px-5 mt-3">
         <h3 className="text-lg font-bold">Iphone 13 128GB | VN/A </h3>

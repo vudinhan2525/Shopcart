@@ -3,7 +3,7 @@ function DefaultLayout({ children }) {
   return (
     <div>
       <HeaderComponent></HeaderComponent>
-      <div className="pt-[72px]"></div>
+      <div className="pt-[64px]"></div>
       {children}
     </div>
   );
