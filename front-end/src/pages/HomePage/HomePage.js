@@ -5,7 +5,7 @@ function HomePage() {
   return (
     <div>
       <SliderComponent />
-      <div className=" px-10">
+      <div className=" px-10 bg-[#FFFFFF]">
         <CategoryComponent />
         <SuggestCart></SuggestCart>
       </div>
