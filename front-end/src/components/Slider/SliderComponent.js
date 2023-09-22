@@ -12,9 +12,9 @@ function SliderComponent() {
   };
   return (
     <Slider {...settings}>
-      <div>{slider[0]}</div>
-      <div>{slider[1]}</div>
-      <div>{slider[2]}</div>
+      {slider.map((el, index) => {
+        return <div key={index}>{el}</div>;
+      })}
     </Slider>
   );
 }
