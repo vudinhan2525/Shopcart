@@ -9,14 +9,27 @@ function SortBar() {
         {brand.map((el, idx) => (
           <div className="flex mt-1" key={idx}>
             <input type="checkbox" id={`input-${idx}`} className=" scale-[1.2] cursor-pointer"></input>
-            <label for={`input-${idx}`} className="ml-3 cursor-pointer">
+            <label htmlFor={`input-${idx}`} className="ml-3 cursor-pointer">
               {el}
             </label>
           </div>
         ))}
       </div>
       <p className="text-lg mb-2 font-semibold pt-2 border-t mt-4">Price</p>
-      <input type="range"></input>
+      <div className="flex relative h-1 w-full bg-gray-300">
+        <input
+          type="range"
+          className="w-[100%] appearance-none absolute top-[-5px] cursor-pointer left-0 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-primary-color [&::-webkit-slider-thumb]:h-[15px] [&::-webkit-slider-thumb]:w-[15px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:pointer-events-auto pointer-events-none bg-transparent "
+          min={0}
+          max={100}
+        ></input>
+        <input
+          type="range"
+          className="w-[100%] appearance-none absolute top-[-5px] cursor-pointer left-0 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-primary-color [&::-webkit-slider-thumb]:h-[15px] [&::-webkit-slider-thumb]:w-[15px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:pointer-events-auto pointer-events-none bg-transparent "
+          min={0}
+          max={100}
+        ></input>
+      </div>
       <p className="text-lg mb-2 font-semibold pt-2 border-t mt-4">Review</p>
       <div>
         <div className="flex items-center mt-1">
