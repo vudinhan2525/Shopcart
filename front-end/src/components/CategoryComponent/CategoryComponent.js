@@ -6,7 +6,7 @@ function CategoryComponent() {
       <div className="grid grid-cols-6 mt-8 gap-6 max-lg:gap-4 max-lg:grid-cols-3">
         {categories.map((el, idx) => {
           return (
-            <div className="h-[250px] max-lg:h-[341px] relative overflow-hidden rounded-xl ">
+            <div className="h-[250px] max-lg:h-[341px] relative overflow-hidden rounded-xl " key={idx}>
               <div
                 className="h-full bg-no-repeat bg-center bg-cover cursor-pointer hover:scale-[1.3] transition-all"
                 style={{ backgroundImage: `url(${el.img})` }}

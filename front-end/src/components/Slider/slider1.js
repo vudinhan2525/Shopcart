@@ -4,7 +4,7 @@ function Slider1() {
     <div
       key={1}
       style={{ backgroundImage: `url(${img1})` }}
-      className="relative h-[550px] w-full  bg-cover bg-no-repeat bg-left "
+      className={`relative h-[550px] w-full  bg-cover  bg-no-repeat bg-left `}
     >
       <div className="absolute w-[530px] h-[400px] top-0 py-14 px-12 rounded-3xl">
         <h1 className="text-primary-color text-5xl font-semibold">Grab Upto 50% Off On Selected Headphone</h1>
