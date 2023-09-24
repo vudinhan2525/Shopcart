@@ -16,3 +16,9 @@ html *::-webkit-scrollbar-track {
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0);
 }
+.slider .thumb {
+  @apply h-4 w-4 rounded-full  bg-primary-color outline-0 top-[-6px] cursor-pointer;
+}
+.slider .track-1 {
+  @apply h-[3px] bg-primary-color;
+}
