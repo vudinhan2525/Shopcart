@@ -11,12 +11,13 @@ function TypePage() {
         <div className="basis-[20%] shadow-lg">
           <SortBar />
         </div>
-        <div className="basis-[80%] grid grid-cols-4 gap-6">
-          <CartComponent></CartComponent>
-          <CartComponent></CartComponent>
-          <CartComponent></CartComponent>
-          <CartComponent></CartComponent>
-          <CartComponent></CartComponent>
+        <div className="basis-[80%] grid grid-cols-4 gap-4">
+          <CartComponent isSmall={true}></CartComponent>
+          <CartComponent isSmall={true}></CartComponent>
+          <CartComponent isSmall={true}></CartComponent>
+          <CartComponent isSmall={true}></CartComponent>
+          <CartComponent isSmall={true}></CartComponent>
+          <CartComponent isSmall={true}></CartComponent>
         </div>
       </div>
     </div>
