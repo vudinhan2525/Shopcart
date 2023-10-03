@@ -22,3 +22,9 @@ html *::-webkit-scrollbar-track {
 .slider .track-1 {
   @apply h-[3px] bg-primary-color;
 }
+.slick-next {
+  @apply w-8 h-8 z-50 right-0 top-[50%] translate-x-[100%] translate-y-[-50%] text-gray-500;
+}
+.slick-prev {
+  @apply w-8 h-8 z-50 left-0 top-[50%] translate-x-[-100%] translate-y-[-50%];
+}
