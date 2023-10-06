@@ -4,7 +4,7 @@ function Button({ to, href, onClick, children, className }) {
   if (to) Comp = Link;
   else if (href) Comp = 'a';
   return (
-    <Comp onClick={onClick} className={className}>
+    <Comp onClick={onClick} className={className} href={href} to={to}>
       {children}
     </Comp>
   );

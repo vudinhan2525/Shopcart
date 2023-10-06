@@ -4,7 +4,7 @@ import { DefaultLayout } from './components/Layout';
 function App() {
   return (
     <Router>
-      <div className="font-OpenSans text-base font-medium ">
+      <div className="font-OpenSans text-base font-medium bg-[#F5F5F7] ">
         <Routes>
           {publicRoutes.map((el, idx) => {
             const Layout = el.layout || DefaultLayout;

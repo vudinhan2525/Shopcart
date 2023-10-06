@@ -7,10 +7,9 @@ const MAX = 5000;
 function SortBar() {
   const brand = ['Iphone', 'Samsung', 'Oppo', 'Xiaomi', 'LG'];
   const [values, setValues] = useState([MIN, MAX]);
-  console.log(values);
   return (
-    <div className="py-7 px-6">
-      <p className="text-lg mb-2 font-semibold">Brand</p>
+    <div className="py-7 px-6 ">
+      <p className="text-lg mb-2 font-semibold ">Brand</p>
       <div>
         {brand.map((el, idx) => (
           <div className="flex mt-1" key={idx}>
