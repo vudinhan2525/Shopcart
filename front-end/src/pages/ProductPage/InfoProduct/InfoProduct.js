@@ -6,7 +6,7 @@ import Button from '../../../utils/Button';
 function InfoProduct() {
   const [itemCnt, setItemCnt] = useState(1);
   return (
-    <div className="bg-white px-8 py-6 rounded-xl">
+    <div className="bg-white px-8 py-6 rounded-xl border-[1px] border-gray-300">
       <div>
         <header className="text-4xl font-bold">Iphone13 128GB</header>
         <p className="mt-2  text-sm">
@@ -31,7 +31,7 @@ function InfoProduct() {
         </div>
         <p className="mt-2 text-sm ">Suggested payments with 6 months special financing</p>
       </div>
-      <div className="w-full h-[1px] my-6 bg-gray-200"></div>
+      <div className="w-full h-[1px] my-6 bg-gray-300"></div>
       <div className="flex items-center">
         <div className="flex items-center bg-gray-100 rounded-full">
           <div
