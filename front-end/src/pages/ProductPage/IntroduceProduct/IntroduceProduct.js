@@ -2,9 +2,11 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../assets/img/shop/logo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserIcon, StarDefault } from '../../../utils/IconSVG';
+import IntroducePost from './IntroducePost/IntroducePost';
+import { ChevronDown } from '../../../utils/IconSVG';
 function IntroduceProduct() {
   return (
-    <div className="h-[400px] w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-5">
+    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-5 h-[658px] overflow-hidden relative">
       <div className="flex gap-4">
         <div>
           <div
@@ -41,6 +43,14 @@ function IntroduceProduct() {
               Chat Now
             </div>
           </div>
+        </div>
+      </div>
+      <IntroducePost />
+      <div className="absolute bottom-0 w-[100%] h-[30px] linear-ct"></div>
+      <div className="absolute bottom-[0px] cursor-pointer flex border-2 translate-x-[-50%] left-[50%] mx-auto w-[120px] text-center rounded-full bg-white ">
+        <div className="flex items-center mx-auto">
+          <div className="py-[6px]">More</div>
+          <ChevronDown />
         </div>
       </div>
     </div>

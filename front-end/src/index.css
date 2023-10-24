@@ -23,8 +23,17 @@ html *::-webkit-scrollbar-track {
   @apply h-[3px] bg-primary-color;
 }
 .slick-next {
-  @apply w-10 h-10 p-1  rounded-full z-50 right-0 top-[50%] translate-x-[100%] translate-y-[-50%];
+  @apply w-10 h-10 p-1  rounded-full z-10 right-0 top-[50%] translate-x-[100%] translate-y-[-50%];
 }
 .slick-prev {
-  @apply w-10 h-10 p-1  rounded-full z-50 left-0 top-[50%] translate-x-[-100%] translate-y-[-50%];
+  @apply w-10 h-10 p-1  rounded-full z-10 left-0 top-[50%] translate-x-[-100%] translate-y-[-50%];
+}
+.linear-ct {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 0) 0%,
+    rgba(255, 255, 255, 0.5362368458125437) 42%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
