@@ -2,6 +2,7 @@ import SliderProduct from './SliderProduct/SliderProduct';
 import InfoProduct from './InfoProduct/InfoProduct';
 import IntroduceProduct from './IntroduceProduct/IntroduceProduct';
 import DetailProduct from './DetailProduct/DetailProduct';
+import ReviewProduct from './ReviewProduct/ReviewProduct';
 function ProductPage() {
   return (
     <div className="px-12 h-[3000px]">
@@ -16,6 +17,7 @@ function ProductPage() {
           <DetailProduct />
         </div>
       </div>
+      <ReviewProduct />
     </div>
   );
 }

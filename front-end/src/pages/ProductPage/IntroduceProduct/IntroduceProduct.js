@@ -6,7 +6,7 @@ import IntroducePost from './IntroducePost/IntroducePost';
 import { ChevronDown } from '../../../utils/IconSVG';
 function IntroduceProduct() {
   return (
-    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-5 h-[658px] overflow-hidden relative">
+    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-7 h-[658px] overflow-hidden relative">
       <div className="flex gap-4">
         <div>
           <div
