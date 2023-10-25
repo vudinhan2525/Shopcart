@@ -3,7 +3,7 @@ function IntroducePost() {
   return (
     <div className="mt-5">
       <header className="text-xl font-bold">iPhone 13 review - Flagship expected in 2021</header>
-      <div className="text-[14px] leading-[22px] ">
+      <div className="text-[15px] leading-[23px] ">
         <p className="mt-3">
           At the end of 2020, the iPhone 12 set of 4 was released with many improvements. After that, all attention was
           re-immersed in the next product - iPhone 13. So what will stand out in iPhone 13, let's find out now!

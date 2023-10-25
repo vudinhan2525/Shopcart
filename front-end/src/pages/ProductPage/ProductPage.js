@@ -3,6 +3,7 @@ import InfoProduct from './InfoProduct/InfoProduct';
 import IntroduceProduct from './IntroduceProduct/IntroduceProduct';
 import DetailProduct from './DetailProduct/DetailProduct';
 import ReviewProduct from './ReviewProduct/ReviewProduct';
+import CartComponent from '../../components/CartComponent/CartComponent';
 function ProductPage() {
   return (
     <div className="px-12 h-[3000px]">
@@ -18,6 +19,26 @@ function ProductPage() {
         </div>
       </div>
       <ReviewProduct />
+      <div className="mt-8">
+        <h4 className="text-[26px] leading-[32px] font-bold ">Related products</h4>
+        <div className="grid grid-cols-5 mt-6 gap-4">
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+        </div>
+      </div>
+      <div className="mt-8">
+        <h4 className="text-[26px] leading-[32px] font-bold ">Products you last seen</h4>
+        <div className="grid grid-cols-5 mt-6 gap-4">
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+          <CartComponent isSmall={true} />
+        </div>
+      </div>
     </div>
   );
 }

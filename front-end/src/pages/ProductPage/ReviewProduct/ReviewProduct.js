@@ -1,8 +1,9 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import img1 from '../../../assets/img/user/avatar.png';
 function ReviewProduct() {
   return (
-    <div className="h-[600px] py-7 px-7  bg-white border-[1px] rounded-xl w-[80%] mt-9">
+    <div className="  py-7 px-7  bg-white border-[1px] rounded-xl w-[80%] mt-9">
       <div>
         <header className="text-xl font-bold">Customer reviews about Iphone13</header>
         <div className="flex mt-6 gap-5">
@@ -73,6 +74,85 @@ function ReviewProduct() {
             <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">3 Star</div>
             <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">2 Star</div>
             <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">1 Star</div>
+          </div>
+        </div>
+        <div className="w-full h-[1px] bg-gray-200 my-4"></div>
+        <div className="flex flex-col gap-5">
+          <div className="flex gap-2 items-center">
+            <div
+              style={{ backgroundImage: `url(${img1})` }}
+              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
+            ></div>
+            <div className="basis-full">
+              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
+                <div className="font-bold flex gap-2 items-center">
+                  <div>Nhung Phạm</div>
+                  <div>
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                  </div>
+                </div>
+                <div className=" text-[15px] leading-[20px] ">
+                  Giao hàng nhanh nhân viên nhiệt tình, điện thoại xài rất mượt ^^
+                </div>
+                <div className="mt-[2px]">
+                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div
+              style={{ backgroundImage: `url(${img1})` }}
+              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
+            ></div>
+            <div className=" basis-full">
+              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
+                <div className="font-bold flex gap-2 items-center">
+                  <div>An Vu</div>
+                  <div>
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-gray-700 w-4 h-4" icon={faStar} />
+                  </div>
+                </div>
+                <div className=" text-[15px] leading-[20px] flex items-center">Chất lượng rất tốt</div>
+                <div className="mt-[2px]">
+                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div
+              style={{ backgroundImage: `url(${img1})` }}
+              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
+            ></div>
+            <div className=" basis-full">
+              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
+                <div className="font-bold flex gap-2 items-center">
+                  <div>Hieu Nguyen</div>
+                  <div>
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
+                    <FontAwesomeIcon className="text-gray-700 w-4 h-4" icon={faStar} />
+                  </div>
+                </div>
+                <div className=" text-[15px] leading-[20px] flex items-center">
+                  Với mình đây là mẫu iPhone vừa vặn nhất từ túi tiền, tính năng, kích thước,
+                </div>
+                <div className="mt-[2px]">
+                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
