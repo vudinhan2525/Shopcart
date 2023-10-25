@@ -4,7 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../utils/Button';
 function CartComponent({ isSmall = false }) {
   return (
-    <div className=" bg-white shadow-lg cursor-pointer hover:scale-[1.05] transition-all rounded-lg">
+    <div className=" bg-white border-[1px] border-gray-300 cursor-pointer hover:scale-[1.025] transition-all rounded-lg">
       <div
         style={{ backgroundImage: `url(${img})` }}
         className={`${
