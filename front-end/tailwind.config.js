@@ -18,10 +18,15 @@ module.exports = {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
         },
+        slideTopDown: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
       },
       animation: {
         slideRightIn: 'slideRightIn 1s ease-in-out',
         fadeOut: 'fadeOut 1s linear',
+        slideTopDown: 'slideTopDown 0.2s linear',
       },
     },
   },

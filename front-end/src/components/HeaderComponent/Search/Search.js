@@ -2,7 +2,7 @@ import { SearchIcon } from '../../../utils/IconSVG';
 
 function Search() {
   return (
-    <div className="w-[500px] mx-auto flex bg-gray-100 rounded-full">
+    <div className="w-[400px] flex bg-gray-100 rounded-full">
       <input
         type="text"
         placeholder="Search product"

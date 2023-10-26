@@ -7,7 +7,7 @@ import CartComponent from '../../components/CartComponent/CartComponent';
 function ProductPage() {
   return (
     <div className="px-12 ">
-      <p className="mt-5 mb-8 text-sm font-semibold">Home / SmartPhones / Iphone13</p>
+      <p className="mt-5 mb-8">Home / SmartPhones / Iphone13</p>
       <div className="flex gap-4">
         <div className="basis-[60%]">
           <SliderProduct />
