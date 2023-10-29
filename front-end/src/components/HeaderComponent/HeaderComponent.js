@@ -5,7 +5,10 @@ import Search from './Search/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
+import { useContext } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 function HeaderComponent() {
+  const { isLoggedIn, login, logout } = useContext(AuthContext);
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
@@ -32,7 +35,14 @@ function HeaderComponent() {
         <Search />
       </div>
       <ul className="flex basis-1/4 gap-5">
-        <li className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all bg-primary-color text-white hover:opacity-90">
+        <li
+          onClick={() => {
+            if (!isLoggedIn) {
+              login();
+            }
+          }}
+          className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all bg-primary-color text-white hover:opacity-90"
+        >
           {UserIcon()}
           <p>Account</p>
         </li>
