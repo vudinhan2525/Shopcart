@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import DeliverMethod from '../DeliverMethod/DeliverMethod';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
 function Payment() {
   const input1 = useRef();
@@ -12,9 +11,9 @@ function Payment() {
       <div className="relative">
         <input
           placeholder="Enter Coupon Code"
-          className="w-full bg-gray-200 outline-none text-sm px-6 py-3 rounded-full"
+          className="w-full bg-gray-200 outline-none text-sm px-6 py-4 rounded-full"
         ></input>
-        <div className="flex items-center text-white hover:opacity-80 transition-all cursor-pointer absolute bg-primary-color h-[36px] top-[50%] translate-y-[-50%] rounded-full right-[2%]">
+        <div className="flex items-center text-white hover:opacity-80 transition-all cursor-pointer absolute bg-primary-color h-[42px] top-[50%] translate-y-[-50%] rounded-full right-[1%]">
           <p className="font-medium text-sm mx-auto px-4 select-none">Apply coupon</p>
         </div>
       </div>
@@ -34,7 +33,7 @@ function Payment() {
           <label
             onClick={() => setShowMethod(1)}
             htmlFor="paymentsmethod"
-            className="cursor-pointer text-[14px] leading-[20px] font-medium "
+            className="cursor-pointer text-[14px] leading-[20px] font-semibold "
           >
             Cash on Delivery
           </label>
@@ -55,7 +54,7 @@ function Payment() {
           <label
             onClick={() => setShowMethod(2)}
             htmlFor="paymentsmethod2"
-            className="cursor-pointer text-[14px] leading-[20px] font-medium "
+            className="cursor-pointer text-[14px] leading-[20px] font-semibold"
           >
             Credit or Debit card
           </label>
@@ -65,8 +64,33 @@ function Payment() {
             className={`peer-checked/input1:after:block peer-checked/input1:border-[#08AC0A] after:hidden after:bg-[#08AC0A] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[50%] after:translate-y-[-50%] after:right-[50%] after:translate-x-[50%] absolute w-[16px] h-[16px] rounded-full cursor-pointer border-[2px] border-gray-900  `}
           ></label>
         </div>
-        {showMethod === 1 ? <DeliverMethod /> : ''}
         {showMethod === 2 ? <OnlineMethod /> : ''}
+        <div>
+          <div className="flex my-3 items-center justify-between">
+            <header className="text-sm font-semibold">Sub Total</header>
+            <p className="text-sm text-gray-900">$549.00</p>
+          </div>
+          <div className="flex my-3 items-center justify-between">
+            <header className="text-sm font-semibold">Tax(10%)</header>
+            <p className="text-sm text-gray-900">$54.90</p>
+          </div>
+          <div className="flex my-3 items-center justify-between">
+            <header className="text-sm font-semibold">Coupon Discount</header>
+            <p className="text-sm text-gray-900">-$54.90</p>
+          </div>
+          <div className="flex my-3 items-center justify-between">
+            <header className="text-sm font-semibold">Shipping Cost</header>
+            <p className="text-sm text-gray-900">$0.00</p>
+          </div>
+        </div>
+        <div className="h-[1px] w-full bg-gray-200"></div>
+        <div className="flex my-3 items-center justify-between">
+          <header className="font-bold">Total</header>
+          <p className="font-bold text-gray-900">=$494.10</p>
+        </div>
+        <div className="bg-primary-color text-white text-center py-3 rounded-full cursor-pointer transition-all hover:opacity-80">
+          Pay $494.10
+        </div>
       </div>
     </div>
   );

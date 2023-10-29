@@ -7,7 +7,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 function HeaderComponent() {
   return (
-    <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/80 items-center shadow-sm fixed top-0 right-0 left-0 bg-white z-50">
+    <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
         <div className="w-52 mx-auto h-12 relative">
           {logo()}
@@ -22,7 +22,7 @@ function HeaderComponent() {
             <p>Category</p>
             <FontAwesomeIcon icon={faChevronDown} />
           </li>
-          <div className="z-10 shadow-lg rounded-b-xl absolute animate-slideTopDown hover:block hidden peer-hover:block border-[1px] w-[80%] bg-white bottom-0 translate-y-[100%] right-[50%] translate-x-[50%]">
+          <div className="bg-white z-10 shadow-lg rounded-b-xl absolute animate-scaleIn hover:block hidden peer-hover:block border-[1px] w-[80%] bottom-0 translate-y-[100%] right-[50%] translate-x-[50%]">
             <CategoryMenu />
           </div>
           <li className="flex hover:bg-gray-200 justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all text-black">

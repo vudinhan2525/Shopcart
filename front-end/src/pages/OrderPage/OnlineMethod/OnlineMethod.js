@@ -10,10 +10,11 @@ const image = [
   { img: img3, name: 'Visa' },
 ];
 //https://www.youtube.com/watch?v=rEaKl8_mwmQ
+//https://www.youtube.com/watch?v=uQBnBnupn-M
 function OnlineMethod() {
   const [method, setMethod] = useState(0);
   return (
-    <div className="mt-2">
+    <div className="mt-2 animate-slideTopDown">
       <div className="flex gap-2">
         {image.map((el, idx) => {
           return (
@@ -32,7 +33,7 @@ function OnlineMethod() {
       <div className="mt-4">
         <header className="text-sm font-semibold">Email*</header>
         <input
-          type="text"
+          type="email"
           required
           className=" mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
           placeholder="Type here..."

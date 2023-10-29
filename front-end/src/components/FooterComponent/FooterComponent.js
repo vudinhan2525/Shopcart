@@ -50,15 +50,15 @@ function FooterComponent() {
         <div className="basis-[16.25%]">
           <header className="text-lg font-bold">Department</header>
           <div className="mt-6 text-sm text-gray-800 flex flex-col gap-2">
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Furniture</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Hand Bag</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Books</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Tech</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Sneakers</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Travel</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Toys</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Sneakers</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Furniture</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Hand Bag</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Books</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Tech</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Sneakers</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Travel</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Toys</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Sneakers</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Electronics & Gadget
             </div>
           </div>
@@ -66,18 +66,18 @@ function FooterComponent() {
         <div className="basis-[16.25%]">
           <header className="text-lg font-bold">About Us</header>
           <div className="mt-6 text-sm text-gray-800 flex flex-col gap-2">
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               About Shopcart
             </div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Careers</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Careers</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               News & Blog
             </div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Help</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Help</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Shopcart Brands
             </div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Ideas & Guides
             </div>
           </div>
@@ -85,12 +85,12 @@ function FooterComponent() {
         <div className="basis-[16.25%]">
           <header className="text-lg font-bold">Services</header>
           <div className="mt-6 text-sm text-gray-800 flex flex-col gap-2">
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Gift Card</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Gift Card</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Shipping & Delivery
             </div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Mobile App</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Mobile App</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Account Signup
             </div>
           </div>
@@ -98,12 +98,12 @@ function FooterComponent() {
         <div className="basis-[16.25%]">
           <header className="text-lg font-bold">Help</header>
           <div className="mt-6 text-sm text-gray-800 flex flex-col gap-2">
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">
               Shopcart Help
             </div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Returns</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Contact Us</div>
-            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:ml-3 transition-all">Feedback</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Returns</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Contact Us</div>
+            <div className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all">Feedback</div>
           </div>
         </div>
       </div>
