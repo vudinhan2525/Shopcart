@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
+import SuccessTransaction from '../Modals/SuccessTransaction';
 function Payment() {
   const input1 = useRef();
   const input2 = useRef();
   const [showMethod, setShowMethod] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
   return (
     <div>
       <header className="text-2xl font-semibold">Order Summery</header>
@@ -88,10 +90,14 @@ function Payment() {
           <header className="font-bold">Total</header>
           <p className="font-bold text-gray-900">=$494.10</p>
         </div>
-        <div className="bg-primary-color text-white text-center py-3 rounded-full cursor-pointer transition-all hover:opacity-80">
-          Pay $494.10
-        </div>
       </div>
+      <div
+        onClick={() => setShowSuccess(true)}
+        className="bg-primary-color text-white text-center py-3 rounded-full cursor-pointer transition-all hover:opacity-80"
+      >
+        Pay $494.10
+      </div>
+      {showSuccess ? <SuccessTransaction setShowSuccess={setShowSuccess} /> : <></>}
     </div>
   );
 }
