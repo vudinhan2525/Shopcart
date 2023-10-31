@@ -1,11 +1,13 @@
-import { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage } from '../pages';
-import { LayoutNoHeader } from '../components/Layout';
+import { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage, RegisterPage } from '../pages';
+import { LayoutNoHeader, BlankLayout } from '../components/Layout';
+
 const publicRoutes = [
   { path: '/', component: HomePage },
   { path: '/order', component: OrderPage },
   { path: '/product', component: ProductPage },
   { path: '/type', component: TypePage },
   { path: '/cart', component: CartPage },
+  { path: '/register', component: RegisterPage, layout: BlankLayout },
   { path: '*', component: ErrorPage, layout: LayoutNoHeader },
 ];
 export { publicRoutes };
