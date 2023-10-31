@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 const AuthContext = createContext();
 function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const login = () => {
     setIsLoggedIn(true);

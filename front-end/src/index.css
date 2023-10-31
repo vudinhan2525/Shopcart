@@ -50,3 +50,12 @@ html *::-webkit-scrollbar-track {
   background: rgb(4, 112, 239);
   background: linear-gradient(52deg, rgba(4, 112, 239, 1) 6%, rgba(255, 255, 255, 1) 49%, rgba(8, 239, 107, 1) 96%);
 }
+.bg-register-ct {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(84, 155, 106, 0.9676093948321516) 46%
+  );
+}

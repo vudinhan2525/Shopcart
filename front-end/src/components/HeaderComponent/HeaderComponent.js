@@ -7,8 +7,9 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import ConditionalLink from '../../utils/ConditionalLink/ConditionalLink';
 function HeaderComponent() {
-  const { setShowLoginModal } = useContext(AuthContext);
+  const { isLoggedIn, setShowLoginModal } = useContext(AuthContext);
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
@@ -44,10 +45,15 @@ function HeaderComponent() {
           {UserIcon()}
           <p>Account</p>
         </li>
-        <li className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all hover:bg-gray-200">
+        <ConditionalLink
+          onClick={() => setShowLoginModal(true)}
+          to="/order"
+          condition={isLoggedIn}
+          className="select-none flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all hover:bg-gray-200"
+        >
           {CartIcon()}
           <p>Cart </p>
-        </li>
+        </ConditionalLink>
       </ul>
     </div>
   );
