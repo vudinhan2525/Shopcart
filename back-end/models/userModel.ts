@@ -1,18 +1,8 @@
-import mongoose from 'mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import IUser from '../interfaces/IUser';
+import { model } from 'mongoose';
 const validator = require('validator');
-interface IUser extends Document {
-    name: string;
-    avatar?: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    role: string;
-    passwordResetToken: string;
-    passwordResetExpires: Date;
-    passwordChangeAt: Date;
-}
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<IUser>({
     name: {
         type: String,
         required: [true, 'A user must have a name.'],
@@ -58,5 +48,5 @@ const userSchema = new mongoose.Schema({
     passwordResetExpires: Date,
     passwordChangeAt: Date,
 });
-const User = mongoose.model<IUser>('User', userSchema);
-module.exports = User;
+const User = model<IUser>('User', userSchema);
+export default User;

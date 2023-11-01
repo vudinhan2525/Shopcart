@@ -1,8 +1,8 @@
 import catchAsync from '../utils/catchAsync';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
-const User = require('../models/userModel');
+
+import User from '../models/userModel';
 exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    console.log(req.body);
     const user = await User.create({
         name: req.body.name,
         avatar: req.body.avatar,
@@ -13,13 +13,36 @@ exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     });
     res.status(200).json({
         status: 'success',
-        value: user,
+        data: user,
     });
 }));
 exports.getAllUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const users = await User.find({});
     res.status(200).json({
         status: 'success',
-        value: users,
+        data: users,
+    });
+}));
+exports.getOneUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    res.status(200).json({
+        status: 'success',
+        data: user,
+    });
+}));
+exports.updateUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
+    res.status(200).json({
+        status: 'success',
+        data: user,
+    });
+}));
+exports.deleteUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+        status: 'success',
     });
 }));
