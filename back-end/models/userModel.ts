@@ -1,6 +1,8 @@
 import mongoose, { Document } from 'mongoose';
 import IUser from '../interfaces/IUser';
 import { model } from 'mongoose';
+const bcrypt = require('bcryptjs');
+
 const validator = require('validator');
 const userSchema = new mongoose.Schema<IUser>({
     name: {
@@ -48,5 +50,18 @@ const userSchema = new mongoose.Schema<IUser>({
     passwordResetExpires: Date,
     passwordChangeAt: Date,
 });
+
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    this.passwordConfirm = undefined;
+    next();
+});
+userSchema.methods.correctPassword = async function (
+    duplicatePassword: string,
+    password: string,
+) {
+    return await bcrypt.compare(duplicatePassword, password);
+};
 const User = model<IUser>('User', userSchema);
 export default User;

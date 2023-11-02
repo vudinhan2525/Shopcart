@@ -1,6 +1,6 @@
 import catchAsync from '../utils/catchAsync';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
-
+import APIFeature from '../utils/apiFeature';
 import User from '../models/userModel';
 exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.create({
@@ -17,7 +17,9 @@ exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     });
 }));
 exports.getAllUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    const users = await User.find({});
+    const doc = new APIFeature(User.find({}), req.query);
+    doc.filter().sort().fields().pagination();
+    const users = await doc.query;
     res.status(200).json({
         status: 'success',
         data: users,
