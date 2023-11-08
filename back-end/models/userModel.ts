@@ -57,6 +57,12 @@ userSchema.pre('save', async function (next) {
     this.passwordConfirm = undefined;
     next();
 });
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password') && !this.isNew) {
+        this.passwordChangeAt = new Date(Date.now() - 3000);
+    }
+    next();
+});
 userSchema.methods.correctPassword = async function (
     duplicatePassword: string,
     password: string,

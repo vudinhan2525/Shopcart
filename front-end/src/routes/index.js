@@ -1,4 +1,4 @@
-import { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage, RegisterPage } from '../pages';
+import { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage, RegisterPage, SettingPage } from '../pages';
 import { LayoutNoHeader, BlankLayout } from '../components/Layout';
 
 const publicRoutes = [
@@ -7,6 +7,7 @@ const publicRoutes = [
   { path: '/product', component: ProductPage },
   { path: '/type', component: TypePage },
   { path: '/cart', component: CartPage },
+  { path: '/setting', component: SettingPage },
   { path: '/register', component: RegisterPage, layout: BlankLayout },
   { path: '*', component: ErrorPage, layout: LayoutNoHeader },
 ];

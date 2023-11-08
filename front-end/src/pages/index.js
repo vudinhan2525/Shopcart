@@ -5,4 +5,5 @@ import ErrorPage from './ErrorPage/ErrorPage';
 import TypePage from './TypePage/TypePage';
 import CartPage from './CartPage/CartPage';
 import RegisterPage from './RegisterPage/RegisterPage';
-export { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage, RegisterPage };
+import SettingPage from './SettingPage/SettingPage';
+export { HomePage, OrderPage, ProductPage, ErrorPage, TypePage, CartPage, RegisterPage, SettingPage };

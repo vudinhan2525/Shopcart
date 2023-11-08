@@ -23,6 +23,8 @@ const sendJsonToken = (
     const cookieOptions = {
         expires: new Date(Date.now() + expir * 24 * 60 * 60 * 1000),
         httpOnly: true,
+        domain: 'localhost', // Set to your domain
+        path: '/',
     };
     res.cookie('jwt', token, cookieOptions);
     res.status(statusCode).json({
@@ -40,7 +42,7 @@ exports.login = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     }
     const user = await User.findOne({ email: email }).select('password');
     if (!user || !(await user.correctPassword(password, user.password))) {
-        return next(new AppError("Can't find this email !!!", 400));
+        return next(new AppError('Email or password is incorrect!', 401));
     }
     sendJsonToken(user as IUser, 200, req, res);
 }));
@@ -81,7 +83,8 @@ exports.protect = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     if (!curUser) {
         return next(new AppError('User not exists !!!', 400));
     }
-    console.log(decoded);
+
+    //4) Check if user changed password
     if (curUser.verifyPasswordChanged(decoded.iat)) {
         return next(
             new AppError(
@@ -90,6 +93,20 @@ exports.protect = catchAsync(<MiddleWareFn>(async (req, res, next) => {
             ),
         );
     }
-    //4) Check if user changed password
+    req.user = curUser;
+    res.locals.user = curUser;
     next();
+}));
+exports.updatePassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const user = await User.findById(req.user?._id).select('+password');
+    if (!user) {
+        return next(new AppError("User doesn't exits !!!", 400));
+    }
+    if (!(await user.correctPassword(req.body.password, user.password))) {
+        return next(new AppError('Password is not correct !!!', 400));
+    }
+    user.password = req.body.newPassword;
+    user.passwordConfirm = req.body.newPasswordConfirm;
+    user.save();
+    sendJsonToken(user, 200, req, res);
 }));
