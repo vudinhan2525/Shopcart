@@ -1,5 +1,6 @@
 const express = require('express');
 import { MiddleWareFn } from './interfaces/MiddleWareFn';
+import globalHandleError from './controller/errorController';
 const userRoute = require('./routes/userRoute');
 const app = express();
 app.use(express.json({ limit: '10kb' }));
@@ -14,4 +15,5 @@ app.all('*', <MiddleWareFn>((req, res, next) => {
         res: "This route can't be found",
     });
 }));
+app.use(globalHandleError);
 module.exports = app;

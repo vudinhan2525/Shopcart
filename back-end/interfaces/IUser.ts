@@ -13,5 +13,6 @@ interface IUser {
         duplicatePassword: string,
         password: string,
     ): Promise<boolean>;
+    verifyPasswordChanged(JWTTimeCreate: number): boolean;
 }
 export default IUser;

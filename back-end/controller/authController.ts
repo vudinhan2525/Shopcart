@@ -3,6 +3,8 @@ import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import User from '../models/userModel';
 import IUser from '../interfaces/IUser';
 import { Request, Response } from 'express';
+import AppError from '../utils/AppError';
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const signToken = (id: string) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -34,11 +36,60 @@ const sendJsonToken = (
 exports.login = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
-        // handle Error
+        return next(new AppError('Please provide email and password !!!', 400));
     }
     const user = await User.findOne({ email: email }).select('password');
     if (!user || !(await user.correctPassword(password, user.password))) {
-        // handle Error
+        return next(new AppError("Can't find this email !!!", 400));
     }
     sendJsonToken(user as IUser, 200, req, res);
+}));
+exports.signup = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const { email, password, passwordConfirm } = req.body;
+    if (!email || !password || !passwordConfirm) {
+        return next(new AppError('Please provide information !!!', 400));
+    }
+    const newUser = await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm,
+        role: req.body.role,
+    });
+
+    sendJsonToken(newUser as IUser, 200, req, res);
+}));
+exports.protect = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    let token;
+    //1) Check if token is exists
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+        token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.jwt) {
+        token = req.cookies.jwt;
+    }
+    if (!token) {
+        return next(new AppError('Please login !!!', 401));
+    }
+    //2) Verify token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    //3) Check if user still exists
+    const curUser = await User.findOne({ _id: decoded.id });
+    if (!curUser) {
+        return next(new AppError('User not exists !!!', 400));
+    }
+    console.log(decoded);
+    if (curUser.verifyPasswordChanged(decoded.iat)) {
+        return next(
+            new AppError(
+                'User recently changed password, please try again',
+                401,
+            ),
+        );
+    }
+    //4) Check if user changed password
+    next();
 }));

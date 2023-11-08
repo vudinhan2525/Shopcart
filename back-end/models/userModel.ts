@@ -63,5 +63,15 @@ userSchema.methods.correctPassword = async function (
 ) {
     return await bcrypt.compare(duplicatePassword, password);
 };
+userSchema.methods.verifyPasswordChanged = function (JWTTimeCreate: number) {
+    if (this.passwordChangeAt) {
+        const time = parseInt(
+            (this.passwordChangeAt.getTime() / 1000).toString(),
+            10,
+        );
+        return time > JWTTimeCreate;
+    }
+    return false;
+};
 const User = model<IUser>('User', userSchema);
 export default User;
