@@ -1,24 +1,95 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faCircleNotch, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FacebookIcons, GoogleIcons, InstagramIcons, TwiterIcons } from '../../utils/IconSVG/index';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import isEmail from 'validator/lib/isEmail';
+import axios from 'axios';
 function RegisterPage() {
+  const param = useParams();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [error, setError] = useState([]);
+
+  function validatePassword(pw) {
+    return /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw) && pw.length > 8;
+  }
+
+  const handleSubmit = async () => {
+    if (loading) return;
+    if (param.token) {
+      if (validatePassword(password) && passwordConfirm === password) {
+        setError([]);
+        setLoading(true);
+        try {
+          const response = await axios.patch(
+            `${process.env.REACT_APP_BACKEND_URL}users/resetPassword/${param.token}`,
+            {
+              password: password,
+              passwordConfirm: passwordConfirm,
+            },
+            {
+              withCredentials: true,
+            },
+          );
+          console.log(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.log(error.response);
+          setLoading(false);
+        }
+      }
+    } else {
+      if (isEmail(email) && validatePassword(password) && passwordConfirm !== password) {
+        setError([]);
+      }
+    }
+    if (!isEmail(email)) {
+      setError((prev) => [...prev, 'email']);
+    }
+    if (!validatePassword(password)) {
+      setError((prev) => [...prev, 'password']);
+    }
+    if (passwordConfirm !== password) {
+      setError((prev) => [...prev, 'passwordConfirm']);
+    }
+  };
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 bg-register-ct  w-full">
       <div className="right-[50%] translate-x-[50%] translate-y-[-50%] overflow-hidden rounded-[30px] shadow-xl top-[50%] absolute w-[1000px]  bg-white">
         <div className="flex">
           <div className="basis-1/2">
             <div className="px-8 py-8 ">
-              <header className="text-center text-4xl font-bold text-gray-800 mb-2">Sign up</header>
-              <p className="text-base ml-2 font-bold mb-1">Email</p>
-              <div className="flex items-center relative">
-                <div className="absolute top-[50%] translate-y-[-55%] left-[20px]  text-lg text-[#9CA3AF]">
-                  <FontAwesomeIcon icon={faUser} />
-                </div>
-                <input
-                  placeholder="Email"
-                  className="w-full bg-[#F1EFF1] outline-none px-12  font-semibold py-3 rounded-full"
-                ></input>
-              </div>
+              <header className="text-center text-4xl font-bold text-gray-800 mb-2">
+                {param.token ? 'Reset your password' : 'Sign up'}
+              </header>
+              {!param.token && (
+                <>
+                  <p className="text-base ml-2 font-bold mb-1">Email</p>
+                  <div className="flex items-center relative">
+                    <div className="absolute top-[50%] translate-y-[-55%] left-[20px]  text-lg text-[#9CA3AF]">
+                      <FontAwesomeIcon icon={faUser} />
+                    </div>
+                    <input
+                      onChange={(e) => {
+                        setError((prev) => prev.filter((el) => el !== 'email'));
+                        setEmail(e.target.value);
+                      }}
+                      value={email}
+                      placeholder="Email"
+                      className={`w-full ${
+                        error.includes('email') && 'border-red-400 bg-red-100'
+                      } bg-[#F1EFF1] border-[1px] border-[#F1EFF1] outline-none px-12  font-semibold py-3 rounded-full`}
+                    ></input>
+                  </div>
+                  {error.includes('email') && (
+                    <p className="text-xs ml-2 text-red-500 mt-1 font-medium">Email is invalid !!!</p>
+                  )}
+                </>
+              )}
+
               <p className="ml-2 font-bold mt-3 mb-1">Password</p>
               <div className="flex items-center relative">
                 <div className="absolute top-[50%] translate-y-[-55%] left-[20px]  text-lg text-[#9CA3AF]">
@@ -26,10 +97,20 @@ function RegisterPage() {
                 </div>
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setError((prev) => prev.filter((el) => el !== 'password'));
+                    setPassword(e.target.value);
+                  }}
                   placeholder="Password"
-                  className="w-full bg-[#F1EFF1] outline-none px-12 font-semibold py-3 rounded-full"
+                  className={`w-full ${
+                    error.includes('password') && 'border-red-400 bg-red-100'
+                  } bg-[#F1EFF1] border-[1px] border-[#F1EFF1] outline-none px-12  font-semibold py-3 rounded-full`}
                 ></input>
               </div>
+              {error.includes('password') && (
+                <p className="text-xs ml-2 text-red-500 mt-1 font-medium">Invalid password !!!</p>
+              )}
               <p className="ml-2 font-bold mt-3 mb-1">Confirm Password</p>
               <div className="flex items-center relative">
                 <div className="absolute top-[50%] translate-y-[-55%] left-[20px]  text-lg text-[#9CA3AF]">
@@ -37,12 +118,36 @@ function RegisterPage() {
                 </div>
                 <input
                   type="password"
+                  value={passwordConfirm}
+                  onChange={(e) => {
+                    setError((prev) => prev.filter((el) => el !== 'passwordConfirm'));
+                    setPasswordConfirm(e.target.value);
+                  }}
                   placeholder="Confirm Password"
-                  className="w-full bg-[#F1EFF1] outline-none px-12 font-semibold py-3 rounded-full"
+                  className={`w-full ${
+                    error.includes('passwordConfirm') && 'border-red-400 bg-red-100'
+                  } bg-[#F1EFF1] border-[1px] border-[#F1EFF1] outline-none px-12  font-semibold py-3 rounded-full`}
                 ></input>
               </div>
-              <div className="mt-[15px] select-none cursor-pointer transition-all hover:opacity-80 mx-auto text-center bg-primary-color w-[150px] px-6 py-3 rounded-full text-white text-lg font-semibold">
-                Sign Up
+              {error.includes('passwordConfirm') && (
+                <p className="text-xs ml-2 text-red-500 mt-1 font-medium">Invalid password confirm !!!</p>
+              )}
+              <p className="text-xs mt-2 ml-2 italic">
+                * A password must contain at least 1 digit 1 alphabetic 1 special character and minimum 8 characters
+              </p>
+              <div
+                onClick={handleSubmit}
+                className={`${param.token ? 'w-[200px] mt-[15px]' : 'w-[150px] mt-[5px]'} ${
+                  loading ? 'opacity-80' : 'hover:opacity-80'
+                }  select-none cursor-pointer transition-all mx-auto text-center bg-primary-color  px-6 py-3 rounded-full text-white text-lg font-semibold`}
+              >
+                {loading ? (
+                  <>
+                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                  </>
+                ) : (
+                  <>{param.token ? 'Reset password' : 'Sign Up'}</>
+                )}
               </div>
               <p className="text-center mt-4">Or sign up with social platforms</p>
               <div className="flex justify-center mt-2 gap-4">

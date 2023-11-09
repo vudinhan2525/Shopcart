@@ -21,6 +21,7 @@ exports.sendMail = (to: string, subject: string, url: string) => {
     if (subject === 'Reset your password') {
         htmlCont = forgotPasswordTemplate.replace('{verificationLink}', url);
     } else htmlCont = verifyEmailTemplate.replace('{verificationLink}', url);
+
     const options = {
         from: process.env.MAIL_FROM_ADDRESS,
         to: to,

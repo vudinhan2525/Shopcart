@@ -4,6 +4,7 @@ import User from '../models/userModel';
 import IUser from '../interfaces/IUser';
 import { Request, Response } from 'express';
 import AppError from '../utils/AppError';
+const crypto = require('crypto');
 const mail = require('../utils/mail');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
@@ -24,10 +25,10 @@ const sendJsonToken = (
     const cookieOptions = {
         expires: new Date(Date.now() + expir * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        domain: 'localhost', // Set to your domain
-        path: '/',
     };
-    res.cookie('jwt', token, cookieOptions);
+    res.cookie('jwt', token, {
+        ...cookieOptions,
+    });
     res.status(statusCode).json({
         status: 'success',
         token,
@@ -108,9 +109,8 @@ exports.forgotPassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const token = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
     //3) Send it to user's email
-    const url = `${req.protocol}://${req.get(
-        'host',
-    )}/api/v1/users/resetPassword/${token}`;
+    const url = `${process.env.FRONT_END_URL}/register/${token}`;
+
     try {
         await mail.sendMail(req.body.email, 'Reset your password', url);
         // Email sent successfully
@@ -122,6 +122,30 @@ exports.forgotPassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         await user.save({ validateBeforeSave: false });
         res.status(500).json({ error: 'Failed to send email' });
     }
+}));
+exports.resetPassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    //1) Get user based on token
+    const hashedToken = crypto
+        .createHash('sha256')
+        .update(req.params.token)
+        .digest('hex');
+    console.log(hashedToken);
+    const user = await User.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { $gt: Date.now() },
+    });
+    //2) Check and set new password
+    if (!user) {
+        return next(new AppError('Token is invalid or has expired!!', 400));
+    }
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    //3) Update passwordchangeat property for user
+    await user.save();
+    //4) Send back token for user
+    sendJsonToken(user, 200, req, res);
 }));
 exports.updatePassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.findById(req.user?._id).select('+password');

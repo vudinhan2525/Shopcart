@@ -4,8 +4,14 @@ import globalHandleError from './controller/errorController';
 const cors = require('cors');
 const userRoute = require('./routes/userRoute');
 const app = express();
-app.use(cors());
-app.options('*', cors());
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        credentials: true,
+    }),
+);
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
