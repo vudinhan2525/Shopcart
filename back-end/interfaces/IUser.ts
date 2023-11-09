@@ -6,13 +6,14 @@ interface IUser {
     password: string;
     passwordConfirm: string | undefined;
     role: string;
-    passwordResetToken: string;
-    passwordResetExpires: Date;
+    passwordResetToken: string | undefined;
+    passwordResetExpires: Date | undefined;
     passwordChangeAt: Date;
     correctPassword(
         duplicatePassword: string,
         password: string,
     ): Promise<boolean>;
     verifyPasswordChanged(JWTTimeCreate: number): boolean;
+    createPasswordResetToken(): string;
 }
 export default IUser;

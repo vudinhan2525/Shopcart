@@ -4,6 +4,7 @@ import User from '../models/userModel';
 import IUser from '../interfaces/IUser';
 import { Request, Response } from 'express';
 import AppError from '../utils/AppError';
+const mail = require('../utils/mail');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const signToken = (id: string) => {
@@ -96,6 +97,31 @@ exports.protect = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     req.user = curUser;
     res.locals.user = curUser;
     next();
+}));
+exports.forgotPassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    //1) Get user based on email
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return next(new AppError("Can't find user with this email !!", 400));
+    }
+    //2) Generate random reset token
+    const token = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+    //3) Send it to user's email
+    const url = `${req.protocol}://${req.get(
+        'host',
+    )}/api/v1/users/resetPassword/${token}`;
+    try {
+        await mail.sendMail(req.body.email, 'Reset your password', url);
+        // Email sent successfully
+        res.status(200).json({ message: 'Email sent successfully' });
+    } catch (error) {
+        // Handle error and respond to the user
+        user.passwordResetExpires = undefined;
+        user.passwordResetToken = undefined;
+        await user.save({ validateBeforeSave: false });
+        res.status(500).json({ error: 'Failed to send email' });
+    }
 }));
 exports.updatePassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.findById(req.user?._id).select('+password');
