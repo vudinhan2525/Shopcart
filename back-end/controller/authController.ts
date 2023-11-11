@@ -24,7 +24,7 @@ const sendJsonToken = (
 
     const cookieOptions = {
         expires: new Date(Date.now() + expir * 24 * 60 * 60 * 1000),
-        httpOnly: true,
+        //httpOnly: true,
     };
     res.cookie('jwt', token, {
         ...cookieOptions,
@@ -53,14 +53,19 @@ exports.signup = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     if (!email || !password || !passwordConfirm) {
         return next(new AppError('Please provide information !!!', 400));
     }
+    const user = await User.findOne({ email: email });
+    if (user) {
+        return next(
+            new AppError('Email has been used in another account !!', 400),
+        );
+    }
     const newUser = await User.create({
-        name: req.body.name,
+        name: req.body.name || 'User',
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-        role: req.body.role,
+        role: req.body.role || 'user',
     });
-
     sendJsonToken(newUser as IUser, 200, req, res);
 }));
 exports.protect = catchAsync(<MiddleWareFn>(async (req, res, next) => {
@@ -159,4 +164,39 @@ exports.updatePassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     user.passwordConfirm = req.body.newPasswordConfirm;
     user.save();
     sendJsonToken(user, 200, req, res);
+}));
+exports.isLoggedIn = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    if (req.cookies.jwt) {
+        jwt.verify(
+            req.cookies.jwt,
+            process.env.JWT_SECRET,
+            async (err: any, result: any) => {
+                if (err) {
+                    res.status(400).json({
+                        status: 'failed',
+                        message: 'Invalid token',
+                    });
+                    return;
+                } else {
+                    const user = await User.findOne({ _id: result.id });
+                    // Check if user still exists and check if user changed password
+                    if (!user || user.verifyPasswordChanged(result.iat)) {
+                        res.status(400).json({
+                            status: 'failed',
+                            message: 'Invalid token',
+                        });
+                        return;
+                    }
+                    res.status(200).json({
+                        status: 'success',
+                    });
+                    return;
+                }
+            },
+        );
+    } else {
+        res.status(200).json({
+            status: 'loginfirsttime',
+        });
+    }
 }));

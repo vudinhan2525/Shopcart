@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 function SignIn({ setMethod }) {
+  const { login, setShowLoginModal } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showErrorEmail, setShowErrorEmail] = useState(false);
@@ -28,7 +30,7 @@ function SignIn({ setMethod }) {
       setShowError(false);
       setLoading(true);
       try {
-        const response = await axios.post(
+        await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}users/login`,
           {
             email: validateEmail(email)[0],
@@ -36,7 +38,8 @@ function SignIn({ setMethod }) {
           },
           { withCredentials: true },
         );
-        console.log(response.data);
+        login();
+        setShowLoginModal(false);
         setLoading(false);
       } catch (error) {
         console.log(error.response);

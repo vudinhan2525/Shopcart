@@ -3,6 +3,7 @@ import { MiddleWareFn } from './interfaces/MiddleWareFn';
 import globalHandleError from './controller/errorController';
 const cors = require('cors');
 const userRoute = require('./routes/userRoute');
+const cookieParse = require('cookie-parser');
 const app = express();
 app.use(
     cors({
@@ -12,6 +13,7 @@ app.use(
     }),
 );
 
+app.use(cookieParse());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 

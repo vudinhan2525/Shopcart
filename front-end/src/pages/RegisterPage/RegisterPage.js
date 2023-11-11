@@ -12,7 +12,7 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState([]);
-
+  const [errorMsg, setErrorMsg] = useState('');
   function validatePassword(pw) {
     return /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw) && pw.length > 8;
   }
@@ -42,8 +42,29 @@ function RegisterPage() {
         }
       }
     } else {
-      if (isEmail(email) && validatePassword(password) && passwordConfirm !== password) {
+      if (isEmail(email) && validatePassword(password) && passwordConfirm === password) {
         setError([]);
+        setLoading(true);
+        try {
+          await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}users/signup`,
+            {
+              name: 'User',
+              email: email,
+              password: password,
+              passwordConfirm: passwordConfirm,
+              role: 'user',
+            },
+            {
+              withCredentials: true,
+            },
+          );
+          window.location.href = '/';
+          setLoading(false);
+        } catch (error) {
+          setErrorMsg(error.response.data.message);
+          setLoading(false);
+        }
       }
     }
     if (!isEmail(email)) {
@@ -76,6 +97,7 @@ function RegisterPage() {
                       onChange={(e) => {
                         setError((prev) => prev.filter((el) => el !== 'email'));
                         setEmail(e.target.value);
+                        setErrorMsg('');
                       }}
                       value={email}
                       placeholder="Email"
@@ -135,6 +157,7 @@ function RegisterPage() {
               <p className="text-xs mt-2 ml-2 italic">
                 * A password must contain at least 1 digit 1 alphabetic 1 special character and minimum 8 characters
               </p>
+              <p className="text-xs text-red-600 font-semibold ml-2 mt-1">{errorMsg}</p>
               <div
                 onClick={handleSubmit}
                 className={`${param.token ? 'w-[200px] mt-[15px]' : 'w-[150px] mt-[5px]'} ${

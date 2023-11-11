@@ -36,15 +36,22 @@ function HeaderComponent() {
         <Search />
       </div>
       <ul className="flex basis-1/4 gap-5">
-        <li
-          onClick={() => {
-            setShowLoginModal(true);
-          }}
-          className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all bg-primary-color text-white hover:opacity-90"
-        >
-          {UserIcon()}
-          <p>Account</p>
-        </li>
+        {isLoggedIn ? (
+          <></>
+        ) : (
+          <>
+            <li
+              onClick={() => {
+                setShowLoginModal(true);
+              }}
+              className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all bg-primary-color text-white hover:opacity-90"
+            >
+              {UserIcon()}
+              <p>Account</p>
+            </li>
+          </>
+        )}
+
         <ConditionalLink
           onClick={() => setShowLoginModal(true)}
           to="/order"
