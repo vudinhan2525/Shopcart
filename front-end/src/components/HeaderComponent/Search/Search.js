@@ -10,7 +10,7 @@ function Search() {
         spellCheck="false"
       ></input>
       <div className="flex items-center relative py-3 px-4 cursor-pointer rounded-r-full text-[#a7a7ab] hover:text-black  hover:bg-[#e4e4e6] after:w-[1px] after:h-8 after:bg-gray-300 after:translate-y-[-50%] after:absolute after:top-[50%] after:left-0">
-        {SearchIcon()}
+        <SearchIcon />
       </div>
     </div>
   );

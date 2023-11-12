@@ -34,7 +34,9 @@ function RegisterPage() {
               withCredentials: true,
             },
           );
-          console.log(response.data);
+          if (response.data.message === 'success') {
+            window.location.href = '/';
+          }
           setLoading(false);
         } catch (error) {
           console.log(error.response);

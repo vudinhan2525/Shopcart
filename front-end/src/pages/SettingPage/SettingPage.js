@@ -1,21 +1,45 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import img from '../../assets/img/user/avatar.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
+import { useState } from 'react';
+const settingItems = [
+  {
+    text: 'My Account',
+    icon: <UserIcon clx="w-7 h-7" />,
+  },
+  {
+    text: 'Orders',
+    icon: <CartIcon clx="w-7 h-7" />,
+  },
+  {
+    text: 'Message',
+    icon: <MessageIcon clx="w-7 h-7" />,
+  },
+  {
+    text: 'Address',
+    icon: <LocationIcon clx="w-7 h-7" />,
+  },
+  {
+    text: 'Setting',
+    icon: <GearIcon clx="w-7 h-7" />,
+  },
+];
 function SettingPage() {
+  const [settingActive, setSettingActive] = useState(0);
   return (
     <div className="px-10">
-      <div className="flex py-8 px-6">
-        <div className="basis-[15%] ">
+      <div className="flex py-8 px-10">
+        <div className="basis-[18%] ">
           <div className="flex items-center gap-2 cursor-pointer  group">
             <div>
               <div
                 style={{ backgroundImage: `url(${img})` }}
-                className="w-[60px] h-[60px] bg-no-repeat bg-center bg-contain"
+                className="w-[70px] h-[70px] bg-no-repeat bg-center bg-contain"
               ></div>
             </div>
             <div className="relative w-full">
-              <header className="font-bold">An Vũ</header>
+              <header className="text-lg font-bold">An Vũ</header>
               <p className="text-xs text-gray-600">View profile</p>
               <FontAwesomeIcon
                 icon={faChevronRight}
@@ -23,8 +47,24 @@ function SettingPage() {
               />
             </div>
           </div>
+          <div className="my-2 ">
+            {settingItems.map((el, idx) => {
+              return (
+                <div
+                  key={idx}
+                  onClick={() => setSettingActive(idx)}
+                  className={` ${
+                    settingActive === idx ? 'bg-gray-200' : 'hover:bg-gray-200'
+                  }  rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
+                >
+                  <div className="text-[#384853] ">{el.icon}</div>
+                  <p className="text-[#384853] text-lg font-semibold">{el.text}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="basis-[85%]"></div>
+        <div className="basis-[82%]"></div>
       </div>
     </div>
   );

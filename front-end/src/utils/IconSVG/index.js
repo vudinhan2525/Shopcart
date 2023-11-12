@@ -1,4 +1,4 @@
-export const UserIcon = (width = '1.5rem', height = '1.5rem') => {
+export const UserIcon = ({ width = '1.5rem', height = '1.5rem', clx }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +8,7 @@ export const UserIcon = (width = '1.5rem', height = '1.5rem') => {
       stroke="currentColor"
       width={width}
       height={height}
+      className={clx}
     >
       <path
         strokeLinecap="round"
@@ -17,7 +18,7 @@ export const UserIcon = (width = '1.5rem', height = '1.5rem') => {
     </svg>
   );
 };
-export const CartIcon = (width = '24px', height = '24px') => {
+export const CartIcon = ({ width = '24px', height = '24px', clx }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +28,7 @@ export const CartIcon = (width = '24px', height = '24px') => {
       stroke="currentColor"
       width={width}
       height={height}
+      className={clx}
     >
       <path
         strokeLinecap="round"
@@ -36,7 +38,7 @@ export const CartIcon = (width = '24px', height = '24px') => {
     </svg>
   );
 };
-export const SearchIcon = (width = '24px', height = '24px') => {
+export const SearchIcon = ({ width = '24px', height = '24px', clx }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +48,7 @@ export const SearchIcon = (width = '24px', height = '24px') => {
       stroke="currentColor"
       width={width}
       height={height}
+      className={clx}
     >
       <path
         strokeLinecap="round"
@@ -292,6 +295,70 @@ export const TwiterIcons = ({ width = '1rem', height = '1rem', clx }) => {
         d="M43.8044 6.79902C42.5841 7.62363 39.7822 8.82191 38.4004 8.82191V8.82437C36.8226 7.08554 34.6013 6 32.1377 6C27.353 6 23.4731 10.093 23.4731 15.1387C23.4731 15.8398 23.5501 16.5236 23.6925 17.1793H23.6911C17.2007 16.9996 10.1022 13.5678 5.82893 7.69403C3.2016 12.4916 5.4752 17.8272 8.45673 19.7713C7.43613 19.8526 5.55733 19.6473 4.673 18.737C4.61373 21.9212 6.06507 26.1403 11.3571 27.6709C10.3379 28.2494 8.53373 28.0834 7.74926 27.9604C8.0246 30.6484 11.5927 34.1625 15.4945 34.1625C14.1039 35.8594 8.8716 38.9374 3 37.9582C6.98767 40.5177 11.6352 42 16.5543 42C30.5333 42 41.3894 30.0482 40.8051 15.3041C40.8028 15.2879 40.8028 15.2716 40.8014 15.2539C40.8028 15.216 40.8051 15.1781 40.8051 15.1387C40.8051 15.0929 40.8014 15.0496 40.8 15.0053C42.0726 14.0871 43.7801 12.463 45 10.3254C44.2925 10.7365 42.1701 11.5596 40.1952 11.7639C41.4627 11.0422 43.3405 8.67865 43.8044 6.79902Z"
         fill="#1DA1F2"
       ></path>
+    </svg>
+  );
+};
+export const GearIcon = ({ width = '1rem', height = '1rem', clx }) => {
+  return (
+    <>
+      <svg
+        width={width}
+        height={height}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className={clx}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+        />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </>
+  );
+};
+export const LocationIcon = ({ width = '1rem', height = '1rem', clx }) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      className={clx}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+      />
+    </svg>
+  );
+};
+export const MessageIcon = ({ width = '1rem', height = '1rem', clx }) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      className={clx}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+      />
     </svg>
   );
 };

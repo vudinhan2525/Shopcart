@@ -46,7 +46,7 @@ function HeaderComponent() {
               }}
               className="flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all bg-primary-color text-white hover:opacity-90"
             >
-              {UserIcon()}
+              <UserIcon />
               <p>Account</p>
             </li>
           </>
@@ -58,7 +58,7 @@ function HeaderComponent() {
           condition={isLoggedIn}
           className="select-none flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all hover:bg-gray-200"
         >
-          {CartIcon()}
+          <CartIcon />
           <p>Cart </p>
         </ConditionalLink>
       </ul>
