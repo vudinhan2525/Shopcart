@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import img from '../../assets/img/user/avatar.png';
+import img from '../../assets/img/user/avatar3d.jpg';
 import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
 import { useState } from 'react';
+import { MessageSetting, AccountSetting, AddressSetting, Setting } from './index';
 const settingItems = [
   {
     text: 'My Account',
@@ -25,6 +26,7 @@ const settingItems = [
     icon: <GearIcon clx="w-7 h-7" />,
   },
 ];
+const settingTemplate = [<AccountSetting />, <></>, <MessageSetting />, <AddressSetting />, <Setting />];
 function SettingPage() {
   const [settingActive, setSettingActive] = useState(0);
   return (
@@ -35,7 +37,7 @@ function SettingPage() {
             <div>
               <div
                 style={{ backgroundImage: `url(${img})` }}
-                className="w-[70px] h-[70px] bg-no-repeat bg-center bg-contain"
+                className="w-[70px] h-[70px] bg-no-repeat bg-center bg-contain rounded-full"
               ></div>
             </div>
             <div className="relative w-full">
@@ -52,7 +54,9 @@ function SettingPage() {
               return (
                 <div
                   key={idx}
-                  onClick={() => setSettingActive(idx)}
+                  onClick={() => {
+                    if (idx !== 1) setSettingActive(idx);
+                  }}
                   className={` ${
                     settingActive === idx ? 'bg-gray-200' : 'hover:bg-gray-200'
                   }  rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
@@ -64,7 +68,8 @@ function SettingPage() {
             })}
           </div>
         </div>
-        <div className="basis-[82%]"></div>
+        <div className="w-[1px] ml-5 bg-gray-300"></div>
+        <div className="basis-[82%]">{settingTemplate[settingActive]}</div>
       </div>
     </div>
   );
