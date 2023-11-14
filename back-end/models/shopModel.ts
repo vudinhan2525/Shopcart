@@ -50,6 +50,12 @@ const shopSchema = new Schema<IShop>({
             ref: 'Product',
         },
     ],
+    followers: {
+        type: Number,
+        default: 0,
+    },
+    averageRating: Number,
+    numberRating: Number,
 });
 const Shop = model<IShop>('Shop', shopSchema);
 export default Shop;

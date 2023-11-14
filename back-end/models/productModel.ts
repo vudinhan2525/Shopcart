@@ -80,6 +80,11 @@ const productSchema = new mongoose.Schema<IProduct>({
             ref: 'Rating',
         },
     ],
+    shop: {
+        type: Schema.ObjectId,
+        ref: 'Shop',
+        required: [true, 'Product must belong to a shop'],
+    },
 });
 const Product = model<IProduct>('Product', productSchema);
 export default Product;

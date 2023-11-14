@@ -9,5 +9,8 @@ interface IShop {
     avatar: string;
     background: string;
     products: mongoose.Types.ObjectId[];
+    followers: number;
+    averageRating: number;
+    numberRating: number;
 }
 export default IShop;

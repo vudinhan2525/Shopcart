@@ -24,6 +24,11 @@ const ratingSchema = new mongoose.Schema<IRating>({
         type: String,
         required: [true, 'Rating must have a username'],
     },
+    id_shop: {
+        type: Schema.ObjectId,
+        ref: 'Shop',
+        required: [true, 'Rating must belong to a shop'],
+    },
 });
 const Rating = model<IRating>('Rating', ratingSchema);
 export default Rating;

@@ -6,5 +6,6 @@ interface IRating {
     contentRating: string;
     id_user: mongoose.Types.ObjectId;
     username: string;
+    id_shop: mongoose.Types.ObjectId;
 }
 export default IRating;

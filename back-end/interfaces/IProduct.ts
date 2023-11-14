@@ -14,5 +14,6 @@ interface IProduct {
     details: mongoose.Types.ObjectId;
     dateUp: Date;
     ratings: mongoose.Types.ObjectId[];
+    shop: mongoose.Types.ObjectId;
 }
 export default IProduct;
