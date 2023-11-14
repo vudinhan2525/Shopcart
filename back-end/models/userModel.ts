@@ -1,16 +1,24 @@
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import IUser from '../interfaces/IUser';
 import { model } from 'mongoose';
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const validator = require('validator');
 const userSchema = new mongoose.Schema<IUser>({
-    name: {
+    firstName: {
+        type: String,
+        required: [true, 'A user must have a name.'],
+        trim: true,
+    },
+    lastName: {
         type: String,
         required: [true, 'A user must have a name.'],
         trim: true,
     },
     avatar: {
+        type: String,
+    },
+    background: {
         type: String,
     },
     email: {
@@ -23,6 +31,9 @@ const userSchema = new mongoose.Schema<IUser>({
             validator: validator.isEmail,
             message: 'Email is invalid',
         },
+    },
+    phonenumber: {
+        type: String,
     },
     password: {
         type: String,
@@ -49,6 +60,30 @@ const userSchema = new mongoose.Schema<IUser>({
     passwordResetToken: String,
     passwordResetExpires: Date,
     passwordChangeAt: Date,
+    products: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Product',
+        },
+    ],
+    likes: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Product',
+        },
+    ],
+    address: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Address',
+        },
+    ],
+    bill: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Bill',
+        },
+    ],
 });
 
 userSchema.pre('save', async function (next) {
