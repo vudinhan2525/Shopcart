@@ -1,22 +1,26 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import img1 from '../../../assets/img/user/avatar.png';
-function ReviewProduct() {
+function ReviewProduct({ product }) {
   return (
     <div className="  py-7 px-7  bg-white border-[1px] rounded-xl w-[80%] mt-9">
       <div>
-        <header className="text-xl font-bold">Customer reviews about Iphone13</header>
+        <header className="text-xl font-bold">{`Customer reviews about ${product.name}`}</header>
         <div className="flex mt-6 gap-5">
           <div className="basis-[40%] relative items-center flex flex-col after:absolute after:h-full after:w-[1px] after:right-0 after:bg-gray-300 ">
-            <div className="mx-auto text-4xl font-bold">4.7/5</div>
+            <div className="mx-auto text-4xl font-bold">{`${product.avgRatings}/5`}</div>
             <div>
-              <FontAwesomeIcon className="text-[#08AC0A] w-6 h-8" icon={faStar} />
-              <FontAwesomeIcon className="text-[#08AC0A] w-6 h-8" icon={faStar} />
-              <FontAwesomeIcon className="text-[#08AC0A] w-6 h-8" icon={faStar} />
-              <FontAwesomeIcon className="text-[#08AC0A] w-6 h-8" icon={faStar} />
-              <FontAwesomeIcon className="text-[#08AC0A] w-6 h-8" icon={faStar} />
+              {[1, 2, 3, 4, 5].map((el, idx) => {
+                return (
+                  <FontAwesomeIcon
+                    key={idx}
+                    className={`${idx < product.avgRatings ? 'text-[#08AC0A]' : 'text-[#4C4C4C]'} w-6 h-8`}
+                    icon={faStar}
+                  />
+                );
+              })}
             </div>
-            <div className="mx-auto text-sm text-gray-500">( 1315 reviews )</div>
+            <div className="mx-auto text-sm text-gray-500">{`( ${product.numberRatings} reviews )`}</div>
           </div>
           <div className="basis-[60%] flex flex-col gap-2">
             <div className="flex items-center gap-3">

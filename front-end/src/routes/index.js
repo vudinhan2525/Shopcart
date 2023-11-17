@@ -4,7 +4,7 @@ import { LayoutNoHeader, BlankLayout } from '../components/Layout';
 const publicRoutes = [
   { path: '/', component: HomePage },
   { path: '/order', component: OrderPage },
-  { path: '/product', component: ProductPage },
+  { path: '/product/:id', component: ProductPage },
   { path: '/type', component: TypePage },
   { path: '/cart', component: CartPage },
   { path: '/setting', component: SettingPage },

@@ -23,7 +23,15 @@ exports.addProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         avgRatings: req.body.avgRatings,
         numberRatings: req.body.numberRatings,
         itemLeft: req.body.itemLeft,
+        details: req.body.details,
     });
+    res.status(200).json({
+        status: 'success',
+        data: data,
+    });
+}));
+exports.getProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const data = await Product.findById(req.params.id);
     res.status(200).json({
         status: 'success',
         data: data,

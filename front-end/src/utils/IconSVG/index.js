@@ -106,7 +106,7 @@ export const StarDefault = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      class="w-[18px] h-[18px]"
+      className="w-[18px] h-[18px]"
     >
       <path
         strokeLinecap="round"

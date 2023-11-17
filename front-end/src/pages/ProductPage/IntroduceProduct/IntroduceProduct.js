@@ -4,9 +4,34 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserIcon, StarDefault } from '../../../utils/IconSVG';
 import IntroducePost from './IntroducePost/IntroducePost';
 import { ChevronDown } from '../../../utils/IconSVG';
-function IntroduceProduct() {
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+
+function IntroduceProduct({ product }) {
+  const [detailProd, setDetailProd] = useState({});
+
+  const getDetailProd = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}detailprods/${product.details}`, {
+        withCredentials: true,
+      });
+      if (response.data.status === 'success') {
+        setDetailProd(response.data.data);
+        console.log(response.data.data);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  useEffect(() => {
+    if (product && Object.keys(product).length !== 0) {
+      getDetailProd();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
   return (
-    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-7 h-[658px] overflow-hidden relative">
+    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-7 overflow-hidden relative">
       <div className="flex gap-4">
         <div>
           <div
@@ -45,7 +70,7 @@ function IntroduceProduct() {
           </div>
         </div>
       </div>
-      <IntroducePost />
+      <IntroducePost product={detailProd} />
       <div className="absolute bottom-0 w-[100%] h-[30px] linear-ct"></div>
       <div className="absolute bottom-[0px] cursor-pointer flex border-2 translate-x-[-50%] left-[50%] mx-auto w-[120px] text-center rounded-full bg-white ">
         <div className="flex items-center mx-auto">
