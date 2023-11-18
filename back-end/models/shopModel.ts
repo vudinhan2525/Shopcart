@@ -54,8 +54,14 @@ const shopSchema = new Schema<IShop>({
         type: Number,
         default: 0,
     },
-    averageRating: Number,
-    numberRating: Number,
+    averageRating: {
+        type: Number,
+        default: 0,
+    },
+    numberRating: {
+        type: Number,
+        default: 0,
+    },
 });
 const Shop = model<IShop>('Shop', shopSchema);
 export default Shop;

@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 function IntroduceProduct({ product }) {
   const [detailProd, setDetailProd] = useState({});
-
+  const [shop, setShop] = useState({});
   const getDetailProd = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}detailprods/${product.details}`, {
@@ -18,6 +18,18 @@ function IntroduceProduct({ product }) {
       });
       if (response.data.status === 'success') {
         setDetailProd(response.data.data);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  const getShop = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}shop/${product.shop}`, {
+        withCredentials: true,
+      });
+      if (response.data.status === 'success') {
+        setShop(response.data.data);
         console.log(response.data.data);
       }
     } catch (error) {
@@ -27,6 +39,7 @@ function IntroduceProduct({ product }) {
   useEffect(() => {
     if (product && Object.keys(product).length !== 0) {
       getDetailProd();
+      getShop();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
@@ -41,23 +54,23 @@ function IntroduceProduct({ product }) {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <header className="text-2xl font-semibold">ShopDunk Official Store</header>
-            <FontAwesomeIcon icon={faCircleCheck} className="text-lg text-[#20D5EC]" />
+            <header className="text-2xl font-semibold">{shop.name}</header>
+            {shop.isChecked && <FontAwesomeIcon icon={faCircleCheck} className="text-lg text-[#20D5EC]" />}
           </div>
-          <p className="mt-1">Official store ShopDunk, sell everything about technology</p>
+          <p className="mt-1">{shop.summary}</p>
           <p className="mt-2 text-sm text-gray-500">Last active: 6 minutes ago</p>
           <div className="flex gap-10 mt-1">
             <div className="flex items-center gap-1">
               <div className="w-[18px] h-[18px]">
-                <UserIcon />
+                <UserIcon width="18px" height="18px" />
               </div>
-              <p className="text-sm">Followers: 34.5k</p>
+              <p className="text-sm">{`Followers: ${shop.followers}k`}</p>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-[18px] h-[18px]">
                 <StarDefault />
               </div>
-              <p className="text-sm">Average Rating: 4.5</p>
+              <p className="text-sm">{`Average Rating: ${shop.averageRating}`}</p>
             </div>
           </div>
           <div className="flex gap-8">

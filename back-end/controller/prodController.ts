@@ -24,6 +24,7 @@ exports.addProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         numberRatings: req.body.numberRatings,
         itemLeft: req.body.itemLeft,
         details: req.body.details,
+        shop: req.body.shop,
     });
     res.status(200).json({
         status: 'success',
