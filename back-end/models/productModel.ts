@@ -25,6 +25,8 @@ const productSchema = new mongoose.Schema<IProduct>({
                     'furniture',
                     'clothes',
                     'books',
+                    'jewelery',
+                    'electronics',
                     'sneaker',
                     'travel',
                 ],

@@ -27,6 +27,8 @@ const shopSchema = new Schema<IShop>({
                     'accesory',
                     'fashion',
                     'furniture',
+                    'jewelery',
+                    'electronics',
                     'clothes',
                     'books',
                     'sneaker',
