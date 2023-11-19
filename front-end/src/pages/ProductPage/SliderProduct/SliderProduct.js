@@ -10,7 +10,7 @@ import RightArrow from '../../../assets/img/slider/ArrowRight.svg';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 const img = [img1, img2, img3, img4, img5];
-function SliderProduct() {
+function SliderProduct({ productImages }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const slider2Ref = useRef();
   const slider1Ref = useRef();
@@ -20,7 +20,7 @@ function SliderProduct() {
   );
   useEffect(() => {
     if (activeSlide - 2 <= 0) {
-      slider2Ref.current.slickGoTo(img.length + activeSlide - 2);
+      slider2Ref.current.slickGoTo(productImages?.length + activeSlide - 2);
     } else slider2Ref.current.slickGoTo(activeSlide - 2);
     slider1Ref.current.slickGoTo(activeSlide);
   }, [activeSlide]);
@@ -46,12 +46,12 @@ function SliderProduct() {
     <>
       <div className="w-[450px] h-[400px] mx-auto">
         <Slider {...settings1} ref={slider1Ref}>
-          {img.map((el, idx) => {
+          {productImages?.map((el, idx) => {
             return (
               <div key={idx}>
                 <div
                   style={{ backgroundImage: `url(${el})` }}
-                  className="h-[400px] w-[400px] mx-auto bg-no-repeat bg-center bg-cover rounded-xl"
+                  className="h-[400px] w-[400px] mx-auto bg-no-repeat bg-center bg-contain rounded-xl"
                 ></div>
               </div>
             );
@@ -60,7 +60,7 @@ function SliderProduct() {
       </div>
       <div className="w-[550px] h-[105px] mx-auto mt-5 overflow-hidden">
         <Slider {...settings2} ref={slider2Ref}>
-          {img.map((el, idx) => {
+          {productImages?.map((el, idx) => {
             return (
               <div key={idx} className={idx === activeSlide ? `border-primary-color border-2 rounded-sm` : ``}>
                 <div
@@ -68,7 +68,7 @@ function SliderProduct() {
                   onClick={() => {
                     setActiveSlide(idx);
                   }}
-                  className="rounded-md  h-[90px] w-[90px] my-[5px] cursor-pointer mx-auto bg-no-repeat bg-center bg-cover "
+                  className="rounded-md  h-[90px] w-[90px] my-[5px] cursor-pointer mx-auto bg-no-repeat bg-center bg-contain "
                 ></div>
               </div>
             );

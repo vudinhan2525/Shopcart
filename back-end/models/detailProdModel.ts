@@ -9,12 +9,6 @@ const detailProdSchema = new Schema<IDetailProd>({
         type: String,
         required: [true, 'Detail product must have a text'],
     },
-    images: [
-        {
-            type: Schema.ObjectId,
-            ref: 'ImageProd',
-        },
-    ],
 });
 const DetailProd = model<IDetailProd>('DetailProd', detailProdSchema);
 export default DetailProd;

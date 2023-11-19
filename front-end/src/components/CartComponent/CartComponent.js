@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import Button from '../../utils/Button';
-function CartComponent({ isSmall = false }) {
+function CartComponent({ isSmall = false, product }) {
   return (
     <div className="relative bg-white border-[1px] border-gray-300 cursor-pointer transition-all rounded-lg">
       <div className={` overflow-hidden`}>
@@ -15,10 +15,10 @@ function CartComponent({ isSmall = false }) {
         ></div>
       </div>
       <div className="px-5 mt-3">
-        <h3 className={`${isSmall ? 'text-base' : 'text-lg'} font-bold`}>Iphone 13 128GB | VN/A </h3>
+        <h3 className={`${isSmall ? 'text-base' : 'text-lg h-[56px] line-clamp-2'} font-bold`}>{product?.name}</h3>
         <div className="flex gap-6 items-center mt-1">
-          <p className="text-base font-bold text-red-600">456.00 $</p>
-          <p className="text-sm opacity-60 line-through">600.00 $</p>
+          <p className="text-base font-bold text-red-600">{`${product?.price.toFixed(2)} $`}</p>
+          <p className="text-sm opacity-60 line-through">{`${(product?.price + 50).toFixed(2)} $`}</p>
         </div>
         <div className="flex items-center mt-1">
           <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />

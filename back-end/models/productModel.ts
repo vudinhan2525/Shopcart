@@ -63,8 +63,7 @@ const productSchema = new mongoose.Schema<IProduct>({
     },
     images: [
         {
-            type: Schema.ObjectId,
-            ref: 'ImageProd',
+            type: String,
         },
     ],
     details: {

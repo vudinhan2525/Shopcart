@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useState } from 'react';
 function ProductPage() {
   const param = useParams();
+  const [selectedFiles, setSelectedFiles] = useState(null);
   const [product, setProduct] = useState({});
   const getProduct = async () => {
     try {
@@ -27,17 +28,44 @@ function ProductPage() {
     getProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const handleFileChange = (event) => {
+    setSelectedFiles(event.target.files);
+  };
+
+  const handleSendImage = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append('images', selectedFiles[i]);
+    }
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}prods/${param.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Image uploaded:', response.data);
+      // Handle successful upload response here
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      // Handle error cases here
+    }
+  };
   return (
     <div className="px-12 ">
       <p className="mt-5 mb-8">{`Home / SmartPhones / ${product.name}`}</p>
       <div className="flex gap-4">
         <div className="basis-[60%]">
-          <SliderProduct />
+          <SliderProduct productImages={product.images} />
           <IntroduceProduct product={product} />
         </div>
         <div className="basis-[40%]">
           <InfoProduct product={product} />
           {product?.type?.includes('technology') && <DetailProduct />}
+          <input multiple type="file" onChange={handleFileChange} className="mt-3"></input>
+          <button onClick={handleSendImage} className="bg-primary-color block mt-3 px-4 py-2  text-white rounded-full">
+            Save
+          </button>
         </div>
       </div>
       <ReviewProduct product={product} />
