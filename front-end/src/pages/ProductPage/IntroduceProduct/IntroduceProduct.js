@@ -47,7 +47,7 @@ function IntroduceProduct({ product }) {
       <div className="flex gap-4">
         <div>
           <div
-            style={{ backgroundImage: `url(${logo})` }}
+            style={{ backgroundImage: `url(${shop.avatar})` }}
             className="w-[120px] h-[120px] bg-no-repeat bg-center bg-contain rounded-full"
           ></div>
         </div>

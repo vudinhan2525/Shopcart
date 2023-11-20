@@ -10,7 +10,9 @@ function SuggestCart() {
       if (response.data.status === 'success') {
         setProducts(response.data.data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     getSuggestProd();

@@ -10,14 +10,15 @@ class APIFeature {
         const queryObj = { ...this.queryString };
         const exFields = ['sort', 'fields', 'limit', 'page'];
         exFields.map((el) => delete queryObj[el]);
-
+        if (queryObj?.type?.in) {
+            queryObj.type.in = queryObj.type.in.split(',');
+        }
         //advanced filter
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(
             /\b(gt|gte|lt|lte|in)\b/g,
             (match: string) => `$${match}`,
         );
-
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
     }

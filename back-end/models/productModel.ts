@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 import IProduct from '../interfaces/IProduct';
+import productType from '../utils/productType';
 const productSchema = new mongoose.Schema<IProduct>({
     name: {
         type: String,
@@ -10,26 +11,7 @@ const productSchema = new mongoose.Schema<IProduct>({
             type: String,
             required: [true, 'Product must have types'],
             enum: {
-                values: [
-                    'tech',
-                    'phone',
-                    'tablet',
-                    'laptop',
-                    'desktop',
-                    'tivi',
-                    'fridge',
-                    'camera',
-                    'headphone',
-                    'accesory',
-                    'fashion',
-                    'furniture',
-                    'clothes',
-                    'books',
-                    'jewelery',
-                    'electronics',
-                    'sneaker',
-                    'travel',
-                ],
+                values: productType,
                 message: 'Enum error in type of product',
             },
         },

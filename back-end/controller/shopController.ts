@@ -19,6 +19,7 @@ exports.addShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         summary: req.body.summary,
         type: req.body.type,
         isChecked: req.body.isChecked,
+        avatar: req.body.avatar,
     });
     res.status(200).json({
         status: 'success',
@@ -30,5 +31,15 @@ exports.getShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: data,
+    });
+}));
+exports.updateShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const user = await Shop.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
+    res.status(200).json({
+        status: 'success',
+        data: user,
     });
 }));

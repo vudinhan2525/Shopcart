@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import IShop from '../interfaces/IShop';
+import productType from '../utils/productType';
 const shopSchema = new Schema<IShop>({
     name: {
         type: String,
@@ -14,26 +15,7 @@ const shopSchema = new Schema<IShop>({
             type: String,
             required: [true, 'Shop must have types'],
             enum: {
-                values: [
-                    'tech',
-                    'phone',
-                    'tablet',
-                    'laptop',
-                    'desktop',
-                    'tivi',
-                    'fridge',
-                    'camera',
-                    'headphone',
-                    'accesory',
-                    'fashion',
-                    'furniture',
-                    'jewelery',
-                    'electronics',
-                    'clothes',
-                    'books',
-                    'sneaker',
-                    'travel',
-                ],
+                values: productType,
                 message: 'Enum error in type of product',
             },
         },

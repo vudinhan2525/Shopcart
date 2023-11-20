@@ -1,17 +1,20 @@
-import img from '../../assets/img/cart/test.webp';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import Button from '../../utils/Button';
 function CartComponent({ isSmall = false, product }) {
   return (
-    <div className="relative bg-white border-[1px] border-gray-300 cursor-pointer transition-all rounded-lg">
+    <Link
+      to={`/product/${product?._id}`}
+      className="relative bg-white border-[1px] border-gray-300 cursor-pointer transition-all rounded-lg"
+    >
       <div className={` overflow-hidden`}>
         <div
-          style={{ backgroundImage: `url(${img})` }}
+          style={{ backgroundImage: `url(${product?.images[0]})` }}
           className={`${
             isSmall ? 'h-[150px] w-[150px]' : 'h-[200px] w-[200px]'
-          } text-center bg-no-repeat bg-contain mt-2 mx-auto hover:scale-[1.1] transition-all`}
+          } text-center bg-no-repeat bg-center bg-contain mt-2 mx-auto hover:scale-[1.1] transition-all`}
         ></div>
       </div>
       <div className="px-5 mt-3">
@@ -21,12 +24,16 @@ function CartComponent({ isSmall = false, product }) {
           <p className="text-sm opacity-60 line-through">{`${(product?.price + 50).toFixed(2)} $`}</p>
         </div>
         <div className="flex items-center mt-1">
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <p className="ml-3 text-sm">(121)</p>
+          {[1, 2, 3, 4, 5].map((el, idx) => {
+            return (
+              <FontAwesomeIcon
+                key={idx}
+                className={`${idx < product?.avgRatings ? 'text-[#08AC0A]' : 'text-[#4C4C4C]'} w-4`}
+                icon={faStar}
+              />
+            );
+          })}
+          <p className="ml-3 text-sm">{`(${product?.numberRatings})`}</p>
         </div>
         <Button
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
@@ -43,7 +50,7 @@ function CartComponent({ isSmall = false, product }) {
       >
         <FontAwesomeIcon icon={faHeart} className={`${isSmall ? 'text-lg' : 'text-xl'} mx-auto`} />
       </div>
-    </div>
+    </Link>
   );
 }
 
