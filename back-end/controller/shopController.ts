@@ -20,6 +20,7 @@ exports.addShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         type: req.body.type,
         isChecked: req.body.isChecked,
         avatar: req.body.avatar,
+        background: req.body.background,
     });
     res.status(200).json({
         status: 'success',

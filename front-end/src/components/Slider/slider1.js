@@ -1,9 +1,8 @@
-import img1 from '../../assets/img/slider/slider-01.jpg';
 function Slider1() {
   return (
     <div
       key={1}
-      style={{ backgroundImage: `url(${img1})` }}
+      style={{ backgroundImage: `url(https://shopcartimg2.blob.core.windows.net/shopcartctn/slider-01.jpg)` }}
       className={`relative h-[550px] w-full  bg-cover  bg-no-repeat bg-left `}
     >
       <div className="absolute w-[530px] h-[400px] top-0 py-14 px-12 rounded-3xl">

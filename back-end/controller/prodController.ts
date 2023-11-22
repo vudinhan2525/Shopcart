@@ -4,6 +4,7 @@ import Product from '../models/productModel';
 import APIFeature from '../utils/apiFeature';
 import catchAsync from '../utils/catchAsync';
 import uploadToAzureBlobStorage from '../services/azureBlob';
+import IProduct from '../interfaces/IProduct';
 const factory = require('./factoryController');
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -63,5 +64,22 @@ exports.updateProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         url: uploadedUrls,
+    });
+}));
+exports.getRelatedProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const data = await Product.find({ _id: { $in: req.body.data } });
+    const idPositions = new Map();
+    req.body.data.map((el: string, idx: number) => {
+        idPositions.set(el, idx);
+    });
+    data.sort((a, b) => {
+        const x = idPositions.get(a._id.toString());
+        const y = idPositions.get(b._id.toString());
+        return x - y;
+    });
+
+    res.status(200).json({
+        status: 'success',
+        data: data,
     });
 }));

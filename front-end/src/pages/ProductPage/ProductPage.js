@@ -3,7 +3,8 @@ import InfoProduct from './InfoProduct/InfoProduct';
 import IntroduceProduct from './IntroduceProduct/IntroduceProduct';
 import DetailProduct from './DetailProduct/DetailProduct';
 import ReviewProduct from './ReviewProduct/ReviewProduct';
-import CartComponent from '../../components/CartComponent/CartComponent';
+import ProductLastSeen from './ProductLastSeen/ProductLastSeen';
+import RelatedProduct from './RelatedProduct/RelatedProduct';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -12,6 +13,7 @@ function ProductPage() {
   const param = useParams();
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [product, setProduct] = useState({});
+  const [prodLastSeen, setProdLastSeen] = useState([]);
   const getProduct = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}prods/${param.id}`, {
@@ -24,10 +26,33 @@ function ProductPage() {
       console.log(error.response);
     }
   };
+  const updateLastSeenProd = () => {
+    let response = JSON.parse(localStorage.getItem('prodLastSeen'));
+    if (!response) {
+      localStorage.setItem('prodLastSeen', JSON.stringify({ data: [param.id] }));
+    } else if (response.data.includes(param.id)) {
+      const foundId = response.data.findIndex((el) => el === param.id);
+      if (foundId > 0) {
+        response.data.splice(foundId, 1);
+        response.data.unshift(param.id);
+        localStorage.setItem('prodLastSeen', JSON.stringify({ data: response.data }));
+      }
+    } else if (response.data.length < 5) {
+      response.data.unshift(param.id);
+      localStorage.setItem('prodLastSeen', JSON.stringify({ data: response.data }));
+    } else if (response.data.length === 5) {
+      response.data.unshift(param.id);
+      response.data.pop();
+      localStorage.setItem('prodLastSeen', JSON.stringify({ data: response.data }));
+    }
+    response = JSON.parse(localStorage.getItem('prodLastSeen'));
+    setProdLastSeen(response.data);
+  };
   useEffect(() => {
     getProduct();
+    updateLastSeenProd();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [param]);
   const handleFileChange = (event) => {
     setSelectedFiles(event.target.files);
   };
@@ -70,24 +95,10 @@ function ProductPage() {
       </div>
       <ReviewProduct product={product} />
       <div className="mt-8">
-        <h4 className="text-[26px] leading-[32px] font-bold ">Related products</h4>
-        <div className="grid grid-cols-5 mt-6 gap-4">
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-        </div>
+        <RelatedProduct type={product.type} />
       </div>
       <div className="mt-8">
-        <h4 className="text-[26px] leading-[32px] font-bold ">Products you last seen</h4>
-        <div className="grid grid-cols-5 mt-6 gap-4">
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-          <CartComponent isSmall={true} />
-        </div>
+        <ProductLastSeen data={prodLastSeen} />
       </div>
     </div>
   );

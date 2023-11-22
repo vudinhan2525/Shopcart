@@ -1,5 +1,4 @@
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import img1 from '../../../assets/img/shop/introduce-shop.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TagIcon } from '../../../utils/IconSVG';
 import { useState } from 'react';
@@ -30,8 +29,8 @@ function MostSellingStoreComponent() {
               <div className="">
                 <div className="h-[250px] relative">
                   <div
-                    style={{ backgroundImage: `url(${img1})` }}
-                    className="h-[220px]  w-full rounded-xl bg-no-repeat transition-all bg-center bg-cover"
+                    style={{ backgroundImage: `url(${el.background})` }}
+                    className="h-[220px]  w-full rounded-xl bg-no-repeat transition-all bg-center bg-cover border-[1px] border-gray-300"
                   ></div>
                   <div className="absolute bottom-0 left-[10%] border-[2px] border-white rounded-full">
                     <div
