@@ -13,6 +13,7 @@ router.get('/isLoggedIn', authController.isLoggedIn);
 router.use(authController.protect);
 router.post('/updatePassword', authController.updatePassword);
 router.get('/', userController.getAllUser);
+router.get('/me', userController.getMe, userController.getOneUser);
 router.get('/:id', userController.getOneUser);
 router.post('/', userController.addUser);
 router.patch('/:id', userController.updateUser);

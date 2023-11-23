@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRoute = require('./routes/userRoute');
 const prodRoute = require('./routes/prodRoute');
 const detailProdRoute = require('./routes/detailProdRoute');
+const addRoute = require('./routes/addressRoute');
 const shopRoute = require('./routes/shopRoute');
 const cookieParse = require('cookie-parser');
 const app = express();
@@ -24,6 +25,7 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/prods', prodRoute);
 app.use('/api/v1/detailprods', detailProdRoute);
 app.use('/api/v1/shop', shopRoute);
+app.use('/api/v1/address', addRoute);
 app.get('/', <MiddleWareFn>((req, res, next) => {
     res.status(200).send('Hello from the server ??!!!');
 }));

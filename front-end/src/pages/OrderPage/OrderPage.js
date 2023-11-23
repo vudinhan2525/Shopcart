@@ -1,7 +1,23 @@
 import OrderItem from './OrderItem/OrderItem';
 import Payment from './Payment/Payment';
 import AddressInfo from './AddressInfo/AddressInfo';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 function OrderPage() {
+  const [userData, setUserData] = useState({});
+  const getUserData = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}users/me`, { withCredentials: true });
+      if (response.data.status === 'success') {
+        setUserData(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
   return (
     <div className="px-10">
       <p className="mt-5 mb-8">Home / Order</p>
@@ -15,7 +31,7 @@ function OrderPage() {
               <OrderItem />
             </div>
           </div>
-          <AddressInfo />
+          <AddressInfo user={userData} />
         </div>
         <div className="basis-[35%] ">
           <div className="border-[1px] border-gray-300 rounded-xl px-6 py-6">

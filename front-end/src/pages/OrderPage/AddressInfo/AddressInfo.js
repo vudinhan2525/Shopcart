@@ -1,13 +1,30 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const address = [
-  { name: 'An Vu', add: 'Gia Binh Bac Ninh', sdt: '0987880734', email: 'vudinhan000@gmail.com' },
-  { name: 'Phi Tu', add: 'Do Nhuan Tan Phu Tphcm', sdt: '0987232123', email: 'phi1702@gmail.com' },
-];
-function AddressInfo() {
+function AddressInfo({ user }) {
   const [selectAddress, setSelectAddress] = useState(0);
+  const [address, setAddress] = useState([]);
+  const getAddress = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}address/getUserAddress`,
+        { data: user.address },
+        { withCredentials: true },
+      );
+      if (response.data.status === 'success') {
+        setAddress(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (user && Object.keys(user).length > 0) {
+      getAddress();
+    }
+  }, [user]);
   return (
     <div className=" border-[1px] border-gray-300 rounded-xl px-6 py-6 mt-6">
       <header className="text-2xl font-semibold mb-6">Deliver Information</header>
@@ -25,9 +42,9 @@ function AddressInfo() {
                 selectAddress === idx ? 'border-[1px] border-gray-500 bg-gray-200' : ''
               }`}
             >
-              <header className="font-bold">{el.name}</header>
-              <p className="text-sm text-gray-800">Address: {el.add}</p>
-              <p className="text-sm text-gray-800">Phone: {el.sdt}</p>
+              <header className="font-bold">{el.receiveName}</header>
+              <p className="text-sm text-gray-800">Address: {el.address}</p>
+              <p className="text-sm text-gray-800">Phone: {el.phonenumber}</p>
               <p className="text-sm text-gray-800">Email: {el.email}</p>
               <div
                 className={`${

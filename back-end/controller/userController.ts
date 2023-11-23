@@ -2,7 +2,6 @@ import catchAsync from '../utils/catchAsync';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import APIFeature from '../utils/apiFeature';
 import User from '../models/userModel';
-import uploadImageToAzure from '../services/azure';
 
 exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.create({
@@ -22,15 +21,14 @@ exports.getAllUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const doc = new APIFeature(User.find({}), req.query);
     doc.filter().sort().fields().pagination();
     const users = await doc.query;
-    const url = await uploadImageToAzure(
-        'C:/Users/admin/Documents/Github/Test/E-Commerce-Web/back-end/src/img/test4.webp',
-        'test.webp',
-    );
     res.status(200).json({
         status: 'success',
         data: users,
-        url: url,
     });
+}));
+exports.getMe = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    req.params.id = res.locals.user._id;
+    next();
 }));
 exports.getOneUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.findById(req.params.id);
