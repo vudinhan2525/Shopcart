@@ -1,8 +1,8 @@
-import OrderItem from './OrderItem/OrderItem';
 import Payment from './Payment/Payment';
 import AddressInfo from './AddressInfo/AddressInfo';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import OrderList from './OrderList/OrderList';
 function OrderPage() {
   const [userData, setUserData] = useState({});
   const getUserData = async () => {
@@ -25,11 +25,7 @@ function OrderPage() {
         <div className="basis-[65%]">
           <div className="border-[1px] border-gray-300 rounded-xl max-h-[802px] overflow-y-auto px-6 py-6">
             <header className="text-2xl font-semibold">Review Item And Shipping</header>
-            <div className="mt-6 flex flex-col gap-6 ">
-              <OrderItem />
-              <OrderItem />
-              <OrderItem />
-            </div>
+            <OrderList user={userData} />
           </div>
           <AddressInfo user={userData} />
         </div>

@@ -1,30 +1,42 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getAddressList, addAddress } from '../../../address.slice';
+const initialForm = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  city_town: '',
+  zipcode: '',
+  mobile: '',
+  email: '',
+};
 function AddressInfo({ user }) {
   const [selectAddress, setSelectAddress] = useState(0);
-  const [address, setAddress] = useState([]);
-  const getAddress = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}address/getUserAddress`,
-        { data: user.address },
-        { withCredentials: true },
-      );
-      if (response.data.status === 'success') {
-        setAddress(response.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [formData, setFormData] = useState(initialForm);
+  const address = useSelector((state) => state.address.addressList);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (user && Object.keys(user).length > 0) {
-      getAddress();
+      dispatch(getAddressList(user.address));
     }
   }, [user]);
+  const handleSubmitForm = () => {
+    const newForm = {
+      receiveName: formData.firstName + ' ' + formData.lastName,
+      email: formData.email,
+      phonenumber: formData.mobile,
+      address: formData.address,
+    };
+    const data = {
+      newForm,
+      userId: user._id,
+      userAddress: user.address,
+    };
+    dispatch(addAddress(data));
+  };
   return (
     <div className=" border-[1px] border-gray-300 rounded-xl px-6 py-6 mt-6">
       <header className="text-2xl font-semibold mb-6">Deliver Information</header>
@@ -68,6 +80,12 @@ function AddressInfo({ user }) {
           <header className="text-sm font-semibold">First Name*</header>
           <input
             type="text"
+            value={formData.firstName}
+            onChange={(e) => {
+              setFormData((prev) => {
+                return { ...prev, firstName: e.target.value };
+              });
+            }}
             required
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
@@ -78,6 +96,12 @@ function AddressInfo({ user }) {
           <input
             type="text"
             required
+            value={formData.lastName}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, lastName: e.target.value };
+              })
+            }
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
           ></input>
@@ -87,6 +111,12 @@ function AddressInfo({ user }) {
         <header className="text-sm font-semibold">Address*</header>
         <input
           type="text"
+          value={formData.address}
+          onChange={(e) =>
+            setFormData((prev) => {
+              return { ...prev, address: e.target.value };
+            })
+          }
           required
           className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
           placeholder="Type here..."
@@ -97,6 +127,12 @@ function AddressInfo({ user }) {
           <header className="text-sm font-semibold">City/ Town*</header>
           <input
             type="text"
+            value={formData.city_town}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, city_town: e.target.value };
+              })
+            }
             required
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
@@ -106,6 +142,12 @@ function AddressInfo({ user }) {
           <header className="text-sm font-semibold">Zip Code*</header>
           <input
             type="text"
+            value={formData.zipcode}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, zipcode: e.target.value };
+              })
+            }
             required
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
@@ -117,6 +159,12 @@ function AddressInfo({ user }) {
           <header className="text-sm font-semibold">Mobile*</header>
           <input
             type="text"
+            value={formData.mobile}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, mobile: e.target.value };
+              })
+            }
             required
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
@@ -126,13 +174,22 @@ function AddressInfo({ user }) {
           <header className="text-sm font-semibold">Email*</header>
           <input
             type="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, email: e.target.value };
+              })
+            }
             required
             className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
           ></input>
         </div>
       </div>
-      <button className="bg-primary-color hover:opacity-80 w-[150px] text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2">
+      <button
+        onClick={handleSubmitForm}
+        className="bg-primary-color hover:opacity-80 w-[150px] text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2"
+      >
         Add Address
       </button>
     </div>

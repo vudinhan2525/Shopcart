@@ -1,24 +1,23 @@
 import { useState } from 'react';
-import img from '../../../assets/img/cart/test.webp';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-function OrderItem() {
+function OrderItem({ product }) {
   const [itemCnt, setItemCnt] = useState(1);
   return (
     <div className="flex items-center gap-6 relative">
       <div
-        style={{ backgroundImage: `url(${img})` }}
+        style={{ backgroundImage: `url(${product.images[0]})` }}
         className="w-[120px] h-[120px] bg-no-repeat bg-center bg-contain border-[1px] rounded-lg border-gray-300"
       ></div>
       <div className="flex items-center justify-between w-[80%]">
         <div>
-          <header className="text-xl font-bold ">Iphone 13 128GB</header>
+          <header className="text-xl font-bold ">{product.name}</header>
           <p className="text-sm text-gray-800 mt-2">Color: Pink</p>
         </div>
         <div className="">
-          <header className="text-center text-xl font-semibold">{`$${549 * itemCnt}.00`}</header>
+          <header className="text-center text-xl font-semibold">{`$${(product.price * itemCnt).toFixed(2)}`}</header>
           <div className="flex items-center text-sm text-gray-800 mt-2 gap-2">
             <p>Quantity:</p>
             <div className="flex items-center bg-gray-100 rounded-full">

@@ -1,7 +1,14 @@
 import CartComponent from '../../components/CartComponent/CartComponent';
 import SortBar from '../../components/SortBar/SortBar';
 import SliderComponent from '../../components/Slider/SliderComponent';
+import ProductLastSeen from '../ProductPage/ProductLastSeen/ProductLastSeen';
+import { useEffect, useState } from 'react';
 function TypePage() {
+  const [prodLastSeen, setProdLastSeen] = useState([]);
+  useEffect(() => {
+    let response = JSON.parse(localStorage.getItem('prodLastSeen'));
+    setProdLastSeen(response.data);
+  }, []);
   return (
     <>
       <SliderComponent />
@@ -22,14 +29,7 @@ function TypePage() {
           </div>
         </div>
         <div className="mt-10">
-          <h4 className="text-[26px] leading-[32px] font-bold ">Products you last seen</h4>
-          <div className="grid grid-cols-5 mt-6 gap-4">
-            <CartComponent isSmall={true} />
-            <CartComponent isSmall={true} />
-            <CartComponent isSmall={true} />
-            <CartComponent isSmall={true} />
-            <CartComponent isSmall={true} />
-          </div>
+          <ProductLastSeen data={prodLastSeen} />
         </div>
       </div>
     </>
