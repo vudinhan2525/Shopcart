@@ -85,7 +85,7 @@ function AddressInfo({ user }) {
         <div className="flex flex-col gap-4 ">
           {address.map((el, idx) => {
             if (isLoading) {
-              return <SkeletonText />;
+              return <SkeletonText key={idx} />;
             }
             return (
               <div

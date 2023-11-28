@@ -2,19 +2,28 @@ import { useState } from 'react';
 import CartComponent from '../../../components/CartComponent/CartComponent';
 import { useEffect } from 'react';
 import axios from 'axios';
+import SkeletonItem from '../../../components/Skeleton/SkeletonItem';
 const types = ['Gadgets', 'Fashion', 'Toys', 'Education', 'Beauty', 'Fitness', 'Furniture'];
 const typeSend = ['gadget', 'clothes', 'toys', 'education', 'beauty', 'fitness', 'furniture'];
 function BestDealComponent() {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [tab, setTab] = useState(1);
   const getBestDealProd = async (a) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}prods?type[in]=${a}&limit=8`);
       if (response.data.status === 'success') {
         setProducts(response.data.data);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     } catch (error) {
       console.log(error);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
   useEffect(() => {
@@ -43,6 +52,7 @@ function BestDealComponent() {
       </div>
       <div className="grid grid-cols-4 mt-6 gap-6">
         {products.map((el, idx) => {
+          if (isLoading) return <SkeletonItem key={idx} />;
           return <CartComponent key={idx} product={el} />;
         })}
       </div>

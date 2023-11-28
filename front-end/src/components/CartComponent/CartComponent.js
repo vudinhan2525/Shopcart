@@ -7,7 +7,7 @@ function CartComponent({ isSmall = false, product }) {
   return (
     <Link
       to={`/product/${product?._id}`}
-      className="relative bg-white border-[1px] border-gray-300 cursor-pointer transition-all rounded-lg"
+      className="relative bg-white border-[1px] border-gray-300 animate-slideTopDown cursor-pointer transition-all rounded-lg"
     >
       <div className={` overflow-hidden`}>
         <div
@@ -18,7 +18,9 @@ function CartComponent({ isSmall = false, product }) {
         ></div>
       </div>
       <div className="px-5 mt-3">
-        <h3 className={`${isSmall ? 'text-base' : 'text-lg h-[56px] line-clamp-2'} font-bold`}>{product?.name}</h3>
+        <h3 className={`${isSmall ? 'text-base h-[48px] line-clamp-2' : 'text-lg h-[56px] line-clamp-2'} font-bold`}>
+          {product?.name}
+        </h3>
         <div className="flex gap-6 items-center mt-1">
           <p className="text-base font-bold text-red-600">{`${product?.price.toFixed(2)} $`}</p>
           <p className="text-sm opacity-60 line-through">{`${(product?.price + 50).toFixed(2)} $`}</p>

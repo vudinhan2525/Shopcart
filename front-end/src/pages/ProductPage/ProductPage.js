@@ -5,6 +5,9 @@ import DetailProduct from './DetailProduct/DetailProduct';
 import ReviewProduct from './ReviewProduct/ReviewProduct';
 import ProductLastSeen from './ProductLastSeen/ProductLastSeen';
 import RelatedProduct from './RelatedProduct/RelatedProduct';
+import SkeletonSlider from '../../components/Skeleton/SkeletonSlider';
+import SkeletonProd from '../../components/Skeleton/SkeletonProd';
+import SkeletonShopProd from '../../components/Skeleton/SkeletonShopProd';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -13,17 +16,25 @@ function ProductPage() {
   const param = useParams();
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [prodLastSeen, setProdLastSeen] = useState([]);
   const getProduct = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}prods/${param.id}`, {
         withCredentials: true,
       });
       if (response.data.status === 'success') {
         setProduct(response.data.data);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       }
     } catch (error) {
       console.log(error.response);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
   const updateLastSeenProd = () => {
@@ -81,11 +92,17 @@ function ProductPage() {
       <p className="mt-5 mb-8">{`Home / SmartPhones / ${product.name}`}</p>
       <div className="flex gap-4">
         <div className="basis-[60%]">
-          <SliderProduct productImages={product.images} />
-          <IntroduceProduct product={product} />
+          {isLoading ? <SkeletonSlider /> : <SliderProduct productImages={product.images} />}
+          {isLoading ? <SkeletonShopProd /> : <IntroduceProduct product={product} />}
         </div>
         <div className="basis-[40%]">
-          <InfoProduct product={product} />
+          {isLoading ? (
+            <>
+              <SkeletonProd />
+            </>
+          ) : (
+            <InfoProduct product={product} />
+          )}
           {product?.type?.includes('technology') && <DetailProduct />}
           <input multiple type="file" onChange={handleFileChange} className="mt-3"></input>
           <button onClick={handleSendImage} className="bg-primary-color block mt-3 px-4 py-2  text-white rounded-full">

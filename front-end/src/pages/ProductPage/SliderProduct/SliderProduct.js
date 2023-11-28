@@ -1,15 +1,9 @@
 import Slider from 'react-slick';
 import { useState } from 'react';
-import img1 from '../../../assets/img/cart/test.webp';
-import img2 from '../../../assets/img/cart/test2.webp';
-import img3 from '../../../assets/img/cart/test3.webp';
-import img4 from '../../../assets/img/cart/test4.webp';
-import img5 from '../../../assets/img/cart/test5.webp';
 import LeftArrow from '../../../assets/img/slider/ArrowLeft.svg';
 import RightArrow from '../../../assets/img/slider/ArrowRight.svg';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-const img = [img1, img2, img3, img4, img5];
 function SliderProduct({ productImages }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const slider2Ref = useRef();
@@ -23,7 +17,7 @@ function SliderProduct({ productImages }) {
       slider2Ref.current.slickGoTo(productImages?.length + activeSlide - 2);
     } else slider2Ref.current.slickGoTo(activeSlide - 2);
     slider1Ref.current.slickGoTo(activeSlide);
-  }, [activeSlide]);
+  }, [activeSlide, productImages?.length]);
   const settings1 = {
     infinite: true,
     speed: 500,
