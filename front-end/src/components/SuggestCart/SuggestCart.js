@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import CartComponent from '../CartComponent/CartComponent';
-import { useEffect } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 function SuggestCart() {
+  const { userData } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const getSuggestProd = async () => {
     try {
@@ -22,7 +23,7 @@ function SuggestCart() {
       <h4 className="text-[26px] leading-[32px] font-bold ">Todays Best Deals For You! 🔥🔥🔥</h4>
       <div className="grid grid-cols-4 mt-6 gap-6">
         {products.map((el, idx) => {
-          return <CartComponent product={el} key={idx} />;
+          return <CartComponent product={el} key={idx} userId={userData._id} userProducts={userData.products} />;
         })}
       </div>
     </div>

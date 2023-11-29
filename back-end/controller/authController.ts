@@ -60,7 +60,8 @@ exports.signup = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         );
     }
     const newUser = await User.create({
-        name: req.body.name || 'User',
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
@@ -189,6 +190,7 @@ exports.isLoggedIn = catchAsync(<MiddleWareFn>(async (req, res, next) => {
                     }
                     res.status(200).json({
                         status: 'success',
+                        data: user,
                     });
                     return;
                 }

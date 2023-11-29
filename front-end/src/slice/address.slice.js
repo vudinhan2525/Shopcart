@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import http from './utils/http';
+import http from '../utils/http';
 const initialState = { addressList: [], isLoading: false };
 export const getAddressList = createAsyncThunk('address/getAddressList', async (data, thunkAPI) => {
   const response = await http.post(

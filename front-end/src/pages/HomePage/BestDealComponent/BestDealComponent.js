@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import CartComponent from '../../../components/CartComponent/CartComponent';
-import { useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../../../components/AuthProvider/AuthProvider';
 import axios from 'axios';
 import SkeletonItem from '../../../components/Skeleton/SkeletonItem';
 const types = ['Gadgets', 'Fashion', 'Toys', 'Education', 'Beauty', 'Fitness', 'Furniture'];
@@ -9,6 +9,8 @@ function BestDealComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [tab, setTab] = useState(1);
+  const { userData } = useContext(AuthContext);
+
   const getBestDealProd = async (a) => {
     try {
       setIsLoading(true);
@@ -53,7 +55,7 @@ function BestDealComponent() {
       <div className="grid grid-cols-4 mt-6 gap-6">
         {products.map((el, idx) => {
           if (isLoading) return <SkeletonItem key={idx} />;
-          return <CartComponent key={idx} product={el} />;
+          return <CartComponent key={idx} product={el} userId={userData._id} />;
         })}
       </div>
     </div>

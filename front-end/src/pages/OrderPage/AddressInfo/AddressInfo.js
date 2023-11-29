@@ -2,7 +2,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAddressList, addAddress, updateAddress, deleteAddress } from '../../../address.slice';
+import { getAddressList, addAddress, updateAddress, deleteAddress } from '../../../slice/address.slice';
 import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
 import SkeletonText from '../../../components/Skeleton/SkeletonText';
 const initialForm = {
@@ -14,7 +14,7 @@ const initialForm = {
   mobile: '',
   email: '',
 };
-function AddressInfo({ user }) {
+function AddressInfo({ userData }) {
   const [selectAddress, setSelectAddress] = useState(0);
   const [formData, setFormData] = useState(initialForm);
   const [isEditing, setIsEditing] = useState(false);
@@ -25,10 +25,10 @@ function AddressInfo({ user }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user && Object.keys(user).length > 0) {
-      dispatch(getAddressList(user.address));
+    if (userData && Object.keys(userData).length > 0) {
+      dispatch(getAddressList(userData.address));
     }
-  }, [dispatch, user]);
+  }, [dispatch, userData]);
   const handleSubmitForm = () => {
     const newForm = {
       receiveName: formData.firstName + ' ' + formData.lastName,
@@ -39,8 +39,8 @@ function AddressInfo({ user }) {
     if (isEditing === false) {
       const data = {
         newForm,
-        userId: user._id,
-        userAddress: user.address,
+        userId: userData._id,
+        userAddress: userData.address,
       };
       dispatch(addAddress(data));
       setFormData(initialForm);

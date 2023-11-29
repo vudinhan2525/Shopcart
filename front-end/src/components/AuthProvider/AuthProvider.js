@@ -4,6 +4,7 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userData, setUserData] = useState({});
   const login = () => {
     setIsLoggedIn(true);
   };
@@ -17,6 +18,7 @@ function AuthProvider({ children }) {
       });
       if (response.data.status === 'success') {
         setIsLoggedIn(true);
+        setUserData(response.data.data);
       } else if (response.data.status === 'loginfirsttime') {
       }
     } catch (error) {
@@ -27,7 +29,7 @@ function AuthProvider({ children }) {
     ckLogged();
   }, []);
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, showLoginModal, setShowLoginModal }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, userData, showLoginModal, setShowLoginModal }}>
       {children}
     </AuthContext.Provider>
   );

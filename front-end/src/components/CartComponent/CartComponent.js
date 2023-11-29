@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
-function CartComponent({ isSmall = false, product }) {
+import { addProdList } from '../../slice/product.slice';
+function CartComponent({ isSmall = false, product, userId, userProducts }) {
+  const dispatch = useDispatch();
   return (
     <Link
       to={`/product/${product?._id}`}
@@ -38,6 +41,14 @@ function CartComponent({ isSmall = false, product }) {
           <p className="ml-3 text-sm">{`(${product?.numberRatings})`}</p>
         </div>
         <Button
+          onClick={(e) => {
+            e.preventDefault();
+            const data = {
+              userId: userId,
+              newData: [...userProducts, product._id],
+            };
+            dispatch(addProdList(data));
+          }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'
           } text-base rounded-full text-primary-color bg-white border border-primary-color transition-all`}

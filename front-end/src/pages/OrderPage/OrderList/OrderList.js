@@ -1,25 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import OrderItem from '../OrderItem/OrderItem';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProdList } from '../../../slice/product.slice';
 function OrderList({ user }) {
-  const [products, setProducts] = useState([]);
-  const getProducts = async () => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}prods/getRelatedProd`, {
-        data: user.products,
-      });
-      if (response.data.status === 'success') {
-        setProducts(response.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.productList);
   useEffect(() => {
     if (user && Object.keys(user).length > 0) {
-      getProducts();
+      dispatch(getProdList(user.products));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
     <div className="mt-6 flex flex-col gap-6 ">
