@@ -5,7 +5,7 @@ const publicRoutes = [
   { path: '/', component: HomePage },
   { path: '/order', component: OrderPage },
   { path: '/product/:id', component: ProductPage },
-  { path: '/type', component: TypePage },
+  { path: '/type/:types', component: TypePage },
   { path: '/cart', component: CartPage },
   { path: '/setting', component: SettingPage },
   { path: '/register', component: RegisterPage, layout: BlankLayout },

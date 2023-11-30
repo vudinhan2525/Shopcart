@@ -3,7 +3,7 @@ import CartComponent from '../../../components/CartComponent/CartComponent';
 import axios from 'axios';
 import SkeletonItem from '../../../components/Skeleton/SkeletonItem';
 import { useState } from 'react';
-function RelatedProduct({ type }) {
+function RelatedProduct({ type, data }) {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const getRelatedProd = async () => {

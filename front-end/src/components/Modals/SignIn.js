@@ -41,6 +41,7 @@ function SignIn({ setMethod }) {
         login();
         setShowLoginModal(false);
         setLoading(false);
+        window.location.reload();
       } catch (error) {
         console.log(error.response);
         setShowError(true);

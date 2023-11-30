@@ -5,6 +5,7 @@ import APIFeature from '../utils/apiFeature';
 import catchAsync from '../utils/catchAsync';
 import uploadToAzureBlobStorage from '../services/azureBlob';
 import IProduct from '../interfaces/IProduct';
+import User from '../models/userModel';
 const factory = require('./factoryController');
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -82,4 +83,39 @@ exports.getRelatedProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         status: 'success',
         data: data,
     });
+}));
+exports.deleteProdFromUserList = catchAsync(<MiddleWareFn>(async (
+    req,
+    res,
+    next,
+) => {
+    const data = await User.findOneAndUpdate(
+        { _id: req.params.id },
+        { $pull: { products: req.body.data } },
+        { new: true },
+    );
+    if (!data) {
+        return next(new AppError('Cant find this user', 400));
+    }
+    res.status(200).json({
+        status: 'success',
+        data: req.body.data,
+    });
+}));
+exports.getProdType = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    if (!req.query.types || typeof req.query.types !== 'string') {
+        return next(new AppError('Please provide types correct!!!', 400));
+    } else {
+        const types = req.query.types.split(',');
+        const baseQuery = Product.find({
+            type: { $all: types },
+        });
+        const doc = new APIFeature(baseQuery, req.query);
+        doc.sort().fields().pagination();
+        const data = await doc.query;
+        res.status(200).json({
+            status: 'success',
+            data: data,
+        });
+    }
 }));

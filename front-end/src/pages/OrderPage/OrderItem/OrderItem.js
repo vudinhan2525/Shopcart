@@ -3,7 +3,7 @@ import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-function OrderItem({ product }) {
+function OrderItem({ product, setDeleteId, setShowDeleteSelect }) {
   const [itemCnt, setItemCnt] = useState(1);
   return (
     <div className="flex items-center gap-6 relative">
@@ -43,7 +43,13 @@ function OrderItem({ product }) {
           </div>
         </div>
       </div>
-      <div className="absolute flex transition-all items-center hover:bg-gray-300 top-0 right-0 cursor-pointer w-[30px] h-[30px] rounded-full bg-[#F5F6F6]">
+      <div
+        onClick={() => {
+          setShowDeleteSelect(true);
+          setDeleteId(product._id);
+        }}
+        className="absolute flex transition-all items-center hover:bg-gray-300 top-0 right-0 cursor-pointer w-[30px] h-[30px] rounded-full bg-[#F5F6F6]"
+      >
         <FontAwesomeIcon icon={faXmark} className="mx-auto text-sm" />
       </div>
     </div>

@@ -8,8 +8,9 @@ import CategoryMenu from './CategoryMenu/CategoryMenu';
 import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import ConditionalLink from '../../utils/ConditionalLink/ConditionalLink';
+import img from '../../assets/img/user/avatar3d.jpg';
 function HeaderComponent() {
-  const { isLoggedIn, setShowLoginModal } = useContext(AuthContext);
+  const { isLoggedIn, setShowLoginModal, userData } = useContext(AuthContext);
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
@@ -22,7 +23,7 @@ function HeaderComponent() {
       </Link>
       <div className="basis-2/4 flex items-center justify-between mr-10">
         <div className="flex">
-          <li className="after:absolute after:bottom-[-20%] after:w-[150px] after:h-[20px]  relative flex peer hover:bg-gray-200 w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all  text-black">
+          <li className="after:absolute after:bottom-[-20%] after:w-[200px]  after:h-[20px]  relative flex peer hover:bg-gray-200 w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all  text-black">
             <p>Category</p>
             <FontAwesomeIcon icon={faChevronDown} />
           </li>
@@ -35,7 +36,7 @@ function HeaderComponent() {
         </div>
         <Search />
       </div>
-      <ul className="flex basis-1/4 gap-5">
+      <ul className="flex basis-1/4 gap-3">
         {isLoggedIn ? (
           <></>
         ) : (
@@ -50,6 +51,18 @@ function HeaderComponent() {
               <p>Account</p>
             </li>
           </>
+        )}
+        {isLoggedIn && (
+          <Link
+            to={'/setting'}
+            className="select-none flex justify-center items-center gap-2 cursor-pointer pl-2 pr-3 py-1 text-[15px] rounded-full transition-all hover:bg-gray-200"
+          >
+            <div
+              className="w-[40px] h-[40px] bg-no-repeat bg-center bg-contain rounded-full"
+              style={{ backgroundImage: `url(${img})` }}
+            ></div>
+            <p>{userData.firstName + ' ' + userData.lastName}</p>
+          </Link>
         )}
 
         <ConditionalLink

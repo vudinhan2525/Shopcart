@@ -55,7 +55,7 @@ function BestDealComponent() {
       <div className="grid grid-cols-4 mt-6 gap-6">
         {products.map((el, idx) => {
           if (isLoading) return <SkeletonItem key={idx} />;
-          return <CartComponent key={idx} product={el} userId={userData._id} />;
+          return <CartComponent key={idx} product={el} userId={userData._id} userProducts={userData.products} />;
         })}
       </div>
     </div>

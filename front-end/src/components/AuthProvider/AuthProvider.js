@@ -5,6 +5,7 @@ function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userData, setUserData] = useState({});
+
   const login = () => {
     setIsLoggedIn(true);
   };

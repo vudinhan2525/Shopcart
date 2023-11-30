@@ -7,7 +7,7 @@ function SuggestCart() {
   const [products, setProducts] = useState([]);
   const getSuggestProd = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}prods?limit=5`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}prods?limit=8`);
       if (response.data.status === 'success') {
         setProducts(response.data.data);
       }

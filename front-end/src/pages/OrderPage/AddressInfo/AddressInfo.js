@@ -19,7 +19,7 @@ function AddressInfo({ userData }) {
   const [formData, setFormData] = useState(initialForm);
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState('');
-  const [showDeleteSelect, setShowDeleteSelect] = useState(0);
+  const [showDeleteSelect, setShowDeleteSelect] = useState(false);
   const address = useSelector((state) => state.address.addressList);
   const isLoading = useSelector((state) => state.address.isLoading);
   const dispatch = useDispatch();
@@ -43,6 +43,7 @@ function AddressInfo({ userData }) {
         userAddress: userData.address,
       };
       dispatch(addAddress(data));
+      console.log(userData.address);
       setFormData(initialForm);
     } else {
       const data = {
@@ -122,7 +123,7 @@ function AddressInfo({ userData }) {
                   </div>
                   <div
                     onClick={() => {
-                      setShowDeleteSelect(1);
+                      setShowDeleteSelect(true);
                       setDeleteId(el._id);
                     }}
                     className="delete-btn bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
@@ -252,12 +253,12 @@ function AddressInfo({ userData }) {
           {isEditing ? 'Save' : 'Add address'}
         </button>
       </div>
-      {showDeleteSelect === 1 && (
+      {showDeleteSelect && (
         <ShowDeleteSelect
           deleteId={deleteId}
           setDeleteId={setDeleteId}
           setShowDeleteSelect={setShowDeleteSelect}
-          handleDeleteAddress={handleDeleteAddress}
+          handleDelete={handleDeleteAddress}
           message={'Are you sure to delete this address ??'}
           content={'This address will be deleted permanently, you cannot undo this action !!'}
         />

@@ -9,9 +9,8 @@ import SkeletonSlider from '../../components/Skeleton/SkeletonSlider';
 import SkeletonProd from '../../components/Skeleton/SkeletonProd';
 import SkeletonShopProd from '../../components/Skeleton/SkeletonShopProd';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
 function ProductPage() {
   const param = useParams();
   const [selectedFiles, setSelectedFiles] = useState(null);

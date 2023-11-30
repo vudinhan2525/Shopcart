@@ -8,26 +8,32 @@ const Categories = [
   {
     header: 'Furniture',
     img: img1,
+    link: '/type/furniture',
   },
   {
     header: 'Hand Bag',
     img: img2,
+    link: '/type/handbag',
   },
   {
     header: 'Books',
     img: img3,
+    link: '/type/book',
   },
   {
     header: 'Tech',
     img: img4,
+    link: '/type/tech',
   },
   {
     header: 'Sneakers',
     img: img5,
+    link: '/type/sneakers',
   },
   {
     header: 'Travel',
     img: img6,
+    link: '/type/travel',
   },
 ];
 export default Categories;
