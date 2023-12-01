@@ -64,12 +64,12 @@ export const education = [
   { name: 'Other', link: '/type/education' },
 ];
 export const beauty = [
-  { name: 'Perfume', link: 'type/beauty,perfume' },
-  { name: 'Lipstick', link: 'type/beauty,lipstick' },
-  { name: 'Essential Oil', link: 'type/beauty,essentialoil' },
-  { name: 'Sun Cream', link: 'type/beauty,suncream' },
-  { name: 'Shower Gel', link: 'type/beauty,showergel' },
-  { name: 'Mask', link: 'type/beauty,mask' },
-  { name: 'Toothpaste', link: 'type/beauty,toothpaste' },
-  { name: 'Other', link: 'type/beauty' },
+  { name: 'Perfume', link: '/type/beauty,perfume' },
+  { name: 'Lipstick', link: '/type/beauty,lipstick' },
+  { name: 'Essential Oil', link: '/type/beauty,essentialoil' },
+  { name: 'Sun Cream', link: '/type/beauty,suncream' },
+  { name: 'Shower Gel', link: '/type/beauty,showergel' },
+  { name: 'Mask', link: '/type/beauty,mask' },
+  { name: 'Toothpaste', link: '/type/beauty,toothpaste' },
+  { name: 'Other', link: '/type/beauty' },
 ];

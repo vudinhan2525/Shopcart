@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import img from '../../assets/img/user/avatar3d.jpg';
 import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import { MessageSetting, AccountSetting, AddressSetting, Setting } from './index';
 const settingItems = [
   {
@@ -26,9 +27,11 @@ const settingItems = [
     icon: <GearIcon clx="w-7 h-7" />,
   },
 ];
-const settingTemplate = [<AccountSetting />, <></>, <MessageSetting />, <AddressSetting />, <Setting />];
+
 function SettingPage() {
   const [settingActive, setSettingActive] = useState(0);
+  const { userData } = useContext(AuthContext);
+  //if (!isLoggedIn) return <Navigate to={'/register'}></Navigate>;
   return (
     <div className="px-10">
       <div className="flex py-8 px-10">
@@ -69,7 +72,12 @@ function SettingPage() {
           </div>
         </div>
         <div className="w-[1px] ml-5 bg-gray-300"></div>
-        <div className="basis-[82%]">{settingTemplate[settingActive]}</div>
+        <div className="basis-[82%]">
+          {settingActive === 0 && <AccountSetting userData={userData} />}
+          {settingActive === 2 && <MessageSetting />}
+          {settingActive === 3 && <AddressSetting />}
+          {settingActive === 4 && <Setting />}
+        </div>
       </div>
     </div>
   );

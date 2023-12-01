@@ -1,4 +1,4 @@
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -248,10 +248,20 @@ function AddressInfo({ userData }) {
         </div>
         <button
           onClick={handleSubmitForm}
-          className="bg-primary-color hover:opacity-80 w-[150px] text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2"
+          className={`${
+            isEditing ? 'w-[100px]' : 'w-[150px]'
+          }  bg-primary-color font-semibold hover:opacity-80  text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2`}
         >
-          {isEditing ? 'Save' : 'Add address'}
+          {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : <>{isEditing ? 'Save' : 'Add address'}</>}
         </button>
+        {isEditing && (
+          <button
+            onClick={() => setFormData(initialForm)}
+            className="ml-[10px] w-[100px] border-primary-color border-[1px] font-semibold hover:opacity-80  text-center py-3 rounded-full text-primary-color cursor-pointer transition-all mt-2"
+          >
+            Cancel
+          </button>
+        )}
       </div>
       {showDeleteSelect && (
         <ShowDeleteSelect

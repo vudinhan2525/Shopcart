@@ -62,10 +62,13 @@ exports.signup = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const newUser = await User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        avatar: req.body.avatar,
+        background: req.body.background,
         email: req.body.email,
+        phonenumber: req.body.phonenumber,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-        role: req.body.role || 'user',
+        role: req.body.role,
     });
     sendJsonToken(newUser as IUser, 200, req, res);
 }));

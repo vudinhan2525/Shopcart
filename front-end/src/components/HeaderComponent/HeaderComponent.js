@@ -61,7 +61,7 @@ function HeaderComponent() {
               className="w-[40px] h-[40px] bg-no-repeat bg-center bg-contain rounded-full"
               style={{ backgroundImage: `url(${img})` }}
             ></div>
-            <p>{userData.firstName + ' ' + userData.lastName}</p>
+            <p className="w-[60px] h-[20px] line-clamp-1">{userData.firstName + ' ' + userData.lastName}</p>
           </Link>
         )}
 
