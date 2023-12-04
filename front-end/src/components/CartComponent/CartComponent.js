@@ -5,8 +5,18 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
 import { addProdList } from '../../slice/product.slice';
+import { useState } from 'react';
+import Lottie from 'lottie-react';
+import successAnimate from '../../assets/animationJson/animateSuccess.json';
 function CartComponent({ isSmall = false, product, userId, userProducts }) {
   const dispatch = useDispatch();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const handleShowSuccess = () => {
+    setShowSuccessModal(true);
+    setTimeout(() => {
+      setShowSuccessModal(false);
+    }, 1700);
+  };
   return (
     <Link
       to={`/product/${product?._id}`}
@@ -48,6 +58,7 @@ function CartComponent({ isSmall = false, product, userId, userProducts }) {
               newData: [...userProducts, product._id],
             };
             dispatch(addProdList(data));
+            handleShowSuccess();
           }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'
@@ -63,6 +74,14 @@ function CartComponent({ isSmall = false, product, userId, userProducts }) {
       >
         <FontAwesomeIcon icon={faHeart} className={`${isSmall ? 'text-lg' : 'text-xl'} mx-auto`} />
       </div>
+      {showSuccessModal && (
+        <div className="fixed m-auto z-[9999]  top-0 left-0 right-0 bottom-0 w-[300px] h-[240px]  bg-white rounded-2xl shadow-lg">
+          <div className="w-[200px] h-[200px] mx-auto">
+            <Lottie animationData={successAnimate} loop={false}></Lottie>
+          </div>
+          <p className="font-OpenSans text-center font-medium">Product added successfully !!!</p>
+        </div>
+      )}
     </Link>
   );
 }

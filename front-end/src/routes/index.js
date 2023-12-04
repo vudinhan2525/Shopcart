@@ -8,7 +8,7 @@ const publicRoutes = [
   { path: '/cart', component: CartPage },
   { path: '/register', component: RegisterPage, layout: BlankLayout },
   { path: '/register/:token', component: RegisterPage, layout: BlankLayout },
-  { path: '/setting', component: SettingPage },
+  { path: '/setting/:settingOpt', component: SettingPage },
   { path: '/order', component: OrderPage },
   { path: '*', component: ErrorPage },
 ];

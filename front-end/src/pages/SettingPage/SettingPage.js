@@ -2,39 +2,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import img from '../../assets/img/user/avatar3d.jpg';
 import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import { MessageSetting, AccountSetting, AddressSetting, Setting } from './index';
-const settingItems = [
+import { Link, useParams } from 'react-router-dom';
+export const settingItems = [
   {
     text: 'My Account',
     icon: <UserIcon clx="w-7 h-7" />,
+    link: '/setting/account',
   },
   {
     text: 'Orders',
     icon: <CartIcon clx="w-7 h-7" />,
+    link: '/order',
   },
   {
     text: 'Message',
     icon: <MessageIcon clx="w-7 h-7" />,
+    link: '/setting/message',
   },
   {
     text: 'Address',
     icon: <LocationIcon clx="w-7 h-7" />,
+    link: '/setting/address',
   },
   {
     text: 'Setting',
     icon: <GearIcon clx="w-7 h-7" />,
+    link: '/setting/settings',
   },
 ];
 
 function SettingPage() {
-  const [settingActive, setSettingActive] = useState(0);
+  const param = useParams();
   const { userData } = useContext(AuthContext);
   //if (!isLoggedIn) return <Navigate to={'/register'}></Navigate>;
   return (
     <div className="px-10">
-      <div className="flex py-8 px-10">
+      <div className="flex py-8 px-10 ">
         <div className="basis-[18%] ">
           <div className="flex items-center gap-2 cursor-pointer  group">
             <div>
@@ -55,28 +61,26 @@ function SettingPage() {
           <div className="my-2 ">
             {settingItems.map((el, idx) => {
               return (
-                <div
+                <Link
                   key={idx}
-                  onClick={() => {
-                    if (idx !== 1) setSettingActive(idx);
-                  }}
+                  to={el.link}
                   className={` ${
-                    settingActive === idx ? 'bg-gray-200' : 'hover:bg-gray-200'
+                    el.link.includes(param.settingOpt) ? 'bg-gray-200' : 'hover:bg-gray-200'
                   }  rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
                 >
                   <div className="text-[#384853] ">{el.icon}</div>
                   <p className="text-[#384853] text-lg font-semibold">{el.text}</p>
-                </div>
+                </Link>
               );
             })}
           </div>
         </div>
         <div className="w-[1px] ml-5 bg-gray-300"></div>
         <div className="basis-[82%]">
-          {settingActive === 0 && <AccountSetting userData={userData} />}
-          {settingActive === 2 && <MessageSetting />}
-          {settingActive === 3 && <AddressSetting />}
-          {settingActive === 4 && <Setting />}
+          {param.settingOpt === 'account' && <AccountSetting userData={userData} />}
+          {param.settingOpt === 'message' && <MessageSetting />}
+          {param.settingOpt === 'address' && <AddressSetting userData={userData} />}
+          {param.settingOpt === 'settings' && <Setting />}
         </div>
       </div>
     </div>

@@ -8,9 +8,11 @@ import CategoryMenu from './CategoryMenu/CategoryMenu';
 import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import ConditionalLink from '../../utils/ConditionalLink/ConditionalLink';
-import img from '../../assets/img/user/avatar3d.jpg';
+import UserMenu from './UserMenu/UserMenu';
+import { useSelector } from 'react-redux';
 function HeaderComponent() {
   const { isLoggedIn, setShowLoginModal, userData } = useContext(AuthContext);
+  const productsLength = useSelector((state) => state.product.productList.length);
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
@@ -52,27 +54,19 @@ function HeaderComponent() {
             </li>
           </>
         )}
-        {isLoggedIn && (
-          <Link
-            to={'/setting'}
-            className="select-none flex justify-center items-center gap-2 cursor-pointer pl-2 pr-3 py-1 text-[15px] rounded-full transition-all hover:bg-gray-200"
-          >
-            <div
-              className="w-[40px] h-[40px] bg-no-repeat bg-center bg-contain rounded-full"
-              style={{ backgroundImage: `url(${img})` }}
-            ></div>
-            <p className="w-[60px] h-[20px] line-clamp-1">{userData.firstName + ' ' + userData.lastName}</p>
-          </Link>
-        )}
+        {isLoggedIn && <UserMenu userData={userData} />}
 
         <ConditionalLink
           onClick={() => setShowLoginModal(true)}
           to="/order"
           condition={isLoggedIn}
-          className="select-none flex w-[110px] justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all hover:bg-gray-200"
+          className="select-none relative flex justify-center items-center cursor-pointer p-3 text-[15px] rounded-full transition-all hover:bg-gray-200"
         >
-          <CartIcon />
-          <p>Cart </p>
+          <CartIcon width="26px" height="26px" />
+
+          <p className="absolute bg-orange-600 px-2  top-0 text-white text-sm font-semibold rounded-full right-0">
+            {productsLength}
+          </p>
         </ConditionalLink>
       </ul>
     </div>

@@ -46,10 +46,12 @@ const productSlice = createSlice({
         state.productList.push(action.payload.data);
         state.isAlreadyAdding = true;
       })
+      .addCase(addProdList.rejected, (state, action) => {})
       .addCase(deleteProd.fulfilled, (state, action) => {
         const idx = state.productList.findIndex((el) => el._id === action.payload.data);
         if (idx !== -1) state.productList.splice(idx, 1);
       })
+      .addCase(deleteProd.rejected, (state, action) => {})
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state, action) => {

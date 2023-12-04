@@ -81,7 +81,7 @@ function AddressInfo({ userData }) {
   };
   return (
     <>
-      <div className=" border-[1px] border-gray-300 rounded-xl px-6 py-6 mt-6">
+      <div className=" border-[1px] border-gray-300 rounded-xl px-6 py-6 mt-6 animate-slideTopDown">
         <header className="text-2xl font-semibold mb-6">Deliver Information</header>
         <div className="flex flex-col gap-4 ">
           {address.map((el, idx) => {
@@ -256,7 +256,10 @@ function AddressInfo({ userData }) {
         </button>
         {isEditing && (
           <button
-            onClick={() => setFormData(initialForm)}
+            onClick={() => {
+              setFormData(initialForm);
+              setIsEditing(false);
+            }}
             className="ml-[10px] w-[100px] border-primary-color border-[1px] font-semibold hover:opacity-80  text-center py-3 rounded-full text-primary-color cursor-pointer transition-all mt-2"
           >
             Cancel

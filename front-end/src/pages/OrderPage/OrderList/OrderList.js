@@ -26,7 +26,7 @@ function OrderList({ user }) {
   return (
     <div className="mt-6 flex flex-col gap-6 ">
       {products.map((el, idx) => {
-        if (isLoading) return <SkeletonProdList></SkeletonProdList>;
+        if (isLoading) return <SkeletonProdList key={idx}></SkeletonProdList>;
         return <OrderItem setShowDeleteSelect={setShowDeleteSelect} setDeleteId={setDeleteId} key={idx} product={el} />;
       })}
       {showDeleteSelect && (
