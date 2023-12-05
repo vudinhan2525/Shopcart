@@ -19,8 +19,11 @@ export const addProdList = createAsyncThunk('prod/addProdList', async (data, thu
   } catch (error) {
     console.log(error);
   }
-  const response = await http.get(`prods/${data.newData[data.newData.length - 1]}`);
-  return response.data;
+  if (data.isChanged) {
+    const response = await http.get(`prods/${data.newData[data.newData.length - 1].productId}`);
+    return response.data;
+  }
+  return 'nt';
 });
 export const deleteProd = createAsyncThunk('prod/deleteProd', async (data, thunkAPI) => {
   const response = await http.post(
@@ -43,8 +46,11 @@ const productSlice = createSlice({
         console.log(action);
       })
       .addCase(addProdList.fulfilled, (state, action) => {
-        state.productList.push(action.payload.data);
-        state.isAlreadyAdding = true;
+        if (action.payload === 'nt') return;
+        else {
+          state.productList.push(action.payload.data);
+          state.isAlreadyAdding = true;
+        }
       })
       .addCase(addProdList.rejected, (state, action) => {})
       .addCase(deleteProd.fulfilled, (state, action) => {

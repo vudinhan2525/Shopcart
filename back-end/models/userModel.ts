@@ -62,8 +62,14 @@ const userSchema = new mongoose.Schema<IUser>({
     passwordChangeAt: Date,
     products: [
         {
-            type: Schema.ObjectId,
-            ref: 'Product',
+            productId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product',
+            },
+            quantity: {
+                type: Number,
+                default: 1,
+            },
         },
     ],
     likes: [

@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-function OrderItem({ product, setDeleteId, setShowDeleteSelect }) {
+function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
   const [itemCnt, setItemCnt] = useState(1);
+
+  useEffect(() => {
+    if (userProds.length > 0 && product) {
+      userProds.forEach((element) => {
+        if (element.productId === product._id) {
+          setItemCnt(element.quantity);
+        }
+      });
+    }
+  }, [product, product._id, userProds]);
   return (
     <div className="flex items-center gap-6 relative">
       <div

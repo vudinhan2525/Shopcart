@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 const AuthContext = createContext();
 function AuthProvider({ children }) {
@@ -26,11 +26,26 @@ function AuthProvider({ children }) {
       setIsLoggedIn(false);
     }
   };
+  const refreshUserData = useCallback(async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}users/isLoggedIn`, {
+        withCredentials: true,
+      });
+      if (response.data.status === 'success') {
+        setIsLoggedIn(true);
+        setUserData(response.data.data);
+      }
+    } catch (error) {
+      setIsLoggedIn(false);
+    }
+  }, []);
   useEffect(() => {
     ckLogged();
   }, []);
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, userData, showLoginModal, setShowLoginModal }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, login, logout, userData, showLoginModal, setShowLoginModal, refreshUserData }}
+    >
       {children}
     </AuthContext.Provider>
   );

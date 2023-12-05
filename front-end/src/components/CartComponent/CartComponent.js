@@ -8,7 +8,7 @@ import { addProdList } from '../../slice/product.slice';
 import { useState } from 'react';
 import Lottie from 'lottie-react';
 import successAnimate from '../../assets/animationJson/animateSuccess.json';
-function CartComponent({ isSmall = false, product, userId, userProducts }) {
+function CartComponent({ isSmall = false, product, userId, userProducts, refreshUserData }) {
   const dispatch = useDispatch();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const handleShowSuccess = () => {
@@ -16,6 +16,29 @@ function CartComponent({ isSmall = false, product, userId, userProducts }) {
     setTimeout(() => {
       setShowSuccessModal(false);
     }, 1700);
+  };
+  const handleAddProd = async (e) => {
+    e.preventDefault();
+    let flag = 0;
+    console.log(userProducts);
+    userProducts.forEach((element) => {
+      if (element.productId === product._id) {
+        element.quantity += 1;
+        flag = 1;
+      }
+    });
+    if (flag === 1) {
+      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }));
+    } else {
+      const data = {
+        userId: userId,
+        newData: [...userProducts, { productId: product._id, quantity: 1 }],
+        isChanged: true,
+      };
+      dispatch(addProdList(data));
+    }
+    await refreshUserData();
+    handleShowSuccess();
   };
   return (
     <Link
@@ -52,13 +75,7 @@ function CartComponent({ isSmall = false, product, userId, userProducts }) {
         </div>
         <Button
           onClick={(e) => {
-            e.preventDefault();
-            const data = {
-              userId: userId,
-              newData: [...userProducts, product._id],
-            };
-            dispatch(addProdList(data));
-            handleShowSuccess();
+            handleAddProd(e);
           }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'

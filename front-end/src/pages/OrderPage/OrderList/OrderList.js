@@ -20,14 +20,26 @@ function OrderList({ user }) {
   };
   useEffect(() => {
     if (user && Object.keys(user).length > 0) {
-      if (isAlreadyAdding === false) dispatch(getProdList(user.products));
+      let newArr = [];
+      for (let i = 0; i < user.products.length; i++) {
+        newArr.push(user.products[i].productId);
+      }
+      if (isAlreadyAdding === false) dispatch(getProdList(newArr));
     }
   }, [dispatch, isAlreadyAdding, user]);
   return (
     <div className="mt-6 flex flex-col gap-6 ">
       {products.map((el, idx) => {
         if (isLoading) return <SkeletonProdList key={idx}></SkeletonProdList>;
-        return <OrderItem setShowDeleteSelect={setShowDeleteSelect} setDeleteId={setDeleteId} key={idx} product={el} />;
+        return (
+          <OrderItem
+            userProds={user.products}
+            setShowDeleteSelect={setShowDeleteSelect}
+            setDeleteId={setDeleteId}
+            key={idx}
+            product={el}
+          />
+        );
       })}
       {showDeleteSelect && (
         <ShowDeleteSelect
