@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
@@ -11,6 +11,7 @@ import successAnimate from '../../assets/animationJson/animateSuccess.json';
 function CartComponent({ isSmall = false, product, userId, userProducts, refreshUserData }) {
   const dispatch = useDispatch();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleShowSuccess = () => {
     setShowSuccessModal(true);
     setTimeout(() => {
@@ -20,6 +21,8 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
   const handleAddProd = async (e) => {
     e.preventDefault();
     let flag = 0;
+    handleShowSuccess();
+    setIsLoading(true);
     console.log(userProducts);
     userProducts.forEach((element) => {
       if (element.productId === product._id) {
@@ -28,17 +31,32 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
       }
     });
     if (flag === 1) {
-      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }));
+      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }))
+        .then(() => {
+          refreshUserData();
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error dispatching action:', error);
+          setIsLoading(false);
+        });
     } else {
       const data = {
         userId: userId,
         newData: [...userProducts, { productId: product._id, quantity: 1 }],
         isChanged: true,
       };
-      dispatch(addProdList(data));
+
+      dispatch(addProdList(data))
+        .then(() => {
+          refreshUserData();
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error dispatching action:', error);
+          setIsLoading(false);
+        });
     }
-    await refreshUserData();
-    handleShowSuccess();
   };
   return (
     <Link
@@ -73,15 +91,16 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
           })}
           <p className="ml-3 text-sm">{`(${product?.numberRatings})`}</p>
         </div>
+
         <Button
           onClick={(e) => {
             handleAddProd(e);
           }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'
-          } text-base rounded-full text-primary-color bg-white border border-primary-color transition-all`}
+          } text-base min-w-[110px] rounded-full text-primary-color bg-white border border-primary-color transition-all`}
         >
-          Add to cart
+          {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Add to cart'}
         </Button>
       </div>
       <div

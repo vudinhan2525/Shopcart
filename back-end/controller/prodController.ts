@@ -91,7 +91,7 @@ exports.deleteProdFromUserList = catchAsync(<MiddleWareFn>(async (
 ) => {
     const data = await User.findOneAndUpdate(
         { _id: req.params.id },
-        { $pull: { products: req.body.data } },
+        { $pull: { products: { productId: req.body.data } } },
         { new: true },
     );
     if (!data) {
