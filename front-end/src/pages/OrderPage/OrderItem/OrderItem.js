@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-
+import { Link } from 'react-router-dom';
 function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
   const [itemCnt, setItemCnt] = useState(1);
 
@@ -16,7 +16,7 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
     }
   }, [product, product._id, userProds]);
   return (
-    <div className="flex items-center gap-6 relative">
+    <Link to={`/product/${product._id}`} className="flex items-center gap-6 relative">
       <div
         style={{ backgroundImage: `url(${product.images[0]})` }}
         className="w-[120px] h-[120px] bg-no-repeat bg-center bg-contain border-[1px] rounded-lg border-gray-300"
@@ -32,7 +32,8 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
             <p>Quantity:</p>
             <div className="flex items-center bg-gray-100 rounded-full">
               <div
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   if (itemCnt === 0) return;
                   setItemCnt((prev) => prev - 1);
                 }}
@@ -42,7 +43,8 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
               </div>
               <p className="py-1 px-2 select-none text-lg font-semibold">{itemCnt}</p>
               <div
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setItemCnt((prev) => prev + 1);
                 }}
                 className="px-2 cursor-pointer rounded-r-full hover:bg-gray-300 transition-all  h-[36px] flex items-center"
@@ -54,7 +56,8 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
         </div>
       </div>
       <div
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           setShowDeleteSelect(true);
           setDeleteId(product._id);
         }}
@@ -62,7 +65,7 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
       >
         <FontAwesomeIcon icon={faXmark} className="mx-auto text-sm" />
       </div>
-    </div>
+    </Link>
   );
 }
 

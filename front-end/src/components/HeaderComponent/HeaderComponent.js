@@ -9,10 +9,10 @@ import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import ConditionalLink from '../../utils/ConditionalLink/ConditionalLink';
 import UserMenu from './UserMenu/UserMenu';
-import { useSelector } from 'react-redux';
+
 function HeaderComponent() {
   const { isLoggedIn, setShowLoginModal, userData } = useContext(AuthContext);
-  const productsLength = useSelector((state) => state.product.productList.length);
+
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
       <Link to="/" className="basis-1/4">
@@ -65,7 +65,7 @@ function HeaderComponent() {
           <CartIcon width="26px" height="26px" />
 
           <p className="absolute bg-orange-600 px-2  top-0 text-white text-sm font-semibold rounded-full right-0">
-            {productsLength}
+            {userData.products?.length}
           </p>
         </ConditionalLink>
       </ul>

@@ -9,7 +9,7 @@ function BestDealComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [tab, setTab] = useState(1);
-  const { userData } = useContext(AuthContext);
+  const { userData, refreshUserData } = useContext(AuthContext);
 
   const getBestDealProd = async (a) => {
     try {
@@ -55,7 +55,16 @@ function BestDealComponent() {
       <div className="grid grid-cols-4 mt-6 gap-6">
         {products.map((el, idx) => {
           if (isLoading) return <SkeletonItem key={idx} />;
-          return <CartComponent key={idx} product={el} userId={userData._id} userProducts={userData.products} />;
+          return (
+            <CartComponent
+              key={idx}
+              product={el}
+              userId={userData._id}
+              userProducts={userData.products}
+              userLikes={userData.likes}
+              refreshUserData={refreshUserData}
+            />
+          );
         })}
       </div>
     </div>

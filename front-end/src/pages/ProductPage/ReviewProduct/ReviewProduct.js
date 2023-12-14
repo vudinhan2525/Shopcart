@@ -1,7 +1,66 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import img1 from '../../../assets/img/user/avatar.png';
+import RatingProduct from './RatingProduct';
+import { useCallback, useState } from 'react';
+import http from '../../../utils/http';
+import { useEffect } from 'react';
+const initialCountRating = [0, 0, 0, 0, 0, 0];
 function ReviewProduct({ product }) {
+  const [ratings, setRatings] = useState([]);
+  const [percent, setPercent] = useState(initialCountRating);
+  const [countRating, setCountRating] = useState(initialCountRating);
+  const [loading, setLoading] = useState(false);
+  const getRatingProd = useCallback(async (prodId, sortStar) => {
+    try {
+      let url = `/rating/${prodId}`;
+      if (sortStar !== 0) {
+        url = `/rating/${prodId}?rating=${sortStar}`;
+      }
+      setLoading(true);
+      const response = await http.get(url);
+      if (response.data.status === 'success') {
+        setRatings(response.data.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  const calcRating = async () => {
+    const newArr = [0, 0, 0, 0, 0, 0];
+    [1, 2, 3, 4, 5].forEach((el, i) => {
+      ratings.forEach((rate, j) => {
+        if (rate.rating === el) {
+          newArr[el] += 1;
+        }
+      });
+    });
+    setCountRating(newArr);
+  };
+  const calcPercent = () => {
+    const newArr = [0, 0, 0, 0, 0, 0];
+    if (!product.numberRatings || product.numberRatings === 0) {
+      setPercent(newArr);
+      return;
+    }
+    [1, 2, 3, 4, 5].forEach((el, idx) => {
+      newArr[el] = ((countRating[el] / product.numberRatings) * 100).toFixed(0);
+    });
+    setPercent(newArr);
+  };
+  useEffect(() => {
+    if (Object.keys(product).length > 0) {
+      getRatingProd(product._id, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
+  useEffect(() => {
+    // Run calcRating whenever ratings change
+    calcRating();
+    calcPercent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ratings]);
+
   return (
     <div className="  py-7 px-7  bg-white border-[1px] rounded-xl w-[80%] mt-9">
       <div>
@@ -26,139 +85,46 @@ function ReviewProduct({ product }) {
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-500">5</div>
               <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
-                <div className="absolute h-full bg-[#76DB98] w-[75%] rounded-[6px]"></div>
+                <div style={{ width: percent[5] + '%' }} className={`absolute h-full bg-[#76DB98] rounded-[6px]`}></div>
               </div>
-              <p className="text-sm font-bold min-w-[30px]">75%</p>
-              <p className="text-sm text-gray-500">982</p>
+              <p className="text-sm font-bold min-w-[30px]">{percent[5]}%</p>
+              <p className="text-sm text-gray-500">{countRating[5]}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-500">4</div>
               <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
-                <div className="absolute h-full bg-[#B7EA83] w-[16%] rounded-[6px]"></div>
+                <div style={{ width: percent[4] + '%' }} className={`absolute h-full bg-[#B7EA83] rounded-[6px]`}></div>
               </div>
-              <p className="text-sm font-bold min-w-[30px]">16%</p>
-              <p className="text-sm text-gray-500">205</p>
+              <p className="text-sm font-bold min-w-[30px]">{percent[4]}%</p>
+              <p className="text-sm text-gray-500">{countRating[4]}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-500">3</div>
               <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
-                <div className="absolute h-full bg-[#F6D757] w-[5%] rounded-[6px]"></div>
+                <div style={{ width: percent[3] + '%' }} className={`absolute h-full bg-[#F6D757] rounded-[6px]`}></div>
               </div>
-              <p className="text-sm font-bold min-w-[30px]">5%</p>
-              <p className="text-sm text-gray-500">65</p>
+              <p className="text-sm font-bold min-w-[30px]">{percent[3]}%</p>
+              <p className="text-sm text-gray-500">{countRating[3]}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-500">2</div>
               <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
-                <div className="absolute h-full bg-[#FBB851] w-[1%] rounded-[6px]"></div>
+                <div style={{ width: percent[2] + '%' }} className={`absolute h-full bg-[#FBB851] rounded-[6px]`}></div>
               </div>
-              <p className="text-sm font-bold min-w-[30px]">1%</p>
-              <p className="text-sm text-gray-500">17</p>
+              <p className="text-sm font-bold min-w-[30px]">{percent[2]}%</p>
+              <p className="text-sm text-gray-500">{countRating[2]}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-500">1</div>
               <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
-                <div className="absolute h-full bg-[#F17A54] w-[3%] rounded-[6px]"></div>
+                <div style={{ width: percent[1] + '%' }} className={`absolute h-full bg-[#F17A54] rounded-[6px]`}></div>
               </div>
-              <p className="text-sm font-bold min-w-[30px]">3%</p>
-              <p className="text-sm text-gray-500">46</p>
+              <p className="text-sm font-bold min-w-[30px]">{percent[1]}%</p>
+              <p className="text-sm text-gray-500">{countRating[1]}</p>
             </div>
           </div>
         </div>
-        <header className="text-xl font-bold">Sort By</header>
-        <div>
-          <div className="flex gap-4 mt-3">
-            <div className="px-4 cursor-pointer active-ct bg-[#EBEDED] py-2 rounded-full font-semibold">All</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">Have image</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">Sold</div>
-          </div>
-          <div className="flex gap-4 mt-2">
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">5 Star</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">4 Star</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">3 Star</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">2 Star</div>
-            <div className="px-4 cursor-pointer bg-[#EBEDED] py-2 rounded-full font-semibold">1 Star</div>
-          </div>
-        </div>
-        <div className="w-full h-[1px] bg-gray-200 my-4"></div>
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-2 items-center">
-            <div
-              style={{ backgroundImage: `url(${img1})` }}
-              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
-            ></div>
-            <div className="basis-full">
-              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
-                <div className="font-bold flex gap-2 items-center">
-                  <div>Nhung Phạm</div>
-                  <div>
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                  </div>
-                </div>
-                <div className=" text-[15px] leading-[20px] ">
-                  Giao hàng nhanh nhân viên nhiệt tình, điện thoại xài rất mượt ^^
-                </div>
-                <div className="mt-[2px]">
-                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2 items-center">
-            <div
-              style={{ backgroundImage: `url(${img1})` }}
-              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
-            ></div>
-            <div className=" basis-full">
-              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
-                <div className="font-bold flex gap-2 items-center">
-                  <div>An Vu</div>
-                  <div>
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-gray-700 w-4 h-4" icon={faStar} />
-                  </div>
-                </div>
-                <div className=" text-[15px] leading-[20px] flex items-center">Chất lượng rất tốt</div>
-                <div className="mt-[2px]">
-                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2 items-center">
-            <div
-              style={{ backgroundImage: `url(${img1})` }}
-              className="h-[50px] w-[50px] bg-no-repeat bg-center bg-contain"
-            ></div>
-            <div className=" basis-full">
-              <div className="bg-[#EBEDED] flex flex-col justify-between py-2 px-3 rounded-lg h-[90px]">
-                <div className="font-bold flex gap-2 items-center">
-                  <div>Hieu Nguyen</div>
-                  <div>
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-[#FFBF00] w-4 h-4" icon={faStar} />
-                    <FontAwesomeIcon className="text-gray-700 w-4 h-4" icon={faStar} />
-                  </div>
-                </div>
-                <div className=" text-[15px] leading-[20px] flex items-center">
-                  Với mình đây là mẫu iPhone vừa vặn nhất từ túi tiền, tính năng, kích thước,
-                </div>
-                <div className="mt-[2px]">
-                  <div className="text-xs text-gray-600">17/10/2023 11:09</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <RatingProduct ratings={ratings} product={product} getRatingProd={getRatingProd} loading={loading} />
       </div>
     </div>
   );

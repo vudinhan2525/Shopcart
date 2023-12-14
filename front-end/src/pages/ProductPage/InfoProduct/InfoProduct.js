@@ -1,10 +1,65 @@
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import Button from '../../../utils/Button';
-function InfoProduct({ product }) {
+import Lottie from 'lottie-react';
+import successAnimate from '../../../assets/animationJson/animateSuccess.json';
+import { useDispatch } from 'react-redux';
+import { addProdList } from '../../../slice/product.slice';
+function InfoProduct({ product, userId, userProducts, refreshUserData }) {
+  const dispatch = useDispatch();
+
   const [itemCnt, setItemCnt] = useState(1);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleShowSuccess = () => {
+    setShowSuccessModal(true);
+    setTimeout(() => {
+      setShowSuccessModal(false);
+    }, 1700);
+  };
+  const handleAddProd = async (e) => {
+    e.preventDefault();
+    let flag = 0;
+    handleShowSuccess();
+    setIsLoading(true);
+    console.log(userProducts);
+    userProducts.forEach((element) => {
+      if (element.productId === product._id) {
+        element.quantity += 1;
+        flag = 1;
+      }
+    });
+    if (flag === 1) {
+      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }))
+        .then(() => {
+          refreshUserData();
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error dispatching action:', error);
+          setIsLoading(false);
+        });
+    } else {
+      const data = {
+        userId: userId,
+        newData: [...userProducts, { productId: product._id, quantity: 1 }],
+        isChanged: true,
+      };
+
+      dispatch(addProdList(data))
+        .then(() => {
+          refreshUserData();
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error dispatching action:', error);
+          setIsLoading(false);
+        });
+    }
+  };
   return (
     <div className="bg-white px-8 py-6 rounded-xl border-[1px] border-gray-300">
       <div>
@@ -69,10 +124,23 @@ function InfoProduct({ product }) {
         <Button className="border-[2px] border-primary-color font-semibold basis-[40%] text-center text-white py-3 rounded-full bg-primary-color  hover:opacity-90 transition-all">
           Buy Now
         </Button>
-        <Button className="font-semibold basis-[40%] text-center text-primary-color py-3 rounded-full bg-white border-primary-color border-[2px] hover:bg-primary-color hover:text-white transition-all">
-          Add to Cart
+        <Button
+          onClick={(e) => {
+            handleAddProd(e);
+          }}
+          className="font-semibold min-w-[150px] basis-[40%] text-center text-primary-color py-3 rounded-full bg-white border-primary-color border-[2px] hover:bg-primary-color hover:text-white transition-all"
+        >
+          {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Add to Cart'}
         </Button>
       </div>
+      {showSuccessModal && (
+        <div className="fixed m-auto z-[9999]  top-0 left-0 right-0 bottom-0 w-[300px] h-[240px]  bg-white rounded-2xl shadow-lg">
+          <div className="w-[200px] h-[200px] mx-auto">
+            <Lottie animationData={successAnimate} loop={false}></Lottie>
+          </div>
+          <p className="font-OpenSans text-center font-medium">Product added successfully !!!</p>
+        </div>
+      )}
     </div>
   );
 }

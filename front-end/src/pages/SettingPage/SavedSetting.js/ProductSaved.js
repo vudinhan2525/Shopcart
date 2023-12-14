@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CartComponent from '../../../components/CartComponent/CartComponent';
-import { useState } from 'react';
-import axios from 'axios';
-function ProductLastSeen({ data, userData, refreshUserData }) {
+import http from '../../../utils/http';
+function ProductSaved({ userData, refreshUserData }) {
   const [products, setProducts] = useState([]);
-  const getLastSeenProd = async (data) => {
+  const getProducts = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}prods/getRelatedProd`, { data: data });
+      const response = await http.post(`/prods/getRelatedProd`, { data: userData.likes });
       if (response.data.status === 'success') {
         setProducts(response.data.data);
       }
@@ -15,18 +14,18 @@ function ProductLastSeen({ data, userData, refreshUserData }) {
     }
   };
   useEffect(() => {
-    if (data.length > 0) {
-      getLastSeenProd(data);
+    if (userData && Object.keys(userData).length > 0) {
+      getProducts();
     }
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
   return (
-    <>
-      <h4 className="text-[26px] leading-[32px] font-bold ">Products you last seen</h4>
-      <div className="grid grid-cols-5 mt-6 gap-4">
+    <div>
+      <div className="grid grid-cols-4 gap-4">
         {products.map((el, idx) => (
           <CartComponent
-            isSmall={true}
             key={idx}
+            isSmall={true}
             product={el}
             refreshUserData={refreshUserData}
             userId={userData._id}
@@ -35,8 +34,8 @@ function ProductLastSeen({ data, userData, refreshUserData }) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
-export default ProductLastSeen;
+export default ProductSaved;

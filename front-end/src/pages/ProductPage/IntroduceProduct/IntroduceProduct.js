@@ -1,5 +1,4 @@
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../../assets/img/shop/logo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserIcon, StarDefault } from '../../../utils/IconSVG';
 import IntroducePost from './IntroducePost/IntroducePost';
@@ -69,7 +68,7 @@ function IntroduceProduct({ product }) {
               <div className="w-[18px] h-[18px]">
                 <StarDefault />
               </div>
-              <p className="text-sm">{`Average Rating: ${shop.averageRating}`}</p>
+              <p className="text-sm">{`Average Rating: ${shop.averageRating?.toFixed(1)}`}</p>
             </div>
           </div>
           <div className="flex gap-8">

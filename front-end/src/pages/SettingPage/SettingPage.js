@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import img from '../../assets/img/user/avatar3d.jpg';
 import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
 import { useContext } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
-import { MessageSetting, AccountSetting, AddressSetting, Setting } from './index';
+import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved } from './index';
 import { Link, useParams } from 'react-router-dom';
 export const settingItems = [
   {
@@ -16,6 +17,11 @@ export const settingItems = [
     text: 'Orders',
     icon: <CartIcon clx="w-7 h-7" />,
     link: '/order',
+  },
+  {
+    text: 'Saved',
+    icon: <FontAwesomeIcon icon={faBookmark} className="ml-1 mr-1 w-5 h-5" />,
+    link: '/setting/saved',
   },
   {
     text: 'Message',
@@ -36,7 +42,7 @@ export const settingItems = [
 
 function SettingPage() {
   const param = useParams();
-  const { userData } = useContext(AuthContext);
+  const { userData, refreshUserData } = useContext(AuthContext);
   //if (!isLoggedIn) return <Navigate to={'/register'}></Navigate>;
   return (
     <div className="px-10">
@@ -81,6 +87,7 @@ function SettingPage() {
           {param.settingOpt === 'message' && <MessageSetting />}
           {param.settingOpt === 'address' && <AddressSetting userData={userData} />}
           {param.settingOpt === 'settings' && <Setting />}
+          {param.settingOpt === 'saved' && <Saved userData={userData} refreshUserData={refreshUserData} />}
         </div>
       </div>
     </div>

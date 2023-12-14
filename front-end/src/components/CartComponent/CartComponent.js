@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeart2 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
 import { addProdList } from '../../slice/product.slice';
 import { useState } from 'react';
 import Lottie from 'lottie-react';
 import successAnimate from '../../assets/animationJson/animateSuccess.json';
-function CartComponent({ isSmall = false, product, userId, userProducts, refreshUserData }) {
+import http from '../../utils/http';
+function CartComponent({ isSmall = false, product, userId, userProducts, userLikes, refreshUserData }) {
   const dispatch = useDispatch();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +60,38 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
         });
     }
   };
+  const handleAddLikedProd = async (e) => {
+    e.preventDefault();
+    let flag = 0;
+    userLikes?.forEach((el, idx) => {
+      if (el === product._id) {
+        flag = 1;
+      }
+    });
+    if (flag === 1) {
+      const idx = userLikes.indexOf(product._id);
+      const newArr = userLikes;
+      newArr.splice(idx, 1);
+      try {
+        const response = await http.patch(`users/${userId}`, { likes: newArr }, { withCredentials: true });
+        await refreshUserData();
+        if (response.data.status === 'success') {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let newArr = [...userLikes, product._id];
+      try {
+        const response = await http.patch(`users/${userId}`, { likes: newArr }, { withCredentials: true });
+        await refreshUserData();
+        if (response.data.status === 'success') {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <Link
       to={`/product/${product?._id}`}
@@ -72,11 +106,15 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
         ></div>
       </div>
       <div className="px-5 mt-3">
-        <h3 className={`${isSmall ? 'text-base h-[48px] line-clamp-2' : 'text-lg h-[56px] line-clamp-2'} font-bold`}>
+        <h3
+          className={`${
+            isSmall ? ' text-black text-base h-[48px] line-clamp-2' : 'text-lg h-[56px] line-clamp-2'
+          } font-bold`}
+        >
           {product?.name}
         </h3>
         <div className="flex gap-6 items-center mt-1">
-          <p className="text-base font-bold text-red-600">{`${product?.price.toFixed(2)} $`}</p>
+          <p className=" text-base font-bold text-red-600">{`${product?.price.toFixed(2)} $`}</p>
           <p className="text-sm opacity-60 line-through">{`${(product?.price + 50).toFixed(2)} $`}</p>
         </div>
         <div className="flex items-center mt-1">
@@ -98,24 +136,30 @@ function CartComponent({ isSmall = false, product, userId, userProducts, refresh
           }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'
-          } text-base min-w-[110px] rounded-full text-primary-color bg-white border border-primary-color transition-all`}
+          } text-base  min-w-[110px] rounded-full text-primary-color bg-white border border-primary-color transition-all`}
         >
           {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Add to cart'}
         </Button>
       </div>
       <div
+        onClick={(e) => handleAddLikedProd(e)}
         className={`${
           isSmall ? 'w-[40px] h-[40px]' : 'w-[50px] h-[50px]'
-        } absolute hover:bg-gray-200 transition-all  flex items-center bg-[#F5F6F6] rounded-full top-[2%] right-[3%]`}
+        } absolute  transition-all  flex items-center ${
+          userLikes?.includes(product._id) ? 'bg-pink-50 text-pink-600' : 'hover:bg-gray-200 bg-[#F5F6F6]'
+        }   rounded-full top-[2%] right-[3%]`}
       >
-        <FontAwesomeIcon icon={faHeart} className={`${isSmall ? 'text-lg' : 'text-xl'} mx-auto`} />
+        <FontAwesomeIcon
+          icon={userLikes?.includes(product._id) ? faHeart2 : faHeart}
+          className={`${isSmall ? 'text-lg' : 'text-xl'} mx-auto`}
+        />
       </div>
       {showSuccessModal && (
         <div className="fixed m-auto z-[9999]  top-0 left-0 right-0 bottom-0 w-[300px] h-[240px]  bg-white rounded-2xl shadow-lg">
           <div className="w-[200px] h-[200px] mx-auto">
             <Lottie animationData={successAnimate} loop={false}></Lottie>
           </div>
-          <p className="font-OpenSans text-center font-medium">Product added successfully !!!</p>
+          <p className=" text-center font-medium">Product added successfully !!!</p>
         </div>
       )}
     </Link>

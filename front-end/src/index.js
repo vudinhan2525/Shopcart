@@ -7,13 +7,16 @@ import AuthProvider from './components/AuthProvider/AuthProvider';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { ThemeProvider } from '@material-tailwind/react';
+import ToastProvider from './components/AuthProvider/ToastProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider>
         <AuthProvider>
-          <App />
+          <ToastProvider>
+            <App />
+          </ToastProvider>
         </AuthProvider>
       </ThemeProvider>
     </Provider>

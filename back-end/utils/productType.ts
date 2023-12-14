@@ -7,7 +7,6 @@ export default [
     'tivi',
     'fridge',
     'refrigerator',
-
     'camera',
     'headphone',
     'accesory',
@@ -45,4 +44,10 @@ export default [
     'fitness',
     'furniture',
     'other',
+    'table',
+    'chair',
+    'tivi',
+    'picture',
+    'sofa',
+    'washingmachine',
 ];

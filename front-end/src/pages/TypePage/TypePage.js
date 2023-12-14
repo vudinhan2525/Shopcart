@@ -8,7 +8,7 @@ import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import axios from 'axios';
 
 function TypePage() {
-  const { userData } = useContext(AuthContext);
+  const { userData, refreshUserData } = useContext(AuthContext);
   const scrollRef = useRef(null);
   const param = useParams();
   const [prodLastSeen, setProdLastSeen] = useState([]);
@@ -52,6 +52,8 @@ function TypePage() {
                     isSmall={true}
                     userId={userData._id}
                     userProducts={userData.products}
+                    refreshUserData={refreshUserData}
+                    userLikes={userData.likes}
                   ></CartComponent>
                 );
               })}
@@ -59,7 +61,7 @@ function TypePage() {
           </div>
         </div>
         <div className="mt-10">
-          <ProductLastSeen data={prodLastSeen} />
+          <ProductLastSeen data={prodLastSeen} userData={userData} refreshUserData={refreshUserData} />
         </div>
       </div>
     </div>

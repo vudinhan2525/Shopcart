@@ -3,9 +3,10 @@ import CartComponent from '../../../components/CartComponent/CartComponent';
 import axios from 'axios';
 import SkeletonItem from '../../../components/Skeleton/SkeletonItem';
 import { useState } from 'react';
-function RelatedProduct({ type, data }) {
+function RelatedProduct({ type, userData, refreshUserData }) {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const getRelatedProd = async () => {
     try {
       setIsLoading(true);
@@ -35,7 +36,17 @@ function RelatedProduct({ type, data }) {
       <div className="grid grid-cols-5 mt-6 gap-4">
         {products.map((el, idx) => {
           if (isLoading) return <SkeletonItem key={idx} />;
-          return <CartComponent key={idx} isSmall={true} product={el} />;
+          return (
+            <CartComponent
+              key={idx}
+              isSmall={true}
+              product={el}
+              refreshUserData={refreshUserData}
+              userId={userData._id}
+              userProducts={userData.products}
+              userLikes={userData.likes}
+            />
+          );
         })}
       </div>
     </div>

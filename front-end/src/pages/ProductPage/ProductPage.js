@@ -9,10 +9,12 @@ import SkeletonSlider from '../../components/Skeleton/SkeletonSlider';
 import SkeletonProd from '../../components/Skeleton/SkeletonProd';
 import SkeletonShopProd from '../../components/Skeleton/SkeletonShopProd';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 function ProductPage() {
   const param = useParams();
+  const { userData, refreshUserData } = useContext(AuthContext);
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +102,12 @@ function ProductPage() {
               <SkeletonProd />
             </>
           ) : (
-            <InfoProduct product={product} />
+            <InfoProduct
+              product={product}
+              userId={userData._id}
+              userProducts={userData.products}
+              refreshUserData={refreshUserData}
+            />
           )}
           {product?.type?.includes('technology') && <DetailProduct />}
           <input multiple type="file" onChange={handleFileChange} className="mt-3"></input>
@@ -111,10 +118,10 @@ function ProductPage() {
       </div>
       <ReviewProduct product={product} />
       <div className="mt-8">
-        <RelatedProduct type={product.type} />
+        <RelatedProduct type={product.type} userData={userData} refreshUserData={refreshUserData} />
       </div>
       <div className="mt-8">
-        <ProductLastSeen data={prodLastSeen} />
+        <ProductLastSeen data={prodLastSeen} userData={userData} refreshUserData={refreshUserData} />
       </div>
     </div>
   );

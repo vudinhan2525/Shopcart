@@ -25,11 +25,12 @@ function SuggestCart() {
         {products.map((el, idx) => {
           return (
             <CartComponent
-              refreshUserData={refreshUserData}
               product={el}
               key={idx}
+              refreshUserData={refreshUserData}
               userId={userData._id}
               userProducts={userData.products}
+              userLikes={userData.likes}
             />
           );
         })}

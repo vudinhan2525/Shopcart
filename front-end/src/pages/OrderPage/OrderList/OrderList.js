@@ -4,19 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProdList, deleteProd } from '../../../slice/product.slice';
 import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
 import SkeletonProdList from '../../../components/Skeleton/SkeletonProdList';
-function OrderList({ user }) {
+function OrderList({ user, refreshUserData }) {
   const dispatch = useDispatch();
-  const isAlreadyAdding = useSelector((state) => state.product.isAlreadyAdding);
   const isLoading = useSelector((state) => state.product.isLoading);
   const [deleteId, setDeleteId] = useState('');
   const products = useSelector((state) => state.product.productList);
   const [showDeleteSelect, setShowDeleteSelect] = useState(false);
-  const handleDeleteProd = () => {
+  const handleDeleteProd = async () => {
     const data = {
       userId: user._id,
       productId: deleteId,
     };
-    dispatch(deleteProd(data));
+    await dispatch(deleteProd(data));
+    await refreshUserData();
   };
   useEffect(() => {
     if (user && Object.keys(user).length > 0) {
@@ -24,9 +24,10 @@ function OrderList({ user }) {
       for (let i = 0; i < user.products.length; i++) {
         newArr.push(user.products[i].productId);
       }
-      if (isAlreadyAdding === false) dispatch(getProdList(newArr));
+      dispatch(getProdList(newArr));
     }
-  }, [dispatch, isAlreadyAdding, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   return (
     <div className="mt-6 flex flex-col gap-6 ">
       {products.map((el, idx) => {
