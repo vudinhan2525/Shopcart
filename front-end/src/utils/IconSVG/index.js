@@ -98,7 +98,7 @@ export const MinusIcon = ({ height = '24px', width = '24px' }) => {
     </svg>
   );
 };
-export const StarDefault = () => {
+export const StarDefault = ({ height = '20px', width = '20px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,8 @@ export const StarDefault = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="w-[18px] h-[18px]"
+      height={height}
+      width={width}
     >
       <path
         strokeLinecap="round"
@@ -359,6 +360,13 @@ export const MessageIcon = ({ width = '1rem', height = '1rem', clx }) => {
         strokeLinejoin="round"
         d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
       />
+    </svg>
+  );
+};
+export const ProductIcon = ({ width = '1rem', height = '1rem' }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={width} height={height}>
+      <path d="M 5.75 3 A 1.0001 1.0001 0 0 0 4.8867188 3.4960938 L 3.1367188 6.4960938 A 1.0001 1.0001 0 0 0 3 7 L 3 19 C 3 20.093063 3.9069372 21 5 21 L 19 21 C 20.093063 21 21 20.093063 21 19 L 21 7 A 1.0001 1.0001 0 0 0 20.863281 6.4960938 L 19.113281 3.4960938 A 1.0001 1.0001 0 0 0 18.25 3 L 5.75 3 z M 6.3242188 5 L 17.675781 5 L 18.841797 7 L 5.1582031 7 L 6.3242188 5 z M 5 9 L 19 9 L 19 19 L 5 19 L 5 9 z M 9 11 L 9 13 L 15 13 L 15 11 L 9 11 z" />
     </svg>
   );
 };

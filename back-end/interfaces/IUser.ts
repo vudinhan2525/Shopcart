@@ -22,6 +22,7 @@ interface IUser {
     createPasswordResetToken(): string;
     products: mongoose.Types.ObjectId[];
     likes: mongoose.Types.ObjectId[];
+    shop: mongoose.Types.ObjectId[];
     address: mongoose.Types.ObjectId[];
     bill: mongoose.Types.ObjectId[];
 }

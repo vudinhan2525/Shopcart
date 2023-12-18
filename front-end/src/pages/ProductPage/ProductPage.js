@@ -94,7 +94,11 @@ function ProductPage() {
       <div className="flex gap-4">
         <div className="basis-[60%]">
           {isLoading ? <SkeletonSlider /> : <SliderProduct productImages={product.images} />}
-          {isLoading ? <SkeletonShopProd /> : <IntroduceProduct product={product} />}
+          {isLoading ? (
+            <SkeletonShopProd />
+          ) : (
+            <IntroduceProduct userData={userData} refreshUserData={refreshUserData} product={product} />
+          )}
         </div>
         <div className="basis-[40%]">
           {isLoading ? (

@@ -78,6 +78,12 @@ const userSchema = new mongoose.Schema<IUser>({
             ref: 'Product',
         },
     ],
+    shop: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Product',
+        },
+    ],
     address: [
         {
             type: Schema.ObjectId,

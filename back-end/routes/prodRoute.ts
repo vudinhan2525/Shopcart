@@ -12,5 +12,6 @@ router.post(
     prodController.deleteProdFromUserList,
 );
 router.post('/getRelatedProd', prodController.getRelatedProd);
+router.post('/getProdInArray', prodController.getProdInArray);
 router.patch('/:id', prodController.upLoad, prodController.updateProd);
 module.exports = router;

@@ -2,6 +2,7 @@ import { faBox, faStore } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from '@material-tailwind/react';
 import { useState } from 'react';
+import ShopSaved from './ShopSaved';
 import ProductSaved from './ProductSaved';
 const data = [
   {
@@ -42,6 +43,7 @@ function Saved({ userData, refreshUserData }) {
             return (
               <TabPanel key={el.value} value={el.value} className="font-OpenSans font-medium">
                 {el.value === 'product' && <ProductSaved userData={userData} refreshUserData={refreshUserData} />}
+                {el.value === 'shop' && <ShopSaved userData={userData} refreshUserData={refreshUserData} />}
               </TabPanel>
             );
           })}

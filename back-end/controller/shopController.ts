@@ -44,3 +44,19 @@ exports.updateShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         data: user,
     });
 }));
+exports.getRelatedShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const data = await Shop.find({ _id: { $in: req.body.data } });
+    const idPositions = new Map();
+    req.body.data.map((el: string, idx: number) => {
+        idPositions.set(el, idx);
+    });
+    data.sort((a, b) => {
+        const x = idPositions.get(a._id.toString());
+        const y = idPositions.get(b._id.toString());
+        return x - y;
+    });
+    res.status(200).json({
+        status: 'success',
+        data: data,
+    });
+}));

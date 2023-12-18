@@ -1,4 +1,4 @@
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserIcon, StarDefault } from '../../../utils/IconSVG';
 import IntroducePost from './IntroducePost/IntroducePost';
@@ -6,8 +6,9 @@ import { ChevronDown } from '../../../utils/IconSVG';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import http from '../../../utils/http';
 
-function IntroduceProduct({ product }) {
+function IntroduceProduct({ product, userData, refreshUserData }) {
   const [detailProd, setDetailProd] = useState({});
   const [shop, setShop] = useState({});
   const getDetailProd = async () => {
@@ -41,6 +42,39 @@ function IntroduceProduct({ product }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
+  const handleAddShopLiked = async () => {
+    let flag = 0;
+    userData.shop?.forEach((el, idx) => {
+      if (el === shop._id) {
+        flag = 1;
+      }
+    });
+    if (flag === 1) {
+      const idx = userData.shop.indexOf(shop._id);
+      const newArr = userData.shop;
+      newArr.splice(idx, 1);
+      try {
+        const response = await http.patch(`users/${userData._id}`, { shop: newArr }, { withCredentials: true });
+        await refreshUserData();
+        if (response.data.status === 'success') {
+          console.log('unfollow success');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const newArr = [...userData.shop, shop._id];
+        const response = await http.patch(`users/${userData._id}`, { shop: newArr }, { withCredentials: true });
+        await refreshUserData();
+        if (response.data.status === 'success') {
+          console.log('follow success');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-7 overflow-hidden relative">
       <div className="flex gap-4">
@@ -72,8 +106,12 @@ function IntroduceProduct({ product }) {
             </div>
           </div>
           <div className="flex gap-8">
-            <div className="mt-2 text-white cursor-pointer bg-primary-color border-[1.5px] border-primary-color w-[120px] text-center rounded-full py-2 hover:opacity-90 transition-all">
-              Follow
+            <div
+              onClick={() => handleAddShopLiked()}
+              className="mt-2 text-white animate-slideTopDown flex items-center cursor-pointer px-4 gap-2 bg-primary-color border-[1.5px] border-primary-color  text-center rounded-full py-2 hover:opacity-90 transition-all"
+            >
+              {userData.shop?.includes(shop._id) && <FontAwesomeIcon icon={faCheck} />}
+              <p className="">{userData.shop?.includes(shop._id) ? 'Followed' : 'Follow'}</p>
             </div>
             <div className="mt-2 text-primary-color cursor-pointer bg-white border-[1.5px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
               Chat Now

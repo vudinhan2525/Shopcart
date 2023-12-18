@@ -78,7 +78,17 @@ exports.getRelatedProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         const y = idPositions.get(b._id.toString());
         return x - y;
     });
-
+    res.status(200).json({
+        status: 'success',
+        data: data,
+    });
+}));
+// Fint product in array ID of product with sort fields and pagination
+exports.getProdInArray = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const baseQuery = Product.find({ _id: { $in: req.body.data } });
+    const doc = new APIFeature(baseQuery, req.query);
+    doc.filter().sort().fields().pagination();
+    const data = await doc.query;
     res.status(200).json({
         status: 'success',
         data: data,

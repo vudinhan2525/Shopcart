@@ -37,14 +37,14 @@ export const technology = [
   },
 ];
 export const fashion = [
-  { name: 'Women', link: '/type/clothes,women' },
-  { name: 'Men', link: '/type/clothes,men' },
-  { name: 'Shirt', link: '/type/clothes,shirt' },
-  { name: 'Pants', link: '/type/clothes,pants' },
-  { name: 'Hand bag', link: '/type/clothes,handbag' },
-  { name: 'Jewelry', link: '/type/clothes,jewelry' },
-  { name: 'Sneakers', link: '/type/clothes,sneakers' },
-  { name: 'Accessory', link: '/type/clothes,accessory' },
+  { name: 'Women', link: '/type/fashion,women' },
+  { name: 'Men', link: '/type/fashion,men' },
+  { name: 'Shirt', link: '/type/fashion,shirt' },
+  { name: 'Pants', link: '/type/fashion,pants' },
+  { name: 'Hand bag', link: '/type/fashion,handbag' },
+  { name: 'Jewelry', link: '/type/fashion,jewelry' },
+  { name: 'Sneakers', link: '/type/fashion,sneaker' },
+  { name: 'Accessory', link: '/type/fashion,accessory' },
 ];
 export const furniture = [
   { name: 'Table', link: '/type/furniture,table' },

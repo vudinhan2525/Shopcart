@@ -12,5 +12,9 @@ interface IShop {
     followers: number;
     averageRating: number;
     numberRating: number;
+    categories: {
+        category: string;
+        products: mongoose.Types.ObjectId[];
+    }[];
 }
 export default IShop;

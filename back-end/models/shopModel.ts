@@ -46,6 +46,17 @@ const shopSchema = new Schema<IShop>({
         type: Number,
         default: 0,
     },
+    categories: [
+        {
+            category: String,
+            prods: [
+                {
+                    type: Schema.ObjectId,
+                    ref: 'Product',
+                },
+            ],
+        },
+    ],
 });
 const Shop = model<IShop>('Shop', shopSchema);
 export default Shop;
