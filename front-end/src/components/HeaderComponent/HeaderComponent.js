@@ -9,9 +9,9 @@ import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import ConditionalLink from '../../utils/ConditionalLink/ConditionalLink';
 import UserMenu from './UserMenu/UserMenu';
-
+import NotificationMenu from './NotificationMenu/NotificationMenu';
 function HeaderComponent() {
-  const { isLoggedIn, setShowLoginModal, userData } = useContext(AuthContext);
+  const { isLoggedIn, setShowLoginModal, setShowLogoutModal, userData } = useContext(AuthContext);
 
   return (
     <div className="flex py-2 backdrop-blur-md bg-[#F5F5F7]/70 items-center shadow-sm fixed top-0 right-0 left-0 z-50">
@@ -38,7 +38,7 @@ function HeaderComponent() {
         </div>
         <Search />
       </div>
-      <ul className="flex basis-1/4 gap-3">
+      <ul className="flex basis-1/4 gap-3 items-center">
         {isLoggedIn ? (
           <></>
         ) : (
@@ -54,7 +54,7 @@ function HeaderComponent() {
             </li>
           </>
         )}
-        {isLoggedIn && <UserMenu userData={userData} />}
+        {isLoggedIn && <UserMenu userData={userData} setShowLogoutModal={setShowLogoutModal} />}
 
         <ConditionalLink
           onClick={() => setShowLoginModal(true)}
@@ -68,6 +68,7 @@ function HeaderComponent() {
             {userData.products?.length}
           </p>
         </ConditionalLink>
+        <NotificationMenu userData={userData} />
       </ul>
     </div>
   );

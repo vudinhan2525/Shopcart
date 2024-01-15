@@ -64,11 +64,10 @@ function ProductPage() {
     getProduct();
     updateLastSeenProd();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param]);
+  }, [param.id]);
   const handleFileChange = (event) => {
     setSelectedFiles(event.target.files);
   };
-
   const handleSendImage = async () => {
     const formData = new FormData();
     for (let i = 0; i < selectedFiles.length; i++) {

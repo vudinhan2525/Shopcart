@@ -2,7 +2,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TagIcon } from '../../utils/IconSVG';
 import { useEffect, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 function StoreComponent({ shops, isSmall }) {
   const [shop, setShop] = useState([]);
   useEffect(() => {
@@ -15,7 +15,7 @@ function StoreComponent({ shops, isSmall }) {
       <div className={`grid gap-6 ${isSmall ? 'grid-cols-3' : 'grid-cols-4'}`}>
         {shop.map((el, id) => {
           return (
-            <div key={id}>
+            <Link to={`/shop/${el._id}`} key={id}>
               <div className="">
                 <div className="h-[250px] relative">
                   <div
@@ -41,7 +41,7 @@ function StoreComponent({ shops, isSmall }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

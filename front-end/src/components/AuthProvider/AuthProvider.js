@@ -2,10 +2,11 @@ import { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 const AuthContext = createContext();
 function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userData, setUserData] = useState({});
-
+  const [loading, setLoading] = useState(true); // Add loading state
   const login = () => {
     setIsLoggedIn(true);
   };
@@ -24,6 +25,8 @@ function AuthProvider({ children }) {
       }
     } catch (error) {
       setIsLoggedIn(false);
+    } finally {
+      setLoading(false); // Update loading state once the check is done
     }
   };
   const refreshUserData = useCallback(async () => {
@@ -44,9 +47,23 @@ function AuthProvider({ children }) {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login, logout, userData, showLoginModal, setShowLoginModal, refreshUserData }}
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+        userData,
+        showLoginModal,
+        setShowLoginModal,
+        refreshUserData,
+        showLogoutModal,
+        setShowLogoutModal,
+      }}
     >
-      {children}
+      {loading ? ( // Show loading indicator or something while checking login status
+        <div></div>
+      ) : (
+        children // Render children once loading is false
+      )}
     </AuthContext.Provider>
   );
 }

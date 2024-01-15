@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import img from '../../assets/img/user/avatar3d.jpg';
-import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon } from '../../utils/IconSVG';
+import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon, LogoutIcon } from '../../utils/IconSVG';
 import { useContext } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved } from './index';
@@ -38,6 +38,10 @@ export const settingItems = [
     icon: <GearIcon clx="w-7 h-7" />,
     link: '/setting/settings',
   },
+  {
+    text: 'Logout',
+    icon: <LogoutIcon clx="w-7 h-7" />,
+  },
 ];
 
 function SettingPage() {
@@ -66,6 +70,9 @@ function SettingPage() {
           </div>
           <div className="my-2 ">
             {settingItems.map((el, idx) => {
+              if (idx === settingItems.length - 1) {
+                return <div key={idx}></div>;
+              }
               return (
                 <Link
                   key={idx}

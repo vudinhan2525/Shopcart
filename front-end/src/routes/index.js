@@ -9,7 +9,7 @@ import {
   RegisterPage,
   SettingPage,
 } from '../pages';
-import { LayoutNoHeader, BlankLayout } from '../components/Layout';
+import { BlankLayout } from '../components/Layout';
 
 const publicRoutes = [
   { path: '/', component: HomePage },
@@ -19,13 +19,10 @@ const publicRoutes = [
   { path: '/cart', component: CartPage },
   { path: '/register', component: RegisterPage, layout: BlankLayout },
   { path: '/register/:token', component: RegisterPage, layout: BlankLayout },
-  { path: '/setting/:settingOpt', component: SettingPage },
-  { path: '/order', component: OrderPage },
   { path: '*', component: ErrorPage },
 ];
 const privateRoutes = [
-  { path: '/setting', component: SettingPage },
+  { path: '/setting/:settingOpt', component: SettingPage },
   { path: '/order', component: OrderPage },
-  { path: '*', component: ErrorPage, layout: LayoutNoHeader },
 ];
 export { publicRoutes, privateRoutes };

@@ -10,7 +10,7 @@ function SuccessTransaction({ setShowSuccess }) {
   return (
     <div
       onClick={(e) => handleTurnOffMessage(e)}
-      className="modal fixed top-0 right-0 left-0 bottom-0  bg-black/30 z-[51]"
+      className="modal  fixed top-0 right-0 left-0 bottom-0  bg-black/30 z-[51]"
     >
       <div className="absolute top-[50%] translate-y-[-50%] overflow-hidden right-[50%] pb-7 rounded-3xl w-[500px] translate-x-[50%] bg-white">
         <div className="bg-transactionsuccess-ct relative">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import CartComponent from '../../components/CartComponent/CartComponent';
+import CartComponent from '../CartComponent/CartComponent';
 import http from '../../utils/http';
 
 function CartList({ filter, sortBy, shopProducts }) {

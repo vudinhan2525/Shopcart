@@ -8,7 +8,7 @@ import http from '../../utils/http';
 import SuggestProdShop from './SuggestProdShop';
 import SortBar from '../../components/SortBar/SortBar';
 import { Button } from '@material-tailwind/react';
-import CartList from './CartList';
+import CartList from '../../components/CartList/CartList';
 const initialSortObj = {
   newest: '0',
   price: '0',

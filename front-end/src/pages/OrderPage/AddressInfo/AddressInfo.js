@@ -272,6 +272,7 @@ function AddressInfo({ userData }) {
           setDeleteId={setDeleteId}
           setShowDeleteSelect={setShowDeleteSelect}
           handleDelete={handleDeleteAddress}
+          buttonContent={'Delete'}
           message={'Are you sure to delete this address ??'}
           content={'This address will be deleted permanently, you cannot undo this action !!'}
         />
