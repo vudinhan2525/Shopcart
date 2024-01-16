@@ -49,7 +49,7 @@ function SettingPage() {
   const { userData, refreshUserData } = useContext(AuthContext);
   //if (!isLoggedIn) return <Navigate to={'/register'}></Navigate>;
   return (
-    <div className="px-10">
+    <div className="px-10 dark:bg-dark-ground">
       <div className="flex py-8 px-10 ">
         <div className="basis-[18%] ">
           <div className="flex items-center gap-2 cursor-pointer  group">
@@ -59,9 +59,9 @@ function SettingPage() {
                 className="w-[70px] h-[70px] bg-no-repeat bg-center bg-contain rounded-full"
               ></div>
             </div>
-            <div className="relative w-full">
-              <header className="text-lg font-bold">An Vũ</header>
-              <p className="text-xs text-gray-600">View profile</p>
+            <div className="relative dark:text-dark-text w-full">
+              <header className="text-lg  font-bold">An Vũ</header>
+              <p className="text-xs text-gray-600 dark:text-gray-400">View profile</p>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 className="text-sm right-[3%] group-hover:right-0 top-[50%] transition-all translate-y-[-50%] absolute"
@@ -78,17 +78,19 @@ function SettingPage() {
                   key={idx}
                   to={el.link}
                   className={` ${
-                    el.link.includes(param.settingOpt) ? 'bg-gray-200' : 'hover:bg-gray-200'
-                  }  rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
+                    el.link.includes(param.settingOpt)
+                      ? 'bg-gray-200 dark:bg-gray-800'
+                      : 'hover:bg-gray-200 dark:hover:bg-gray-800'
+                  }   rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
                 >
-                  <div className="text-[#384853] ">{el.icon}</div>
-                  <p className="text-[#384853] text-lg font-semibold">{el.text}</p>
+                  <div className="text-[#384853] dark:text-dark-text ">{el.icon}</div>
+                  <p className="text-[#384853] dark:text-dark-text text-lg font-semibold">{el.text}</p>
                 </Link>
               );
             })}
           </div>
         </div>
-        <div className="w-[1px] ml-5 bg-gray-300"></div>
+        <div className="w-[1px] ml-5 bg-gray-300 dark:bg-gray-700"></div>
         <div className="basis-[82%]">
           {param.settingOpt === 'account' && <AccountSetting userData={userData} />}
           {param.settingOpt === 'message' && <MessageSetting />}

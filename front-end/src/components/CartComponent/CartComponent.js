@@ -95,9 +95,9 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
   return (
     <Link
       to={`/product/${product?._id}`}
-      className="relative bg-white border-[1px] border-gray-300 animate-slideTopDown cursor-pointer transition-all rounded-lg"
+      className="relative   border-[1px] dark:border-[0px] border-gray-300 animate-slideTopDown cursor-pointer transition-all rounded-lg"
     >
-      <div className={` overflow-hidden`}>
+      <div className={` overflow-hidden dark:bg-white  pb-3 rounded-t-lg`}>
         <div
           style={{ backgroundImage: `url(${product?.images[0]})` }}
           className={`${
@@ -105,16 +105,18 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
           } text-center bg-no-repeat bg-center bg-contain mt-2 mx-auto hover:scale-[1.1] transition-all`}
         ></div>
       </div>
-      <div className="px-5 mt-3">
+      <div className="dark:bg-dark-flat dark:text-dark-text dark:rounded-b-lg px-5 ">
         <h3
           className={`${
-            isSmall ? ' text-black text-base h-[48px] line-clamp-2' : 'text-lg h-[56px] line-clamp-2'
-          } font-bold`}
+            isSmall
+              ? ' text-black dark:text-dark-text text-base h-[54px] line-clamp-2'
+              : 'text-lg h-[56px] line-clamp-2'
+          } font-bold pt-2`}
         >
           {product?.name}
         </h3>
         <div className="flex gap-6 items-center mt-1">
-          <p className=" text-base font-bold text-red-600">{`${product?.price.toFixed(2)} $`}</p>
+          <p className=" text-base font-bold text-red-600 dark:text-red-400">{`${product?.price.toFixed(2)} $`}</p>
           <p className="text-sm opacity-60 line-through">{`${(product?.price + 50).toFixed(2)} $`}</p>
         </div>
         <div className="flex items-center mt-1">
@@ -136,7 +138,7 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
           }}
           className={`mb-6 mt-3 hover:bg-primary-color hover:text-white ${
             isSmall ? 'px-[12px] py-[7px]' : 'px-[20px] py-[10px]'
-          } text-base  min-w-[110px] rounded-full text-primary-color bg-white border border-primary-color transition-all`}
+          } text-sm dark:bg-primary-dark-color dark:font-semibold dark:text-dark-text dark:border-none dark:hover:opacity-70  min-w-[110px] rounded-full text-primary-color bg-white border border-primary-color transition-all`}
         >
           {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Add to cart'}
         </Button>

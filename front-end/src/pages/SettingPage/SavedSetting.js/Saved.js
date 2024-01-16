@@ -19,20 +19,20 @@ const data = [
 function Saved({ userData, refreshUserData }) {
   const [activeTab, setActiveTab] = useState(data[0].value);
   return (
-    <div className="px-4">
+    <div className="px-4 animate-slideTopDown">
       <Tabs id="custom-animation" value={activeTab} className="font-OpenSans">
         <TabsHeader
-          className="w-[40%]  rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+          className="w-[40%]  rounded-none border-b border-blue-gray-50 dark:border-b-0 bg-transparent p-0"
           indicatorProps={{
-            className: 'bg-transparent border-b-2 border-gray-900 shadow-none rounded-none',
+            className: 'bg-transparent border-b-2 border-gray-900 dark:border-gray-300 shadow-none rounded-none',
           }}
         >
           {data.map((el) => {
             return (
               <Tab key={el.value} value={el.value} onClick={() => setActiveTab(el.value)}>
                 <div className="font-OpenSans flex items-center gap-2">
-                  {el.iconLabel}
-                  <p className="text-lg font-semibold">{el.label}</p>
+                  <p className="dark:text-dark-text">{el.iconLabel}</p>
+                  <p className="text-lg font-semibold dark:text-dark-text">{el.label}</p>
                 </div>
               </Tab>
             );

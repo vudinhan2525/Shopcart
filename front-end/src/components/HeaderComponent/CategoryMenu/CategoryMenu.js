@@ -3,8 +3,8 @@ import { technology, fashion, furniture, education, beauty } from './fake';
 
 function CategoryMenu() {
   return (
-    <div className="flex py-8 px-8">
-      <div className="basis-1/5">
+    <div className="flex py-8 px-8 dark:text-dark-text">
+      <div className="basis-1/5 ">
         <Link to="/type/tech" className="text-lg hover:text-orange-400 transition-all hover:pl-3 font-bold">
           Technology
         </Link>
@@ -14,7 +14,7 @@ function CategoryMenu() {
               <Link
                 to={el.link}
                 key={idx}
-                className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
+                className="dark:text-gray-500 dark:hover:text-orange-400 hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
               >
                 {el.name}
               </Link>
@@ -32,7 +32,7 @@ function CategoryMenu() {
               <Link
                 to={el.link}
                 key={idx}
-                className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
+                className="dark:text-gray-500 dark:hover:text-orange-400 hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
               >
                 {el.name}
               </Link>
@@ -50,7 +50,7 @@ function CategoryMenu() {
               <Link
                 to={el.link}
                 key={idx}
-                className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
+                className="dark:text-gray-500 dark:hover:text-orange-400 hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
               >
                 {el.name}
               </Link>
@@ -68,7 +68,7 @@ function CategoryMenu() {
               <Link
                 to={el.link}
                 key={idx}
-                className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
+                className="dark:text-gray-500 dark:hover:text-orange-400 hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
               >
                 {el.name}
               </Link>
@@ -86,7 +86,7 @@ function CategoryMenu() {
               <Link
                 to={el.link}
                 key={idx}
-                className="hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
+                className="dark:text-gray-500 dark:hover:text-orange-400 hover:text-orange-400 inline-flex cursor-pointer hover:pl-3 transition-all"
               >
                 {el.name}
               </Link>

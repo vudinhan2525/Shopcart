@@ -46,7 +46,7 @@ function NotificationMenu({ userData }) {
       }}
     >
       <MenuHandler>
-        <div className="ml-2 cursor-pointer px-3 py-3 rounded-full transition-all hover:bg-gray-200">
+        <div className="dark:text-dark-text dark:hover:text-black ml-2 cursor-pointer px-3 py-3 rounded-full transition-all hover:bg-gray-200">
           <BellIcon width="26px" height="26px" />
         </div>
       </MenuHandler>

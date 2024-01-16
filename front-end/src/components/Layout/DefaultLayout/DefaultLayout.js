@@ -20,7 +20,7 @@ function DefaultLayout({ children }) {
   return (
     <div>
       <HeaderComponent></HeaderComponent>
-      <div className="pt-[64px]"></div>
+      <div className="pt-[64px] dark:bg-dark-ground"></div>
       {children}
       <FooterComponent />
       {showLoginModal === true && <LoginModal />}

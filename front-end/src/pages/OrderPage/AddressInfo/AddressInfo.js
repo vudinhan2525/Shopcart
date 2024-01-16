@@ -81,7 +81,7 @@ function AddressInfo({ userData }) {
   };
   return (
     <>
-      <div className=" border-[1px] border-gray-300 rounded-xl px-6 py-6 mt-6 animate-slideTopDown">
+      <div className=" border-[1px] dark:text-dark-text border-gray-300 dark:border-gray-500 rounded-xl px-6 py-6 mt-6 animate-slideTopDown">
         <header className="text-2xl font-semibold mb-6">Deliver Information</header>
         <div className="flex flex-col gap-4 ">
           {address.map((el, idx) => {
@@ -96,14 +96,14 @@ function AddressInfo({ userData }) {
                     //handleEditingAddress
                   } else setSelectAddress(idx);
                 }}
-                className={`cursor-pointer border-[1px] relative px-4 py-2 bg-gray-100 rounded-xl ${
-                  selectAddress === idx ? 'border-[1px] border-gray-500 bg-gray-200' : ''
+                className={`dark:bg-dark-flat dark:border-[0px] cursor-pointer border-[1px] relative px-4 py-2 bg-gray-100 rounded-xl ${
+                  selectAddress === idx ? 'border-[1px] dark:border-[1px] border-gray-500 bg-gray-200' : ''
                 }`}
               >
                 <header className="font-bold">{el.receiveName}</header>
-                <p className="text-sm text-gray-800">Address: {el.address}</p>
-                <p className="text-sm text-gray-800">Phone: {el.phonenumber}</p>
-                <p className="text-sm text-gray-800">Email: {el.email}</p>
+                <p className="text-sm text-gray-800 dark:text-gray-400">Address: {el.address}</p>
+                <p className="text-sm text-gray-800 dark:text-gray-400">Phone: {el.phonenumber}</p>
+                <p className="text-sm text-gray-800 dark:text-gray-400">Email: {el.email}</p>
                 <div
                   className={`${
                     selectAddress === idx ? 'selected-ct' : ''
@@ -117,7 +117,7 @@ function AddressInfo({ userData }) {
                 <div className="absolute flex  bottom-[20px] right-[20px] gap-2">
                   <div
                     onClick={() => handleEditAddress(el)}
-                    className="edit-btn bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
+                    className="edit-btn dark:bg-gray-800 dark:hover:bg-gray-500 bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
                   >
                     Edit
                   </div>
@@ -126,7 +126,7 @@ function AddressInfo({ userData }) {
                       setShowDeleteSelect(true);
                       setDeleteId(el._id);
                     }}
-                    className="delete-btn bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
+                    className="delete-btn dark:bg-gray-800 dark:hover:bg-gray-500 bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
                   >
                     Delete
                   </div>
@@ -147,7 +147,7 @@ function AddressInfo({ userData }) {
                 });
               }}
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -162,7 +162,7 @@ function AddressInfo({ userData }) {
                   return { ...prev, lastName: e.target.value };
                 })
               }
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -178,7 +178,7 @@ function AddressInfo({ userData }) {
               })
             }
             required
-            className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+            className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
             placeholder="Type here..."
           ></input>
         </div>
@@ -194,7 +194,7 @@ function AddressInfo({ userData }) {
                 })
               }
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -209,7 +209,7 @@ function AddressInfo({ userData }) {
                 })
               }
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -226,7 +226,7 @@ function AddressInfo({ userData }) {
                 })
               }
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -241,7 +241,7 @@ function AddressInfo({ userData }) {
                 })
               }
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="Type here..."
             ></input>
           </div>
@@ -250,7 +250,7 @@ function AddressInfo({ userData }) {
           onClick={handleSubmitForm}
           className={`${
             isEditing ? 'w-[100px]' : 'w-[150px]'
-          }  bg-primary-color font-semibold hover:opacity-80  text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2`}
+          }  bg-primary-color dark:bg-primary-dark-color font-semibold hover:opacity-80  text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2`}
         >
           {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : <>{isEditing ? 'Save' : 'Add address'}</>}
         </button>
@@ -260,7 +260,7 @@ function AddressInfo({ userData }) {
               setFormData(initialForm);
               setIsEditing(false);
             }}
-            className="ml-[10px] w-[100px] border-primary-color border-[1px] font-semibold hover:opacity-80  text-center py-3 rounded-full text-primary-color cursor-pointer transition-all mt-2"
+            className="ml-[10px] w-[100px] border-primary-color dark:text-primary-dark-color dark:border-primary-dark-color border-[1px] font-semibold hover:opacity-80  text-center py-3 rounded-full text-primary-color cursor-pointer transition-all mt-2"
           >
             Cancel
           </button>

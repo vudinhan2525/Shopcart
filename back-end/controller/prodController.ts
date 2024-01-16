@@ -113,19 +113,36 @@ exports.deleteProdFromUserList = catchAsync(<MiddleWareFn>(async (
     });
 }));
 exports.getProdType = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    if (!req.query.types || typeof req.query.types !== 'string') {
-        return next(new AppError('Please provide types correct!!!', 400));
+    let baseQuery;
+    if (!req.body.data) {
+        baseQuery = Product.find({});
     } else {
-        const types = req.query.types.split(',');
-        const baseQuery = Product.find({
+        const types = req.body.data;
+        baseQuery = Product.find({
             type: { $all: types },
         });
-        const doc = new APIFeature(baseQuery, req.query);
-        doc.sort().fields().pagination();
-        const data = await doc.query;
-        res.status(200).json({
-            status: 'success',
-            data: data,
+    }
+    const doc = new APIFeature(baseQuery, req.query);
+    doc.filter().sort().fields().pagination();
+    const data = await doc.query;
+    res.status(200).json({
+        status: 'success',
+        data: data,
+    });
+}));
+exports.countProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    let baseQuery;
+    if (!req.query.types || typeof req.query.types !== 'string') {
+        baseQuery = Product.find({});
+    } else {
+        const types = req.query.types.split(',');
+        baseQuery = Product.find({
+            type: { $all: types },
         });
     }
+    const data = await Product.countDocuments(baseQuery);
+    res.status(200).json({
+        status: 'success',
+        data: data,
+    });
 }));

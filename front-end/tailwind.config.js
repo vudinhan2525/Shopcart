@@ -2,10 +2,15 @@
 const withMT = require('@material-tailwind/react/utils/withMT');
 module.exports = withMT({
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         'primary-color': '#003E29',
+        'primary-dark-color': '#3FB377',
+        'dark-flat': '#242526',
+        'dark-ground': '#18191A',
+        'dark-text': '#E4E6EB',
       },
       fontFamily: {
         OpenSans: ['"Open Sans"', 'sans-serif'],

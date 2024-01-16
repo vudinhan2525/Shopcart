@@ -96,6 +96,12 @@ const userSchema = new mongoose.Schema<IUser>({
             ref: 'Bill',
         },
     ],
+    notifications: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Noti',
+        },
+    ],
 });
 
 userSchema.pre('save', async function (next) {
