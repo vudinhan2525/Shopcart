@@ -19,7 +19,7 @@ function MostSellingStoreComponent() {
   }, []);
   return (
     <div>
-      <header className="text-[26px] leading-[32px] font-bold mt-12 mb-4">Best Selling Store</header>
+      <header className="text-[26px] leading-[32px] font-bold pt-12 mb-4 ">Best Selling Store</header>
       <StoreComponent shops={shops}></StoreComponent>
     </div>
   );

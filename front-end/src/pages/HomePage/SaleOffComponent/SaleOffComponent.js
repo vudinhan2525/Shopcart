@@ -11,7 +11,7 @@ function SaleOffComponent() {
           <div className="bg-[#F2E4D9] px-6 py-6 rounded-t-xl">
             <header className="text-2xl text-gray-800 font-bold">Save</header>
             <div className="mt-4 text-5xl font-bold text-[#CB9917]">100$</div>
-            <p className="mt-4 leading-[28px]">Explore Our Furniture & Home Furnishing Range</p>
+            <p className="mt-4 leading-[28px] dark:text-dark-ground">Explore Our Furniture & Home Furnishing Range</p>
           </div>
           <div className="h-[220px] w-full overflow-hidden rounded-b-xl">
             <div
@@ -24,7 +24,7 @@ function SaleOffComponent() {
           <div className="bg-[#F9DCDC] px-6 py-6 rounded-t-xl">
             <header className="text-2xl text-gray-800 font-bold">Save</header>
             <div className="mt-4 text-5xl font-bold text-[#961F1F]">29$</div>
-            <p className="mt-4 leading-[28px]">Explore Our Furniture & Home Furnishing Range</p>
+            <p className="mt-4 leading-[28px] dark:text-dark-ground">Explore Our Furniture & Home Furnishing Range</p>
           </div>
           <div className="h-[220px] w-full overflow-hidden rounded-b-xl">
             <div
@@ -37,7 +37,7 @@ function SaleOffComponent() {
           <div className="bg-[#F2E4D9] px-6 py-6 rounded-t-xl">
             <header className="text-2xl text-gray-800 font-bold">Save</header>
             <div className="mt-4 text-5xl font-bold text-[#94623C]">67$</div>
-            <p className="mt-4 leading-[28px]">Explore Our Furniture & Home Furnishing Range</p>
+            <p className="mt-4 leading-[28px] dark:text-dark-ground">Explore Our Furniture & Home Furnishing Range</p>
           </div>
           <div className="h-[220px] w-full overflow-hidden rounded-b-xl">
             <div
@@ -50,7 +50,7 @@ function SaleOffComponent() {
           <div className="bg-[#D2F7EC] px-6 py-6 rounded-t-xl">
             <header className="text-2xl text-gray-800 font-bold">Save</header>
             <div className="mt-4 text-5xl font-bold text-[#003D29]">59$</div>
-            <p className="mt-4 leading-[28px]">Explore Our Furniture & Home Furnishing Range</p>
+            <p className="mt-4 leading-[28px] dark:text-dark-ground">Explore Our Furniture & Home Furnishing Range</p>
           </div>
           <div className="h-[220px] w-full overflow-hidden rounded-b-xl">
             <div

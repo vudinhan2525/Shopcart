@@ -81,7 +81,7 @@ function AddressInfo({ userData }) {
   };
   return (
     <>
-      <div className=" border-[1px] dark:text-dark-text border-gray-300 dark:border-gray-500 rounded-xl px-6 py-6 mt-6 animate-slideTopDown">
+      <div className=" border-[1px] dark:text-dark-text border-gray-300 dark:border-gray-700 rounded-xl px-6 py-6 mt-6 animate-slideTopDown">
         <header className="text-2xl font-semibold mb-6">Deliver Information</header>
         <div className="flex flex-col gap-4 ">
           {address.map((el, idx) => {

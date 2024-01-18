@@ -22,7 +22,7 @@ function OnlineMethod() {
               key={idx}
               className={`${
                 method === idx ? 'border-[#08AC0A] border-[2px]' : 'border-[2px] border-gray-200'
-              } flex items-center px-3 cursor-pointer py-2 rounded-md`}
+              } flex items-center px-3 cursor-pointer py-2 rounded-md dark:bg-dark-text dark:border-[3px]`}
               onClick={() => setMethod(idx)}
             >
               <img src={el.img} alt={el.name}></img>
@@ -35,14 +35,14 @@ function OnlineMethod() {
         <input
           type="email"
           required
-          className=" mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+          className=" mt-2 mb-3 placeholder:text-gray-400 dark:bg-[#3A3B3C] dark:border-[0px] text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
           placeholder="Type here..."
         ></input>
         <header className="text-sm font-semibold">Card Holder Name*</header>
         <input
           type="text"
           required
-          className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+          className="mt-2 mb-3 placeholder:text-gray-400 dark:bg-[#3A3B3C] dark:border-[0px] text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
           placeholder="Type here..."
         ></input>
         <header className="text-sm font-semibold">Card Number*</header>
@@ -50,7 +50,7 @@ function OnlineMethod() {
           <input
             type="text"
             required
-            className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full pr-4 pl-11 py-[10px] rounded-lg outline-none"
+            className="mt-2 mb-3 placeholder:text-gray-400 dark:bg-[#3A3B3C] dark:border-[0px] text-sm border-[1px] border-gray-200 w-full pr-4 pl-11 py-[10px] rounded-lg outline-none"
             placeholder="0000*****1245"
           ></input>
           <div className="absolute top-[50%] translate-y-[-55%] left-[18px]">
@@ -63,7 +63,7 @@ function OnlineMethod() {
             <input
               type="text"
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 placeholder:text-gray-400 dark:bg-[#3A3B3C] dark:border-[0px] text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="MM/YY"
             ></input>
           </div>
@@ -72,7 +72,7 @@ function OnlineMethod() {
             <input
               type="text"
               required
-              className="mt-2 mb-3 placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+              className="mt-2 mb-3 placeholder:text-gray-400 dark:bg-[#3A3B3C] dark:border-[0px] text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
               placeholder="000"
             ></input>
           </div>

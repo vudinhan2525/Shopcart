@@ -68,6 +68,7 @@ function TypePage() {
   }, []);
   useEffect(() => {
     getCountProds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
   useEffect(() => {
     if (filterObj && Object.keys(filterObj).length > 0 && sortObj && Object.keys(sortObj).length > 0) {
@@ -78,11 +79,11 @@ function TypePage() {
   return (
     <div className="">
       <SliderComponent />
-      <div className={`px-12`} ref={scrollRef}>
-        <p className="mt-8">Home / SmartPhone</p>
+      <div className={`px-12 dark:text-dark-text dark:bg-dark-ground`} ref={scrollRef}>
+        <p className="pt-8">Home / SmartPhone</p>
         <h1 className="text-3xl font-semibold">SmartPhones for you !</h1>
         <div className="flex mt-8 gap-6">
-          <div className="basis-[20%] shadow-lg bg-white">
+          <div className="basis-[20%] shadow-lg bg-white dark:bg-dark-flat rounded-lg">
             <SortBar setFilterObj={setFilterObj} />
           </div>
           <div className="basis-[80%] ">

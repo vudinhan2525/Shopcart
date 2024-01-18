@@ -9,19 +9,19 @@ function Payment() {
   return (
     <div>
       <header className="text-2xl font-semibold">Order Summery</header>
-      <div className="h-[1px] w-full bg-gray-200 my-5"></div>
+      <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
       <div className="relative">
         <input
           placeholder="Enter Coupon Code"
-          className="w-full bg-gray-200 outline-none text-sm px-6 py-4 rounded-full"
+          className="w-full bg-gray-200 dark:bg-[#3A3B3C] outline-none text-sm px-6 py-4 rounded-full"
         ></input>
-        <div className="flex items-center text-white hover:opacity-80 transition-all cursor-pointer absolute bg-primary-color h-[42px] top-[50%] translate-y-[-50%] rounded-full right-[1%]">
-          <p className="font-medium text-sm mx-auto px-4 select-none">Apply coupon</p>
+        <div className="flex items-center text-white dark:bg-primary-dark-color hover:opacity-80 transition-all cursor-pointer absolute bg-primary-color h-[42px] top-[50%] translate-y-[-50%] rounded-full right-[1%]">
+          <p className="font-medium text-sm mx-auto  px-4 select-none">Apply coupon</p>
         </div>
       </div>
-      <div className="h-[1px] w-full bg-gray-200 my-5"></div>
+      <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
       <div className="text-lg font-semibold">Payment Details</div>
-      <div className="h-[1px] w-full bg-gray-200 my-5"></div>
+      <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center relative">
           <input
@@ -30,7 +30,7 @@ function Payment() {
             defaultChecked
             ref={input1}
             name="paymentsmethod"
-            className="peer/input1 opacity-0 cursor-pointer text-gray-800 w-[16px] h-[16px] "
+            className="peer/input1 opacity-0 cursor-pointer text-gray-800  w-[16px] h-[16px] "
           ></input>
           <label
             onClick={() => setShowMethod(1)}
@@ -42,7 +42,7 @@ function Payment() {
           <label
             onClick={() => setShowMethod(1)}
             htmlFor="paymentsmethod"
-            className={`peer-checked/input1:after:block peer-checked/input1:border-[#08AC0A] after:hidden  after:bg-[#08AC0A] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[50%] after:translate-y-[-50%] after:right-[50%] after:translate-x-[50%] absolute w-[16px] h-[16px] rounded-full cursor-pointer border-[2px] border-gray-900  `}
+            className={`peer-checked/input1:after:block peer-checked/input1:border-[#08AC0A] after:hidden  after:bg-[#08AC0A] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[50%] after:translate-y-[-50%] after:right-[50%] after:translate-x-[50%] absolute w-[16px] h-[16px] rounded-full cursor-pointer border-[2px] border-gray-900 dark:border-gray-200 `}
           ></label>
         </div>
         <div className="gap-2 flex items-center relative">
@@ -63,37 +63,37 @@ function Payment() {
           <label
             onClick={() => setShowMethod(2)}
             htmlFor="paymentsmethod2"
-            className={`peer-checked/input1:after:block peer-checked/input1:border-[#08AC0A] after:hidden after:bg-[#08AC0A] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[50%] after:translate-y-[-50%] after:right-[50%] after:translate-x-[50%] absolute w-[16px] h-[16px] rounded-full cursor-pointer border-[2px] border-gray-900  `}
+            className={`dark:border-gray-200 peer-checked/input1:after:block peer-checked/input1:border-[#08AC0A] after:hidden after:bg-[#08AC0A] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[50%] after:translate-y-[-50%] after:right-[50%] after:translate-x-[50%] absolute w-[16px] h-[16px] rounded-full cursor-pointer border-[2px] border-gray-900  `}
           ></label>
         </div>
         {showMethod === 2 ? <OnlineMethod /> : ''}
         <div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Sub Total</header>
-            <p className="text-sm text-gray-900">$549.00</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">$549.00</p>
           </div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Tax(10%)</header>
-            <p className="text-sm text-gray-900">$54.90</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">$54.90</p>
           </div>
           <div className="flex my-3 items-center justify-between">
-            <header className="text-sm font-semibold">Coupon Discount</header>
-            <p className="text-sm text-gray-900">-$54.90</p>
+            <header className="text-sm font-semibold ">Coupon Discount</header>
+            <p className="text-sm text-gray-900 dark:text-dark-text">-$54.90</p>
           </div>
           <div className="flex my-3 items-center justify-between">
-            <header className="text-sm font-semibold">Shipping Cost</header>
-            <p className="text-sm text-gray-900">$0.00</p>
+            <header className="text-sm font-semibold ">Shipping Cost</header>
+            <p className="text-sm text-gray-900 dark:text-dark-text">$0.00</p>
           </div>
         </div>
-        <div className="h-[1px] w-full bg-gray-200"></div>
+        <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700"></div>
         <div className="flex my-3 items-center justify-between">
           <header className="font-bold">Total</header>
-          <p className="font-bold text-gray-900">=$494.10</p>
+          <p className="font-bold text-gray-900 dark:text-dark-text">= $494.10</p>
         </div>
       </div>
       <div
         onClick={() => setShowSuccess(true)}
-        className="bg-primary-color text-white text-center py-3 rounded-full cursor-pointer transition-all hover:opacity-80"
+        className="bg-primary-color text-white text-xl text-center py-3 dark:bg-primary-dark-color  rounded-full cursor-pointer transition-all hover:opacity-80"
       >
         Pay $494.10
       </div>

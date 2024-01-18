@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import categories from './fake';
 function CategoryComponent() {
   return (
-    <div className="mt-5 py-12">
+    <div className="pt-5 py-12">
       <h4 className="text-[26px] leading-[32px] font-bold ">Shop Our Top Categories</h4>
       <div className="grid grid-cols-6 mt-8 gap-6 max-lg:gap-4 max-lg:grid-cols-3">
         {categories.map((el, idx) => {

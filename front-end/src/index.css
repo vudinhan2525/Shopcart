@@ -17,10 +17,10 @@ html *::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0);
 }
 .slider .thumb {
-  @apply h-4 w-4 rounded-full  bg-primary-color outline-0 top-[-6px] cursor-pointer;
+  @apply h-4 w-4 rounded-full  bg-primary-color dark:bg-primary-dark-color outline-0 top-[-6px] cursor-pointer;
 }
 .slider .track-1 {
-  @apply h-[3px] bg-primary-color;
+  @apply h-[3px] bg-primary-color dark:bg-primary-dark-color;
 }
 .slick-next {
   @apply w-10 h-10 p-1  rounded-full z-10 right-0 top-[50%] translate-x-[100%] translate-y-[-50%];

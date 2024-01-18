@@ -10,13 +10,13 @@ function HomePage() {
   return (
     <div>
       <SliderComponent />
-      <div className=" px-10 bg-white ">
+      <div className=" px-10 bg-white dark:text-dark-text dark:bg-dark-ground">
         <CategoryComponent />
         <SuggestCart></SuggestCart>
         <SaleOffComponent />
         <BestDealComponent />
       </div>
-      <div className="h-[650px] relative my-20 overflow-hidden">
+      <div className="h-[650px] relative py-20 overflow-hidden dark:bg-dark-ground">
         <div
           style={{ backgroundImage: `url(${img1})` }}
           className="h-full  w-full  bg-no-repeat transition-all hover:scale-[1.1] bg-center bg-cover"
@@ -31,7 +31,7 @@ function HomePage() {
           </button>
         </div>
       </div>
-      <div className=" px-10 bg-white ">
+      <div className=" px-10 bg-white dark:bg-dark-ground dark:text-dark-text">
         <MostSellingStoreComponent />
         <ServicesHelp></ServicesHelp>
       </div>

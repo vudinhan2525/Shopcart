@@ -46,6 +46,7 @@ function OrderList({ user, refreshUserData }) {
         <ShowDeleteSelect
           handleDelete={handleDeleteProd}
           deleteId={deleteId}
+          buttonContent={'Delete'}
           setDeleteId={setDeleteId}
           setShowDeleteSelect={setShowDeleteSelect}
           message={'Are you sure want to delete this product??'}

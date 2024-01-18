@@ -11,7 +11,7 @@ function SliderComponent() {
     slidesToScroll: 1,
   };
   return (
-    <Slider {...settings}>
+    <Slider className="dark:bg-dark-ground" {...settings}>
       {slider.map((el, index) => {
         return <div key={index}>{el}</div>;
       })}

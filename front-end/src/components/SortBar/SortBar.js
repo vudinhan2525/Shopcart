@@ -20,7 +20,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
           containerProps={{
             className: 'p-2',
           }}
-          label={<p className="font-OpenSans font-medium">All</p>}
+          label={<p className="font-OpenSans font-medium dark:text-dark-text">All</p>}
           defaultChecked={true}
         />
         {types?.map((el, idx) => (
@@ -46,16 +46,16 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
       <p className="text-xl mb-2 font-semibold pt-2 border-t mt-4">Price</p>
       <div>
         <Slider
-          className="slider w-full h-[3px] bg-slate-300 mt-3"
+          className="slider w-full h-[3px] bg-dark-text mt-3"
           value={values}
           onChange={setValues}
           min={MIN}
           max={MAX}
         />
         <div className="flex justify-between mt-4 items-center">
-          <p className="w-20 border border-slate-400 rounded-md outline-0 px-4 py-1">{`${values[0]}$`}</p>
+          <p className="w-20 border border-slate-400 rounded-md outline-0 px-4 py-1 items-center">{`${values[0]}$`}</p>
           <div className="w-2 h-[1px] bg-slate-500"></div>
-          <p className="w-20 border border-slate-400 rounded-md outline-0 px-4 py-1">{`${values[1]}$`}</p>
+          <p className="w-20 border border-slate-400 rounded-md outline-0 px-4 py-1 items-center">{`${values[1]}$`}</p>
         </div>
         <p
           onClick={() => {
@@ -63,7 +63,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
               return { ...prev, priceMin: values[0], priceMax: values[1] };
             });
           }}
-          className="w-[120px] mx-auto text-center cursor-pointer mt-3 hover:opacity-80 border-[1px] py-1 px-2 rounded-lg border-black transition-all"
+          className="w-[120px] dark:bg-gray-700 mx-auto text-center cursor-pointer mt-3 hover:opacity-80 border-[1px] py-1 px-2 rounded-lg border-black transition-all"
         >
           Sort by price
         </p>
@@ -78,11 +78,11 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
           }}
           className="flex items-center mt-2 cursor-pointer"
         >
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
           <p className="ml-3 text-sm">From 5 star</p>
         </div>
         <div
@@ -93,10 +93,10 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
           }}
           className="flex items-center mt-2 cursor-pointer"
         >
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
           <FontAwesomeIcon className="opacity-70 w-4" icon={faStar} />
           <p className="ml-3 text-sm">From 4 star</p>
         </div>
@@ -108,9 +108,9 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
           }}
           className="flex items-center mt-2 cursor-pointer"
         >
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
-          <FontAwesomeIcon className="text-[#08AC0A] w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
+          <FontAwesomeIcon className="text-primary-dark-color w-4" icon={faStar} />
           <FontAwesomeIcon className="opacity-70 w-4" icon={faStar} />
           <FontAwesomeIcon className="opacity-70 w-4" icon={faStar} />
           <p className="ml-3 text-sm">From 3 star</p>

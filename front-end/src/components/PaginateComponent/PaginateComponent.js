@@ -7,7 +7,7 @@ export default function PaginationControlled({ cntProd, setPaginate, paginate })
     setPaginate(value);
   };
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center mt-4 ">
       <ThemeProvider theme={theme}>
         <Stack spacing={10}>
           <Pagination
