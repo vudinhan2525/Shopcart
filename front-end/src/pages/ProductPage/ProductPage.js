@@ -88,8 +88,8 @@ function ProductPage() {
     }
   };
   return (
-    <div className="px-12 ">
-      <p className="mt-5 mb-8">{`Home / SmartPhones / ${product.name}`}</p>
+    <div className="px-12 dark:text-dark-text dark:bg-dark-ground">
+      <p className="pt-5 mb-8">{`Home / SmartPhones / ${product.name}`}</p>
       <div className="flex gap-4">
         <div className="basis-[60%]">
           {isLoading ? <SkeletonSlider /> : <SliderProduct productImages={product.images} />}
@@ -114,7 +114,7 @@ function ProductPage() {
           )}
           {product?.type?.includes('technology') && <DetailProduct />}
           <input multiple type="file" onChange={handleFileChange} className="mt-3"></input>
-          <button onClick={handleSendImage} className="bg-primary-color block mt-3 px-4 py-2  text-white rounded-full">
+          <button onClick={handleSendImage} className="bg-primary-color  block mt-3 px-4 py-2  text-white rounded-full">
             Save
           </button>
         </div>

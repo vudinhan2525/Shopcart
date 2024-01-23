@@ -38,7 +38,7 @@ html *::-webkit-scrollbar-track {
   );
 }
 .active-ct {
-  @apply bg-primary-color text-white;
+  @apply bg-primary-dark-color text-white;
 }
 .selected-ct {
   @apply bg-[#08AC0A] border-none;

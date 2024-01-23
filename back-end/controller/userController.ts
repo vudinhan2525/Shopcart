@@ -2,7 +2,12 @@ import catchAsync from '../utils/catchAsync';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import APIFeature from '../utils/apiFeature';
 import User from '../models/userModel';
-
+import uploadToAzureBlobStorage from '../services/azureBlob';
+import { deleteFromAzureBlobStorage } from '../services/azureBlob';
+import AppError from '../utils/AppError';
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 exports.addUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const user = await User.create({
         firstName: req.body.firstName,
@@ -55,4 +60,56 @@ exports.deleteUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
     });
+}));
+exports.upLoad = upload.single('image');
+exports.updateImage = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const file = req.file as Express.Multer.File;
+    if (file) {
+        //upload image to azure
+        const imageBuffer = file.buffer;
+        const containerName = 'shopcartctn';
+        const blobName = `${Date.now()}-${file.originalname}`;
+        const connectionString = process.env.AZURE_CONNECTION_STRING as string;
+        const imageUrl = await uploadToAzureBlobStorage(
+            imageBuffer,
+            containerName,
+            blobName,
+            connectionString,
+        );
+        let oldImageUrl;
+        if (req.body.isBg) {
+            oldImageUrl = req.user?.background;
+            await User.findByIdAndUpdate(req.user?._id, {
+                background: imageUrl,
+            });
+        } else {
+            oldImageUrl = req.user?.avatar;
+            await User.findByIdAndUpdate(req.user?._id, {
+                avatar: imageUrl,
+            });
+        }
+        //delete old image
+        if (
+            oldImageUrl &&
+            oldImageUrl !==
+                'https://shopcartimg2.blob.core.windows.net/shopcartctn/bg-user.png' &&
+            oldImageUrl !==
+                'https://shopcartimg2.blob.core.windows.net/shopcartctn/avatar3dgirl.jpg' &&
+            oldImageUrl !==
+                'https://shopcartimg2.blob.core.windows.net/shopcartctn/avatar3d.jpg'
+        ) {
+            const oldBlobName = oldImageUrl.substring(
+                oldImageUrl.lastIndexOf('/') + 1,
+            );
+            await deleteFromAzureBlobStorage(
+                containerName,
+                oldBlobName,
+                connectionString,
+            );
+        }
+        return res.status(200).json({
+            status: 'success',
+        });
+    }
+    return next(new AppError('No files uploaded !!', 400));
 }));

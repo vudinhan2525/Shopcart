@@ -76,7 +76,7 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
     }
   };
   return (
-    <div className=" w-full bg-white rounded-xl mt-10 border-[1px] py-7 px-7 overflow-hidden relative">
+    <div className=" w-full bg-white rounded-xl dark:bg-dark-ground dark:border-gray-700 mt-10 border-[1px] py-7 px-7 overflow-hidden relative">
       <div className="flex gap-4">
         <div>
           <div
@@ -108,21 +108,21 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
           <div className="flex gap-8">
             <div
               onClick={() => handleAddShopLiked()}
-              className="mt-2 text-white animate-slideTopDown flex items-center cursor-pointer px-4 gap-2 bg-primary-color border-[1.5px] border-primary-color  text-center rounded-full py-2 hover:opacity-90 transition-all"
+              className="mt-2 text-white animate-slideTopDown dark:bg-primary-dark-color flex items-center cursor-pointer px-4 gap-2 bg-primary-color border-[1.5px] border-primary-color  text-center rounded-full py-2 hover:opacity-90 transition-all"
             >
               {userData.shop?.includes(shop._id) && <FontAwesomeIcon icon={faCheck} />}
               <p className="">{userData.shop?.includes(shop._id) ? 'Followed' : 'Follow'}</p>
             </div>
-            <div className="mt-2 text-primary-color cursor-pointer bg-white border-[1.5px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
+            <div className="mt-2 text-primary-color cursor-pointer bg-white border-[1.5px] dark:hover:bg-primary-dark-color dark:border-[0px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
               Chat Now
             </div>
           </div>
         </div>
       </div>
       <IntroducePost product={detailProd} />
-      <div className="absolute bottom-0 w-[100%] h-[30px] linear-ct"></div>
-      <div className="absolute bottom-[0px] cursor-pointer flex border-2 translate-x-[-50%] left-[50%] mx-auto w-[120px] text-center rounded-full bg-white ">
-        <div className="flex items-center mx-auto">
+      <div className="absolute bottom-0 w-[100%] h-[30px] dark:hidden linear-ct"></div>
+      <div className="absolute bottom-[0px] cursor-pointer dark:bg-[#3A3B3C] dark:border-[0px] flex border-2 translate-x-[-50%] left-[50%] mx-auto w-[120px] text-center rounded-full bg-white ">
+        <div className="flex items-center mx-auto ">
           <div className="py-[6px]">More</div>
           <ChevronDown />
         </div>

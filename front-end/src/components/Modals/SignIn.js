@@ -65,7 +65,7 @@ function SignIn({ setMethod }) {
   };
   return (
     <>
-      <header className="text-center text-4xl font-bold text-gray-800 mb-6">Sign in</header>
+      <header className="text-center text-4xl font-bold text-gray-800 mb-6 dark:text-dark-text">Sign in</header>
       <p className="text-base ml-2 font-bold mb-1">Email</p>
       <form>
         <div className="flex items-center relative">
@@ -81,7 +81,7 @@ function SignIn({ setMethod }) {
               setShowError(false);
               setEmail(e.target.value);
             }}
-            className={`w-full bg-[#F1EFF1] outline-none px-12 border-[1px] border-[#F1EFF1] font-semibold py-3 rounded-full ${
+            className={`dark:bg-[#3A3B3C] dark:border-[0px] w-full bg-[#F1EFF1] outline-none px-12 border-[1px] border-[#F1EFF1] font-semibold py-3 rounded-full ${
               (showErrorEmail || showError) && 'border-red-400 bg-red-100'
             }`}
           ></input>
@@ -102,7 +102,7 @@ function SignIn({ setMethod }) {
               setShowError(false);
               setPassword(e.target.value);
             }}
-            className={`w-full bg-[#F1EFF1] outline-none px-12 font-semibold py-3 border-[1px] border-[#F1EFF1] rounded-full ${
+            className={`dark:bg-[#3A3B3C] dark:border-[0px] w-full bg-[#F1EFF1] outline-none px-12 font-semibold py-3 border-[1px] border-[#F1EFF1] rounded-full ${
               (showErrorPassword || showError) && 'border-red-400 bg-red-100'
             }`}
           ></input>
@@ -121,7 +121,7 @@ function SignIn({ setMethod }) {
         </p>
         <button
           onClick={(e) => handleLogin(e)}
-          className={`mt-[15px] block select-none cursor-pointer transition-all  mx-auto text-center bg-primary-color w-[150px] px-6 py-3 rounded-full text-white text-lg font-semibold ${
+          className={`dark:bg-primary-dark-color mt-[15px] block select-none cursor-pointer transition-all  mx-auto text-center bg-primary-color w-[150px] px-6 py-3 rounded-full text-white text-lg font-semibold ${
             loading ? 'opacity-70' : 'hover:opacity-80'
           }`}
         >

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import img from '../../../assets/img/user/avatar3d.jpg';
 import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
 import { useState } from 'react';
 import { settingItems } from '../../../pages/SettingPage/SettingPage';
@@ -15,7 +14,7 @@ function UserMenu({ userData, setShowLogoutModal }) {
           >
             <div
               className="w-[40px] h-[40px] bg-no-repeat bg-center bg-contain rounded-full"
-              style={{ backgroundImage: `url(${img})` }}
+              style={{ backgroundImage: `url(${userData.avatar})` }}
             ></div>
             <p className=" w-[60px] h-[20px] line-clamp-1">{userData.firstName + ' ' + userData.lastName}</p>
           </Link>

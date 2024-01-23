@@ -51,7 +51,10 @@ function RegisterPage() {
           await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}users/signup`,
             {
-              name: 'User',
+              firstName: 'User',
+              lastName: Date.now().toString(),
+              avatar: 'https://shopcartimg2.blob.core.windows.net/shopcartctn/avatar3d.jpg',
+              background: 'https://shopcartimg2.blob.core.windows.net/shopcartctn/bg-user.png',
               email: email,
               password: password,
               passwordConfirm: passwordConfirm,

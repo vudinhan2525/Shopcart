@@ -74,9 +74,9 @@ function RatingModal({ product, setShowRatingModal }) {
   };
   return (
     <div className="fixed animate-slideTopDown z-[999] top-0 bottom-0 right-0 left-0 bg-black/30">
-      <div className="fixed w-[580px]  px-6 pt-6 pb-3 bg-white top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] rounded-3xl">
+      <div className="fixed w-[580px]  px-6 pt-6 pb-3 bg-white top-[50%] dark:bg-dark-flat translate-y-[-50%] left-[50%] translate-x-[-50%] rounded-3xl">
         <header className="text-center font-semibold text-lg line-clamp-1 h-[28px]">{product.name}</header>
-        <div className="w-full h-[1px] bg-gray-200 my-4"></div>
+        <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700 my-4"></div>
         <div className="overflow-y-scroll max-h-[400px] px-3">
           <div className="flex gap-2 items-center">
             <div
@@ -85,7 +85,7 @@ function RatingModal({ product, setShowRatingModal }) {
             ></div>
             <div>
               <div className="text-[18px] font-semibold">{userData.firstName + ' ' + userData.lastName}</div>
-              <div className="text-[12px] text-gray-600">Public post</div>
+              <div className="text-[12px] text-gray-600 dark:text-gray-500">Public post</div>
             </div>
           </div>
           <div className="flex justify-center items-center gap-3 mt-4">
@@ -97,7 +97,9 @@ function RatingModal({ product, setShowRatingModal }) {
                       setRating(el);
                     }}
                     icon={el <= rating ? faStar2 : faStar}
-                    className={`${el <= rating ? 'text-[#FFBF00]' : 'text-gray-700'}  w-10 h-10 cursor-pointer`}
+                    className={`${
+                      el <= rating ? 'text-[#FFBF00]' : 'text-gray-700 dark:text-gray-500'
+                    }  w-10 h-10 cursor-pointer`}
                   />
                 </div>
               );
@@ -114,7 +116,7 @@ function RatingModal({ product, setShowRatingModal }) {
                 setContentRating(e.target.value);
               }}
               value={contentRating}
-              className=""
+              className="dark:text-dark-text "
               label="Your rating comment"
               rows={7}
               error={isError}
@@ -133,7 +135,7 @@ function RatingModal({ product, setShowRatingModal }) {
             }}
           ></input>
           <div
-            className="w-[200px] my-3 mx-auto gap-3 flex items-center justify-center text-primary-color border-[1px] py-3 font-semibold cursor-pointer border-primary-color bg-white text-center rounded-full"
+            className="w-[200px] my-3 dark:text-primary-dark-color mx-auto gap-3 flex items-center justify-center text-primary-color border-[1px] py-3 font-semibold cursor-pointer border-primary-color bg-white text-center rounded-full"
             onClick={() => {
               inputRef.current.click();
             }}
@@ -160,16 +162,20 @@ function RatingModal({ product, setShowRatingModal }) {
             })}
           </div>
         </div>
-        <div className="w-full h-[1px] bg-gray-200 my-3"></div>
+        <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700 my-3"></div>
         <div className="flex justify-end gap-4 ">
           <Button
             onClick={() => setShowRatingModal(false)}
             variant="outlined"
-            className="text-primary-color border-primary-color"
+            className="text-primary-color dark:text-primary-dark-color dark:border-primary-dark-color border-primary-color"
           >
             Cancel
           </Button>
-          <Button onClick={() => handlePostRating()} className="bg-primary-color" disabled={isError}>
+          <Button
+            onClick={() => handlePostRating()}
+            className="bg-primary-color dark:bg-primary-dark-color"
+            disabled={isError}
+          >
             Post
           </Button>
         </div>

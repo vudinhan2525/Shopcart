@@ -21,21 +21,21 @@ function LoginModal() {
       onMouseDown={(e) => handleTurnOffModal(e)}
       className=" modal fixed bg-black/50 top-0 bottom-0 left-0 right-0 z-[51]"
     >
-      <div className="fixed px-8 py-8 rounded-2xl top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] bg-white w-[500px] ">
+      <div className="dark:text-dark-text dark:bg-dark-flat fixed px-8 py-8 rounded-2xl top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] bg-white w-[500px] ">
         {method === 'signin' && <SignIn setMethod={setMethod} />}
         {method === 'forgotPassword' && <ForgotPassword setMethod={setMethod} />}
         <p className="text-center mt-4">Or sign in with social platforms</p>
         <div className="flex justify-center mt-2 gap-4">
-          <div className="border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
+          <div className=" dark:border-[0px] border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
             <FacebookIcons height="35px" width="35px" />
           </div>
-          <div className="border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
+          <div className=" dark:border-[0px] border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
             <GoogleIcons height="35px" width="35px" />
           </div>
-          <div className="border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
+          <div className=" dark:border-[0px] border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
             <InstagramIcons height="35px" width="35px" />
           </div>
-          <div className="border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
+          <div className=" dark:border-[0px] border-[1px] cursor-pointer p-1 border-gray-300 shadow-sm rounded-full ">
             <TwiterIcons height="35px" width="35px" />
           </div>
         </div>
@@ -53,14 +53,14 @@ function LoginModal() {
         </div>
         <div
           onClick={() => setShowLoginModal(false)}
-          className="bg-[#F5F6F6] hover:bg-gray-300 transition-all flex items-center justify-center w-[45px] h-[45px] absolute top-[25px] right-[30px] cursor-pointer rounded-full"
+          className="bg-[#F5F6F6] dark:bg-gray-800 hover:bg-gray-300 transition-all flex items-center justify-center w-[45px] h-[45px] absolute top-[25px] right-[30px] cursor-pointer rounded-full"
         >
           <FontAwesomeIcon icon={faXmark} className="text-xl" />
         </div>
         {method === 'forgotPassword' && (
           <div
             onClick={() => setMethod('signin')}
-            className="bg-[#F5F6F6] hover:bg-gray-300 transition-all flex items-center justify-center w-[45px] h-[45px] absolute rounded-full top-[25px] left-[30px] cursor-pointer"
+            className="bg-[#F5F6F6] dark:bg-gray-800 hover:bg-gray-300 transition-all flex items-center justify-center w-[45px] h-[45px] absolute rounded-full top-[25px] left-[30px] cursor-pointer"
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
           </div>

@@ -62,7 +62,7 @@ function ReviewProduct({ product }) {
   }, [ratings]);
 
   return (
-    <div className="  py-7 px-7  bg-white border-[1px] rounded-xl w-[80%] mt-9">
+    <div className="  py-7 px-7  bg-white border-[1px] dark:border-gray-700 dark:bg-dark-ground rounded-xl w-[80%] mt-9">
       <div>
         <header className="text-xl font-bold">{`Customer reviews about ${product.name}`}</header>
         <div className="flex mt-6 gap-5">
@@ -83,40 +83,40 @@ function ReviewProduct({ product }) {
           </div>
           <div className="basis-[60%] flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-500">5</div>
-              <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
+              <div className="text-sm text-gray-500 dark:text-gray-300">5</div>
+              <div className="relative bg-gray-100 dark:bg-gray-500 h-5 rounded-[6px] w-[50%]">
                 <div style={{ width: percent[5] + '%' }} className={`absolute h-full bg-[#76DB98] rounded-[6px]`}></div>
               </div>
               <p className="text-sm font-bold min-w-[30px]">{percent[5]}%</p>
               <p className="text-sm text-gray-500">{countRating[5]}</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-500">4</div>
-              <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
+              <div className="text-sm text-gray-500 dark:text-gray-300">4</div>
+              <div className="relative bg-gray-100 dark:bg-gray-500 h-5 rounded-[6px] w-[50%]">
                 <div style={{ width: percent[4] + '%' }} className={`absolute h-full bg-[#B7EA83] rounded-[6px]`}></div>
               </div>
               <p className="text-sm font-bold min-w-[30px]">{percent[4]}%</p>
               <p className="text-sm text-gray-500">{countRating[4]}</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-500">3</div>
-              <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
+              <div className="text-sm text-gray-500 dark:text-gray-300">3</div>
+              <div className="relative bg-gray-100 dark:bg-gray-500 h-5 rounded-[6px] w-[50%]">
                 <div style={{ width: percent[3] + '%' }} className={`absolute h-full bg-[#F6D757] rounded-[6px]`}></div>
               </div>
               <p className="text-sm font-bold min-w-[30px]">{percent[3]}%</p>
               <p className="text-sm text-gray-500">{countRating[3]}</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-500">2</div>
-              <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
+              <div className="text-sm text-gray-500 dark:text-gray-300">2</div>
+              <div className="relative bg-gray-100 dark:bg-gray-500 h-5 rounded-[6px] w-[50%]">
                 <div style={{ width: percent[2] + '%' }} className={`absolute h-full bg-[#FBB851] rounded-[6px]`}></div>
               </div>
               <p className="text-sm font-bold min-w-[30px]">{percent[2]}%</p>
               <p className="text-sm text-gray-500">{countRating[2]}</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-500">1</div>
-              <div className="relative bg-gray-100 h-5 rounded-[6px] w-[50%]">
+              <div className="text-sm text-gray-500 dark:text-gray-300">1</div>
+              <div className="relative bg-gray-100 dark:bg-gray-500 h-5 rounded-[6px] w-[50%]">
                 <div style={{ width: percent[1] + '%' }} className={`absolute h-full bg-[#F17A54] rounded-[6px]`}></div>
               </div>
               <p className="text-sm font-bold min-w-[30px]">{percent[1]}%</p>

@@ -56,7 +56,12 @@ function SliderProduct({ productImages }) {
         <Slider {...settings2} ref={slider2Ref}>
           {productImages?.map((el, idx) => {
             return (
-              <div key={idx} className={idx === activeSlide ? `border-primary-color border-2 rounded-sm` : ``}>
+              <div
+                key={idx}
+                className={
+                  idx === activeSlide ? `border-primary-color dark:border-primary-dark-color border-2 rounded-sm` : ``
+                }
+              >
                 <div
                   style={{ backgroundImage: `url(${el})` }}
                   onClick={() => {

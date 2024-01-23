@@ -12,12 +12,22 @@ async function uploadToAzureBlobStorage(
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
 
-    const uploadBlobResponse = await blobClient.upload(
-        imageBuffer,
-        imageBuffer.length,
-    );
-
+    await blobClient.upload(imageBuffer, imageBuffer.length);
     return blobClient.url;
 }
+async function deleteFromAzureBlobStorage(
+    containerName: string,
+    blobName: string,
+    connectionString: string,
+) {
+    const blobServiceClient =
+        BlobServiceClient.fromConnectionString(connectionString);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    const blobClient = containerClient.getBlockBlobClient(blobName);
 
+    await blobClient.delete();
+
+    return true; // Return true to indicate successful deletion
+}
+export { deleteFromAzureBlobStorage };
 export default uploadToAzureBlobStorage;
