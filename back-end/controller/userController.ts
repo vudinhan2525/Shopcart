@@ -5,6 +5,7 @@ import User from '../models/userModel';
 import uploadToAzureBlobStorage from '../services/azureBlob';
 import { deleteFromAzureBlobStorage } from '../services/azureBlob';
 import AppError from '../utils/AppError';
+import sendJsonToken from '../utils/sendJWT';
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -112,4 +113,27 @@ exports.updateImage = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         });
     }
     return next(new AppError('No files uploaded !!', 400));
+}));
+exports.changePassword = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const { curPassword, newPassword, newPasswordConfirm } = req.body.data;
+    if (curPassword && newPassword && newPasswordConfirm) {
+        const user = await User.findById(req.user?._id).select('+password');
+        if (!user) {
+            return next(new AppError("User doesn't exits !!!", 400));
+        }
+        if (!(await user.correctPassword(curPassword, user.password))) {
+            return res.status(400).json({
+                status: 'wrong password',
+                message: 'Your password is wrong !!',
+            });
+        }
+        user.password = newPassword;
+        user.passwordConfirm = newPasswordConfirm;
+        user.save();
+        return sendJsonToken(user, 200, req, res);
+    }
+    res.status(400).json({
+        status: 'not enough informations',
+        message: 'Please provide all informations needed !!',
+    });
 }));

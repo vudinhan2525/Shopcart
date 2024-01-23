@@ -1,9 +1,10 @@
-import img from '../../assets/img/user/lightmode.png';
-import img1 from '../../assets/img/user/darkmode.png';
+import img from '../../../assets/img/user/lightmode.png';
+import img1 from '../../../assets/img/user/darkmode.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
+import SecuritySetting from './SecuritySetting';
 function Setting() {
   const [themeState, setThemeState] = useState(1);
   useEffect(() => {
@@ -94,55 +95,7 @@ function Setting() {
         </Menu>
       </div>
       <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700 my-8"></div>
-      <header className="text-2xl font-bold">Security</header>
-      <p className="text-sm text-gray-700 mt-1 font-normal dark:text-gray-400">Manage settings for your security</p>
-      <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700 my-5"></div>
-      <header className="text-lg font-bold">Password information</header>
-      <div>
-        <div className="flex mt-2 gap-8">
-          <div className="basis-1/2">
-            <header className="text-sm mb-2">Current password</header>
-            <input
-              type="password"
-              className="outline-[1px] dark:bg-[#3A3B3C] dark:border-[0px] dark:outline-none dark:caret-white dark:text-dark-text outline-blue-600 w-full px-4 py-2 rounded-lg border-[1px] border-gray-400 text-gray-800 "
-              placeholder="••••••••"
-            ></input>
-          </div>
-          <div className="basis-1/2"></div>
-        </div>
-        <div className="flex mt-2 gap-8">
-          <div className="basis-1/2">
-            <header className="text-sm mb-2">New password</header>
-            <input
-              type="password"
-              className="outline-[1px] dark:bg-[#3A3B3C] dark:border-[0px] dark:outline-none dark:caret-white dark:text-dark-text outline-blue-600 w-full px-4 py-2 rounded-lg border-[1px] border-gray-400 text-gray-800 "
-              placeholder="••••••••"
-            ></input>
-          </div>
-          <div className="basis-1/2">
-            <header className="text-sm mb-2">Confirm password</header>
-            <input
-              type="password"
-              className="outline-[1px] dark:bg-[#3A3B3C] dark:border-[0px] dark:outline-none dark:caret-white dark:text-dark-text outline-blue-600 w-full px-4 py-2 rounded-lg border-[1px] border-gray-400 text-gray-800 "
-              placeholder="••••••••"
-            ></input>
-          </div>
-        </div>
-        <div className="mt-6">
-          <header className="font-semibold">Password requirements:</header>
-          <p className="text-gray-700 dark:text-gray-400 text-sm ">Ensure that these requirements are met:</p>
-          <p className="text-gray-700 dark:text-gray-400 text-sm pl-3 font-normal">
-            At least 10 characters (and up to 100 characters)
-          </p>
-          <p className="text-gray-700 dark:text-gray-400 text-sm pl-3 font-normal">At least one lowercase character</p>
-          <p className="text-gray-700 dark:text-gray-400 text-sm pl-3 font-normal">
-            Inclusion of at least one special character, e.g., ! @ # ?
-          </p>
-        </div>
-        <div className=" mt-4 px-4 py-2 bg-primary-color dark:bg-primary-dark-color w-[100px] text-center rounded-full text-white cursor-pointer hover:opacity-80 transition-all ">
-          Save all
-        </div>
-      </div>
+      <SecuritySetting />
     </div>
   );
 }

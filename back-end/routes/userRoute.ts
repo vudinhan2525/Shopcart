@@ -18,6 +18,7 @@ router.get('/me', userController.getMe, userController.getOneUser);
 router.get('/:id', userController.getOneUser);
 router.post('/', userController.addUser);
 router.post('/updateImage', userController.upLoad, userController.updateImage);
+router.post('/changePassword', userController.changePassword);
 router.patch('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 module.exports = router;
