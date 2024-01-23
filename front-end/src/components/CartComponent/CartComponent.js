@@ -148,8 +148,10 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
         className={`${
           isSmall ? 'w-[40px] h-[40px]' : 'w-[50px] h-[50px]'
         } absolute  transition-all  flex items-center ${
-          userLikes?.includes(product._id) ? 'bg-pink-50 text-pink-600' : 'hover:bg-gray-200 bg-[#F5F6F6]'
-        }   rounded-full top-[2%] right-[3%]`}
+          userLikes?.includes(product._id)
+            ? 'bg-pink-50 text-pink-600'
+            : 'dark:text-dark-flat dark:bg-gray-300 dark:hover:bg-gray-400 hover:bg-gray-200 bg-[#F5F6F6]'
+        }   rounded-full top-[2%] right-[3%] `}
       >
         <FontAwesomeIcon
           icon={userLikes?.includes(product._id) ? faHeart2 : faHeart}

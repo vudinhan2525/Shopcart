@@ -33,7 +33,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
             containerProps={{
               className: 'p-2',
             }}
-            label={<p className="font-OpenSans font-medium">{el.category}</p>}
+            label={<p className="font-OpenSans font-medium dark:text-dark-text">{el.category}</p>}
           />
           // <div className="flex mt-1" key={idx}>
           //   <input type="checkbox" id={`input-${idx}`} className=" scale-[1.2] cursor-pointer"></input>
