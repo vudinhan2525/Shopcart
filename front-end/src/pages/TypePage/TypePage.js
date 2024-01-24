@@ -9,7 +9,8 @@ import axios from 'axios';
 import { Button } from '@material-tailwind/react';
 import PaginateComponent from '../../components/PaginateComponent/PaginateComponent';
 import http from '../../utils/http';
-
+import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs';
+import convertType from '../../utils/convertType';
 const initialSortObj = {
   newest: '0',
   price: '0',
@@ -29,6 +30,7 @@ function TypePage() {
   const [activeSort, setActiveSort] = useState(0);
   const [paginate, setPaginate] = useState(1);
   const [cntProd, setCntProd] = useState(1);
+  const [breadProps, setBreadProps] = useState([]);
 
   const getProduct = async () => {
     try {
@@ -47,7 +49,6 @@ function TypePage() {
       console.log(error);
     }
   };
-
   const getCountProds = async () => {
     try {
       const response = await http.get(`prods/countProd?types=${param.types}`);
@@ -57,6 +58,17 @@ function TypePage() {
     } catch (error) {
       console.log(error);
     }
+  };
+  const getBreadProps = () => {
+    const types = param.types.split(',');
+    let ans = '';
+    for (let i = 0; i < types.length; i++) {
+      ans += convertType(types[i]);
+      if (i !== types.length - 1) {
+        ans += ',';
+      }
+    }
+    setBreadProps(ans);
   };
   useEffect(() => {
     let response = JSON.parse(localStorage.getItem('prodLastSeen'));
@@ -73,6 +85,7 @@ function TypePage() {
   useEffect(() => {
     if (filterObj && Object.keys(filterObj).length > 0 && sortObj && Object.keys(sortObj).length > 0) {
       getProduct();
+      getBreadProps();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param, filterObj, sortObj, paginate]);
@@ -80,7 +93,9 @@ function TypePage() {
     <div className="">
       <SliderComponent />
       <div className={`px-12 dark:text-dark-text dark:bg-dark-ground`} ref={scrollRef}>
-        <p className="pt-8">Home / SmartPhone</p>
+        <div className="pt-8">
+          <BreadCrumbs props={['Home', breadProps]} route={['/']} />
+        </div>
         <h1 className="text-3xl font-semibold">SmartPhones for you !</h1>
         <div className="flex mt-8 gap-6">
           <div className="basis-[20%] shadow-lg bg-white dark:bg-dark-flat rounded-lg">
