@@ -8,5 +8,6 @@ interface INoti {
     types: string;
     link: string;
     billId: mongoose.Types.ObjectId;
+    dateUp: Date;
 }
 export default INoti;

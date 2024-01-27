@@ -30,7 +30,7 @@ function TypePage() {
   const [activeSort, setActiveSort] = useState(0);
   const [paginate, setPaginate] = useState(1);
   const [cntProd, setCntProd] = useState(1);
-  const [breadProps, setBreadProps] = useState([]);
+  const [breadProps, setBreadProps] = useState('');
 
   const getProduct = async () => {
     try {
@@ -96,7 +96,9 @@ function TypePage() {
         <div className="pt-8">
           <BreadCrumbs props={['Home', breadProps]} route={['/']} />
         </div>
-        <h1 className="text-3xl font-semibold">SmartPhones for you !</h1>
+        <h1 className="text-3xl font-semibold">{`${
+          breadProps.split(',')[breadProps.split(',').length - 1]
+        } for you !`}</h1>
         <div className="flex mt-8 gap-6">
           <div className="basis-[20%] shadow-lg bg-white dark:bg-dark-flat rounded-lg">
             <SortBar setFilterObj={setFilterObj} />

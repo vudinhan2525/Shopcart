@@ -14,6 +14,10 @@ const notiSchema = new mongoose.Schema<INoti>({
         type: Schema.ObjectId,
         ref: 'Bill',
     },
+    dateUp: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 const Noti = model<INoti>('Noti', notiSchema);
 export default Noti;

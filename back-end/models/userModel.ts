@@ -98,8 +98,14 @@ const userSchema = new mongoose.Schema<IUser>({
     ],
     notifications: [
         {
-            type: Schema.ObjectId,
-            ref: 'Noti',
+            notiId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Noti',
+            },
+            isRead: {
+                type: Boolean,
+                default: false,
+            },
         },
     ],
 });
