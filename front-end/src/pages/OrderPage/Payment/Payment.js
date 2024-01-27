@@ -1,24 +1,39 @@
 import { useRef, useState } from 'react';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
 import SuccessTransaction from '../Modals/SuccessTransaction';
+import Coupon from './Coupon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
+import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
 function Payment() {
   const input1 = useRef();
   const input2 = useRef();
   const [showMethod, setShowMethod] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [couponList, setCouponList] = useState([]);
+  const [showCoupon, setShowCoupon] = useState(false);
+  const [showDeleteSelect, setShowDeleteSelect] = useState(false);
+  const [deleteId, setDeleteId] = useState('');
+
+  const handleRemoveCoupon = (couponId) => {
+    if (couponId !== '') {
+      const newArr = couponList.filter((el, idx) => el._id !== couponId);
+      setCouponList(newArr);
+    }
+  };
+  const getSale = (el) => {
+    if (el.priceReduce !== 0) {
+      return `${el.priceReduce}$`;
+    }
+    if (el.percentageReduce !== 0) {
+      return `${el.percentageReduce}%`;
+    }
+  };
   return (
     <div>
       <header className="text-2xl font-semibold">Order Summery</header>
       <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
-      <div className="relative">
-        <input
-          placeholder="Enter Coupon Code"
-          className="w-full bg-gray-200 dark:bg-[#3A3B3C] outline-none text-sm px-6 py-4 rounded-full"
-        ></input>
-        <div className="flex items-center text-white dark:bg-primary-dark-color hover:opacity-80 transition-all cursor-pointer absolute bg-primary-color h-[42px] top-[50%] translate-y-[-50%] rounded-full right-[1%]">
-          <p className="font-medium text-sm mx-auto  px-4 select-none">Apply coupon</p>
-        </div>
-      </div>
+      <Coupon setCouponList={setCouponList} couponList={couponList} />
       <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
       <div className="text-lg font-semibold">Payment Details</div>
       <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700 my-5"></div>
@@ -77,9 +92,56 @@ function Payment() {
             <p className="text-sm text-gray-900 dark:text-dark-text">$54.90</p>
           </div>
           <div className="flex my-3 items-center justify-between">
-            <header className="text-sm font-semibold ">Coupon Discount</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">-$54.90</p>
+            <header className="flex items-center gap-1 text-sm font-semibold ">
+              <p>{`Coupon Discount (${couponList.length})`}</p>
+              {showCoupon === false && (
+                <FontAwesomeIcon
+                  onClick={() => {
+                    setShowCoupon(true);
+                  }}
+                  icon={faChevronDown}
+                  className="cursor-pointer animate-slideTopDown"
+                />
+              )}
+              {showCoupon && (
+                <FontAwesomeIcon
+                  onClick={() => {
+                    setShowCoupon(false);
+                  }}
+                  icon={faChevronUp}
+                  className="cursor-pointer animate-slideTopDown"
+                />
+              )}
+            </header>
+            <p className="text-sm text-gray-900 dark:text-dark-text">-$0</p>
           </div>
+          {showCoupon && (
+            <div className="px-3 flex-col flex gap-1">
+              {couponList.map((el, idx) => {
+                return (
+                  <div key={idx} className="bg-gray-200 px-3 py-2 rounded-lg relative animate-slideTopDown">
+                    <div className="text-xs flex items-center gap-1">
+                      <p className="min-w-[33px]">Code:</p>
+                      <p className="text-sm">{el.code}</p>
+                    </div>
+                    <div className="text-xs flex items-center gap-1">
+                      <p className="min-w-[33px]">Sale:</p>
+                      <p className="text-sm">{getSale(el)}</p>
+                    </div>
+                    <div
+                      onClick={() => {
+                        setShowDeleteSelect(true);
+                        setDeleteId(el._id);
+                      }}
+                      className="absolute top-[50%] flex items-center hover:bg-gray-500 cursor-pointer justify-center translate-y-[-50%] right-[15px] bg-gray-400 rounded-full w-[20px] h-[20px]"
+                    >
+                      <FontAwesomeIcon icon={faXmark} className="w-[12px] h-[12px] " />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold ">Shipping Cost</header>
             <p className="text-sm text-gray-900 dark:text-dark-text">$0.00</p>
@@ -98,6 +160,17 @@ function Payment() {
         Pay $494.10
       </div>
       {showSuccess ? <SuccessTransaction setShowSuccess={setShowSuccess} /> : <></>}
+      {showDeleteSelect && (
+        <ShowDeleteSelect
+          handleDelete={handleRemoveCoupon}
+          deleteId={deleteId}
+          buttonContent={'Remove'}
+          setDeleteId={setDeleteId}
+          setShowDeleteSelect={setShowDeleteSelect}
+          message={'Are you sure want to remove this coupon??'}
+          content={'This coupon will be remove imediatedly, you cannot undo this action !!'}
+        />
+      )}
     </div>
   );
 }

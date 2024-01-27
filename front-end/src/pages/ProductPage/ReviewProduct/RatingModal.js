@@ -8,13 +8,12 @@ import { faCamera, faStar as faStar2, faX } from '@fortawesome/free-solid-svg-ic
 import { useRef } from 'react';
 import { Textarea, Button } from '@material-tailwind/react';
 import http from '../../../utils/http';
-import { ToastContext } from '../../../components/AuthProvider/ToastProvider';
+import { Bounce, toast } from 'react-toastify';
 function RatingModal({ product, setShowRatingModal }) {
   const [files, setFiles] = useState([]);
   const [preview, setPreview] = useState([]);
   const [isError, setIsError] = useState(false);
   const { userData } = useContext(AuthContext);
-  const { setOpen, setMessage } = useContext(ToastContext);
   const [rating, setRating] = useState(1);
   const [contentRating, setContentRating] = useState('');
   const inputRef = useRef(null);
@@ -62,11 +61,17 @@ function RatingModal({ product, setShowRatingModal }) {
       });
       if (response.data.status === 'success') {
         setShowRatingModal(false);
-        setOpen(true);
-        setMessage('Your rating has been submited !');
-        setTimeout(() => {
-          setOpen(false);
-        }, [3000]);
+        toast.success('Your rating has been submited !', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        });
       }
     } catch (error) {
       console.log(error);

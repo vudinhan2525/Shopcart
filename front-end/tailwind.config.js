@@ -20,9 +20,9 @@ module.exports = withMT({
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0)' },
         },
-        fadeOut: {
-          '0%': { opacity: 1 },
-          '100%': { opacity: 0 },
+        slideLeftOut: {
+          '0%': { transform: 'translateX(0)', opacity: 1 },
+          '100%': { transform: 'translateX(calc(100% + 32px))', opacity: 0 },
         },
         scaleIn: {
           '0%': { opacity: 0 },
@@ -35,9 +35,10 @@ module.exports = withMT({
       },
       animation: {
         slideRightIn: 'slideRightIn 1s ease-in-out',
-        fadeOut: 'fadeOut 1s linear',
         scaleIn: 'scaleIn 0.2s linear',
+        fadeOut: 'slideLeftOut 2s linear forwards',
         slideTopDown: 'slideTopDown 0.2s linear',
+        toastAnimate: 'slideInLeft ease 1s',
       },
     },
   },

@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import http from '../../../utils/http';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { ToastContext } from '../../../components/AuthProvider/ToastProvider';
+import { Bounce, toast } from 'react-toastify';
 const initialObj = {
   curPassword: '',
   newPassword: '',
@@ -12,7 +12,6 @@ function SecuritySetting() {
   const [data, setData] = useState(initialObj);
   const [error, setError] = useState(initialObj);
   const [loading, setIsLoading] = useState(false);
-  const { setOpen, setMessage } = useContext(ToastContext);
   function isPasswordValid(password) {
     if (password.length < 10 || password.length > 100) {
       return false;
@@ -71,11 +70,17 @@ function SecuritySetting() {
       const response = await http.post(`/users/changePassword`, { data: data }, { withCredentials: true });
       if (response.data.status === 'success') {
         setIsLoading(false);
-        setOpen(true);
-        setMessage('Your password has been changed !');
-        setTimeout(() => {
-          setOpen(false);
-        }, [3000]);
+        toast.success('Password change successfully !!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        });
         setData(initialObj);
       }
     } catch (error) {
