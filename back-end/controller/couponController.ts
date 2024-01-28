@@ -8,6 +8,14 @@ exports.checkCoupon = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     if (!data) {
         return next(new AppError('Coupon is invalid !!', 400));
     }
+    const currentDate = new Date();
+    if (data.expired && currentDate > data.expired) {
+        return next(new AppError('Coupon has expired!', 400));
+    }
+
+    if (data.quantity <= 0) {
+        return next(new AppError('Coupon quantity has been exhausted!', 400));
+    }
     res.status(200).json({
         status: 'success',
         data: data,

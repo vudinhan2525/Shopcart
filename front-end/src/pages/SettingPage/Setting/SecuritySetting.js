@@ -2,7 +2,8 @@ import { useState } from 'react';
 import http from '../../../utils/http';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { Bounce, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import SuccessToast from '../../../utils/ToastMessage/ToastMessage';
 const initialObj = {
   curPassword: '',
   newPassword: '',
@@ -70,17 +71,8 @@ function SecuritySetting() {
       const response = await http.post(`/users/changePassword`, { data: data }, { withCredentials: true });
       if (response.data.status === 'success') {
         setIsLoading(false);
-        toast.success('Password change successfully !!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-          transition: Bounce,
-        });
+        toast(<SuccessToast status="success" message="Password change successfully !!" />);
+
         setData(initialObj);
       }
     } catch (error) {

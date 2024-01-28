@@ -1,11 +1,12 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
 import SuccessTransaction from '../Modals/SuccessTransaction';
 import Coupon from './Coupon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
-function Payment() {
+import { useSelector } from 'react-redux';
+function Payment({ userData }) {
   const input1 = useRef();
   const input2 = useRef();
   const [showMethod, setShowMethod] = useState(1);
@@ -14,7 +15,18 @@ function Payment() {
   const [showCoupon, setShowCoupon] = useState(false);
   const [showDeleteSelect, setShowDeleteSelect] = useState(false);
   const [deleteId, setDeleteId] = useState('');
+  const products = useSelector((state) => state.product.productList);
+  const [subTotal, setSubTotal] = useState(0);
 
+  useEffect(() => {
+    if (products && products.length > 0 && userData && Object.keys(userData).length > 0) {
+      // let num = 0;
+      // products.forEach((el, idx) => {
+      //   num += el.price * userData.products[idx].quantity;
+      // });
+      // console.log(num);
+    }
+  }, [products, userData]);
   const handleRemoveCoupon = (couponId) => {
     if (couponId !== '') {
       const newArr = couponList.filter((el, idx) => el._id !== couponId);

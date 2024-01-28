@@ -21,7 +21,7 @@ function OrderPage() {
         </div>
         <div className="basis-[35%] ">
           <div className="border-[1px] border-gray-300 dark:border-gray-600 rounded-xl px-6 py-6">
-            <Payment />
+            <Payment userData={userData} />
           </div>
         </div>
       </div>

@@ -3,27 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import Button from '../../../utils/Button';
-import Lottie from 'lottie-react';
-import successAnimate from '../../../assets/animationJson/animateSuccess.json';
 import { useDispatch } from 'react-redux';
 import { addProdList } from '../../../slice/product.slice';
+import { toast } from 'react-toastify';
+import ToastMessage from '../../../utils/ToastMessage/ToastMessage';
 function InfoProduct({ product, userId, userProducts, refreshUserData }) {
   const dispatch = useDispatch();
 
   const [itemCnt, setItemCnt] = useState(1);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleShowSuccess = () => {
-    setShowSuccessModal(true);
-    setTimeout(() => {
-      setShowSuccessModal(false);
-    }, 1700);
-  };
   const handleAddProd = async (e) => {
     e.preventDefault();
     let flag = 0;
-    handleShowSuccess();
     setIsLoading(true);
     console.log(userProducts);
     userProducts.forEach((element) => {
@@ -35,6 +27,8 @@ function InfoProduct({ product, userId, userProducts, refreshUserData }) {
     if (flag === 1) {
       dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }))
         .then(() => {
+          toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
+
           refreshUserData();
           setIsLoading(false);
         })
@@ -51,6 +45,8 @@ function InfoProduct({ product, userId, userProducts, refreshUserData }) {
 
       dispatch(addProdList(data))
         .then(() => {
+          toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
+
           refreshUserData();
           setIsLoading(false);
         })
@@ -133,14 +129,6 @@ function InfoProduct({ product, userId, userProducts, refreshUserData }) {
           {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Add to Cart'}
         </Button>
       </div>
-      {showSuccessModal && (
-        <div className="fixed m-auto z-[9999]  top-0 left-0 right-0 bottom-0 w-[300px] h-[240px]  bg-white rounded-2xl shadow-lg">
-          <div className="w-[200px] h-[200px] mx-auto">
-            <Lottie animationData={successAnimate} loop={false}></Lottie>
-          </div>
-          <p className="font-OpenSans text-center font-medium">Product added successfully !!!</p>
-        </div>
-      )}
     </div>
   );
 }

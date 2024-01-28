@@ -12,15 +12,15 @@ export const getProdList = createAsyncThunk('prod/getProdList', async (data, thu
 export const addProdList = createAsyncThunk('prod/addProdList', async (data, thunkAPI) => {
   try {
     await http.patch(
-      `users/${data.userId}`,
-      { products: data.newData },
+      `users/addUserProd/${data.userId}`,
+      { data: data.newData },
       { withCredentials: true, signal: thunkAPI.signal },
     );
   } catch (error) {
     console.log(error);
   }
   if (data.isChanged) {
-    const response = await http.get(`prods/${data.newData[data.newData.length - 1].productId}`);
+    const response = await http.get(`prods/${data.newData.prodId}`);
     return response.data;
   }
   return 'nt';

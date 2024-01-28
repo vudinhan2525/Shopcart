@@ -20,7 +20,10 @@ interface IUser {
     ): Promise<boolean>;
     verifyPasswordChanged(JWTTimeCreate: number): boolean;
     createPasswordResetToken(): string;
-    products: mongoose.Types.ObjectId[];
+    products: {
+        productId: mongoose.Types.ObjectId | string;
+        quantity: number;
+    }[];
     likes: mongoose.Types.ObjectId[];
     shop: mongoose.Types.ObjectId[];
     address: mongoose.Types.ObjectId[];

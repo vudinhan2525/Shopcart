@@ -43,9 +43,9 @@ function BestDealComponent() {
                 getBestDealProd(typeSend[idx]);
               }}
               key={idx}
-              className={`${
-                tab === idx + 1 && 'active-ct'
-              } border-[1px] border-gray-400 font-semibold cursor-pointer px-4 py-3 text-sm rounded-3xl`}
+              className={`bg-gray-100 dark:bg-gray-800 dark:border-[0px] ${
+                tab === idx + 1 && 'dark:bg-primary-dark-color bg-primary-color text-white'
+              } border-[1px] border-gray-400  font-semibold cursor-pointer px-4 py-3 text-sm rounded-3xl`}
             >
               {el}
             </div>

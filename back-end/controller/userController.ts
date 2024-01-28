@@ -6,6 +6,7 @@ import uploadToAzureBlobStorage from '../services/azureBlob';
 import { deleteFromAzureBlobStorage } from '../services/azureBlob';
 import AppError from '../utils/AppError';
 import sendJsonToken from '../utils/sendJWT';
+import { Types } from 'mongoose';
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -55,6 +56,34 @@ exports.updateUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         status: 'success',
         data: user,
     });
+}));
+exports.addUserProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const { prodId, quantity } = req.body.data;
+    const productId: Types.ObjectId | string = prodId;
+    if (!prodId || !quantity) {
+        return next(new AppError('Product ID and quantity are required.', 400));
+    }
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return next(new AppError('User not found.', 404));
+        }
+        const existingProduct = user.products.find(
+            (product) => product.productId.toString() === productId,
+        );
+        if (existingProduct) {
+            existingProduct.quantity += quantity;
+        } else {
+            user.products.push({ productId, quantity });
+        }
+        await user.save({ validateBeforeSave: false });
+        res.status(200).json({
+            status: 'success',
+            message: 'Product added to user successfully.',
+        });
+    } catch (error) {
+        next(error);
+    }
 }));
 exports.deleteUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     await User.findByIdAndDelete(req.params.id);

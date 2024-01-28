@@ -7,58 +7,31 @@ import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
 import { addProdList } from '../../slice/product.slice';
 import { useState } from 'react';
-import Lottie from 'lottie-react';
-import successAnimate from '../../assets/animationJson/animateSuccess.json';
 import http from '../../utils/http';
+import { toast } from 'react-toastify';
+import ToastMessage from '../../utils/ToastMessage/ToastMessage';
 function CartComponent({ isSmall = false, product, userId, userProducts, userLikes, refreshUserData }) {
   const dispatch = useDispatch();
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const handleShowSuccess = () => {
-    setShowSuccessModal(true);
-    setTimeout(() => {
-      setShowSuccessModal(false);
-    }, 1700);
-  };
+
   const handleAddProd = async (e) => {
     e.preventDefault();
-    let flag = 0;
-    handleShowSuccess();
     setIsLoading(true);
-    console.log(userProducts);
-    userProducts.forEach((element) => {
-      if (element.productId === product._id) {
-        element.quantity += 1;
-        flag = 1;
-      }
-    });
-    if (flag === 1) {
-      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }))
-        .then(() => {
-          refreshUserData();
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error dispatching action:', error);
-          setIsLoading(false);
-        });
-    } else {
-      const data = {
-        userId: userId,
-        newData: [...userProducts, { productId: product._id, quantity: 1 }],
-        isChanged: true,
-      };
-
-      dispatch(addProdList(data))
-        .then(() => {
-          refreshUserData();
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error dispatching action:', error);
-          setIsLoading(false);
-        });
-    }
+    const data = {
+      userId: userId,
+      newData: { prodId: product._id, quantity: 1 },
+      isChanged: true,
+    };
+    dispatch(addProdList(data))
+      .then(() => {
+        refreshUserData();
+        toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error dispatching action:', error);
+        setIsLoading(false);
+      });
   };
   const handleAddLikedProd = async (e) => {
     e.preventDefault();
@@ -158,14 +131,6 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
           className={`${isSmall ? 'text-lg' : 'text-xl'} mx-auto`}
         />
       </div>
-      {showSuccessModal && (
-        <div className="fixed m-auto z-[9999]  top-0 left-0 right-0 bottom-0 w-[300px] h-[240px]  bg-white rounded-2xl shadow-lg">
-          <div className="w-[200px] h-[200px] mx-auto">
-            <Lottie animationData={successAnimate} loop={false}></Lottie>
-          </div>
-          <p className=" text-center font-medium">Product added successfully !!!</p>
-        </div>
-      )}
     </Link>
   );
 }

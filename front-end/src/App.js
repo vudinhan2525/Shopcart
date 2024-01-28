@@ -4,7 +4,7 @@ import { DefaultLayout } from './components/Layout';
 import ScrollToTop from './utils/scrollToTop';
 import PrivateRoute from './routes/PrivateRoute';
 import { useEffect } from 'react';
-import { Slide, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   useEffect(() => {
