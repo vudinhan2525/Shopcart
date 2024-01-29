@@ -15,46 +15,22 @@ function InfoProduct({ product, userId, userProducts, refreshUserData }) {
 
   const handleAddProd = async (e) => {
     e.preventDefault();
-    let flag = 0;
     setIsLoading(true);
-    console.log(userProducts);
-    userProducts.forEach((element) => {
-      if (element.productId === product._id) {
-        element.quantity += 1;
-        flag = 1;
-      }
-    });
-    if (flag === 1) {
-      dispatch(addProdList({ userId: userId, newData: userProducts, isChanged: false }))
-        .then(() => {
-          toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
-
-          refreshUserData();
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error dispatching action:', error);
-          setIsLoading(false);
-        });
-    } else {
-      const data = {
-        userId: userId,
-        newData: [...userProducts, { productId: product._id, quantity: 1 }],
-        isChanged: true,
-      };
-
-      dispatch(addProdList(data))
-        .then(() => {
-          toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
-
-          refreshUserData();
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error dispatching action:', error);
-          setIsLoading(false);
-        });
-    }
+    const data = {
+      userId: userId,
+      newData: { prodId: product._id, quantity: 1 },
+      isChanged: true,
+    };
+    dispatch(addProdList(data))
+      .then(() => {
+        refreshUserData();
+        toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error dispatching action:', error);
+        setIsLoading(false);
+      });
   };
   return (
     <div className="bg-white px-8 py-6 rounded-xl border-[1px] dark:border-gray-700 dark:bg-dark-ground border-gray-300">

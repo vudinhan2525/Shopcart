@@ -3,7 +3,8 @@ import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
+import http from '../../../utils/http';
+function OrderItem({ setSubTotal, userProds, product, setDeleteId, setShowDeleteSelect }) {
   const [itemCnt, setItemCnt] = useState(1);
 
   useEffect(() => {
@@ -15,6 +16,22 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
       });
     }
   }, [product, product._id, userProds]);
+  const addQuantityProd = async () => {
+    try {
+      const response = await http.get(`/users/addQuantityProd/${product._id}`, { withCredentials: true });
+      if (response.data.status === 'success') {
+        console.log('success');
+      }
+    } catch (error) {}
+  };
+  const subQuantityProd = async () => {
+    try {
+      const response = await http.get(`/users/subQuantityProd/${product._id}`, { withCredentials: true });
+      if (response.data.status === 'success') {
+        console.log('success');
+      }
+    } catch (error) {}
+  };
   return (
     <Link to={`/product/${product._id}`} className="flex items-center gap-6 relative">
       <div
@@ -34,8 +51,10 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
               <div
                 onClick={(e) => {
                   e.preventDefault();
-                  if (itemCnt === 0) return;
+                  if (itemCnt === 1) return;
                   setItemCnt((prev) => prev - 1);
+                  setSubTotal((prev) => prev - product.price);
+                  subQuantityProd();
                 }}
                 className="px-2 cursor-pointer dark:hover:text-dark-flat rounded-l-full hover:bg-gray-300 transition-all  h-[36px] flex items-center"
               >
@@ -46,6 +65,8 @@ function OrderItem({ userProds, product, setDeleteId, setShowDeleteSelect }) {
                 onClick={(e) => {
                   e.preventDefault();
                   setItemCnt((prev) => prev + 1);
+                  setSubTotal((prev) => prev + product.price);
+                  addQuantityProd();
                 }}
                 className="px-2 cursor-pointer dark:hover:text-dark-flat rounded-r-full hover:bg-gray-300 transition-all  h-[36px] flex items-center"
               >

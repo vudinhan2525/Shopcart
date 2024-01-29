@@ -5,8 +5,7 @@ import Coupon from './Coupon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
-import { useSelector } from 'react-redux';
-function Payment({ userData }) {
+function Payment({ subTotal, userData }) {
   const input1 = useRef();
   const input2 = useRef();
   const [showMethod, setShowMethod] = useState(1);
@@ -15,30 +14,45 @@ function Payment({ userData }) {
   const [showCoupon, setShowCoupon] = useState(false);
   const [showDeleteSelect, setShowDeleteSelect] = useState(false);
   const [deleteId, setDeleteId] = useState('');
-  const products = useSelector((state) => state.product.productList);
-  const [subTotal, setSubTotal] = useState(0);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [total, setTotal] = useState(0);
+  const shippingCost = 2;
 
   useEffect(() => {
-    if (products && products.length > 0 && userData && Object.keys(userData).length > 0) {
-      // let num = 0;
-      // products.forEach((el, idx) => {
-      //   num += el.price * userData.products[idx].quantity;
-      // });
-      // console.log(num);
-    }
-  }, [products, userData]);
+    setTotal(subTotal + shippingCost);
+    const discount = getDiscount();
+    setTotal((prev) => prev - discount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subTotal]);
+  useEffect(() => {
+    const discount = getDiscount();
+    setTotal(subTotal + shippingCost - discount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [couponList]);
   const handleRemoveCoupon = (couponId) => {
     if (couponId !== '') {
       const newArr = couponList.filter((el, idx) => el._id !== couponId);
       setCouponList(newArr);
     }
   };
+  const getDiscount = () => {
+    let discount = 0;
+    couponList.forEach((el, idx) => {
+      if (el.priceReduce !== 0) {
+        discount += el.priceReduce;
+      } else if (el.percentageReduce !== 0) {
+        discount += (el.percentageReduce * subTotal) / 100;
+      }
+    });
+    setCouponDiscount(discount);
+    return discount;
+  };
   const getSale = (el) => {
     if (el.priceReduce !== 0) {
-      return `${el.priceReduce}$`;
+      return `${el.priceReduce.toFixed(2)}$`;
     }
     if (el.percentageReduce !== 0) {
-      return `${el.percentageReduce}%`;
+      return `${el.percentageReduce}% (${((el.percentageReduce * subTotal) / 100).toFixed(1)}$)`;
     }
   };
   return (
@@ -97,11 +111,11 @@ function Payment({ userData }) {
         <div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Sub Total</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">$549.00</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${subTotal.toFixed(2)}`}</p>
           </div>
           <div className="flex my-3 items-center justify-between">
-            <header className="text-sm font-semibold">Tax(10%)</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">$54.90</p>
+            <header className="text-sm font-semibold">Tax(0%)</header>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${((subTotal * 0) / 100).toFixed(1)}`}</p>
           </div>
           <div className="flex my-3 items-center justify-between">
             <header className="flex items-center gap-1 text-sm font-semibold ">
@@ -125,13 +139,16 @@ function Payment({ userData }) {
                 />
               )}
             </header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">-$0</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`-$${couponDiscount.toFixed(2)}`}</p>
           </div>
           {showCoupon && (
             <div className="px-3 flex-col flex gap-1">
               {couponList.map((el, idx) => {
                 return (
-                  <div key={idx} className="bg-gray-200 px-3 py-2 rounded-lg relative animate-slideTopDown">
+                  <div
+                    key={idx}
+                    className="bg-gray-200 dark:bg-dark-flat dark:text-gray-400 px-3 py-2 rounded-lg relative animate-slideTopDown"
+                  >
                     <div className="text-xs flex items-center gap-1">
                       <p className="min-w-[33px]">Code:</p>
                       <p className="text-sm">{el.code}</p>
@@ -145,7 +162,7 @@ function Payment({ userData }) {
                         setShowDeleteSelect(true);
                         setDeleteId(el._id);
                       }}
-                      className="absolute top-[50%] flex items-center hover:bg-gray-500 cursor-pointer justify-center translate-y-[-50%] right-[15px] bg-gray-400 rounded-full w-[20px] h-[20px]"
+                      className="absolute top-[50%] flex items-center dark:bg-gray-700 dark:text-dark-text dark:hover:bg-gray-800 transition-all hover:bg-gray-500 cursor-pointer justify-center translate-y-[-50%] right-[15px] bg-gray-400 rounded-full w-[20px] h-[20px]"
                     >
                       <FontAwesomeIcon icon={faXmark} className="w-[12px] h-[12px] " />
                     </div>
@@ -156,20 +173,20 @@ function Payment({ userData }) {
           )}
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold ">Shipping Cost</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">$0.00</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${shippingCost.toFixed(2)}`}</p>
           </div>
         </div>
         <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-700"></div>
         <div className="flex my-3 items-center justify-between">
           <header className="font-bold">Total</header>
-          <p className="font-bold text-gray-900 dark:text-dark-text">= $494.10</p>
+          <p className="font-bold text-gray-900 dark:text-dark-text">{`= $${total.toFixed(2)}`}</p>
         </div>
       </div>
       <div
         onClick={() => setShowSuccess(true)}
         className="bg-primary-color text-white text-xl text-center py-3 dark:bg-primary-dark-color  rounded-full cursor-pointer transition-all hover:opacity-80"
       >
-        Pay $494.10
+        {`Pay $${total.toFixed(2)}`}
       </div>
       {showSuccess ? <SuccessTransaction setShowSuccess={setShowSuccess} /> : <></>}
       {showDeleteSelect && (

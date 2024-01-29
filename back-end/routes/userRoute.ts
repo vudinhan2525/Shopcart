@@ -16,6 +16,8 @@ router.post('/updatePassword', authController.updatePassword);
 router.get('/', userController.getAllUser);
 router.get('/me', userController.getMe, userController.getOneUser);
 router.get('/:id', userController.getOneUser);
+router.get('/addQuantityProd/:prodId', userController.addQuantityProd);
+router.get('/subQuantityProd/:prodId', userController.subQuantityProd);
 router.post('/', userController.addUser);
 router.post('/updateImage', userController.upLoad, userController.updateImage);
 router.post('/changePassword', userController.changePassword);
