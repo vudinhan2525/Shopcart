@@ -100,8 +100,10 @@ function TypePage() {
           breadProps.split(',')[breadProps.split(',').length - 1]
         } for you !`}</h1>
         <div className="flex mt-8 gap-6">
-          <div className="basis-[20%] shadow-lg bg-white dark:bg-dark-flat rounded-lg">
-            <SortBar setFilterObj={setFilterObj} />
+          <div className="basis-[20%] ">
+            <div className="shadow-lg bg-white dark:bg-dark-flat rounded-lg">
+              <SortBar setFilterObj={setFilterObj} />
+            </div>
           </div>
           <div className="basis-[80%] ">
             <div className="w-[full] text-gray-700 py-3 flex gap-3 items-center px-6 rounded-xl border-[1px] bg-[#EDEDED] border-gray-300">
@@ -153,7 +155,7 @@ function TypePage() {
                 Price: Low-High
               </Button>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-4 gap-4 mt-4 min-h-[720px]">
               {products.map((el, idx) => {
                 return (
                   <CartComponent

@@ -4,16 +4,26 @@ import { faPenToSquare, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import RatingModal from './RatingModal';
 import SkeletonRating from './SkeletonRating';
+import { useLocation } from 'react-router-dom';
 function RatingProduct({ product, ratings, getRatingProd, loading }) {
-  const [showRatingModal, setShowRatingModal] = useState(false);
   const [sortState, setSortState] = useState('all');
   const [sortStar, setSortStar] = useState(0);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const location = useLocation();
+  const lct = new URLSearchParams(location.search);
+  const rating = lct.get('rating');
   useEffect(() => {
     if (Object.keys(product).length > 0) {
       getRatingProd(product._id, sortStar);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState, sortStar]);
+  useEffect(() => {
+    if (rating === '1') {
+      setShowRatingModal(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <div className="text-lg mt-6 flex justify-center items-center dark:text-primary-dark-color text-primary-color ">

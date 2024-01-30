@@ -9,6 +9,7 @@ interface IBill {
     products: {
         product: mongoose.Types.ObjectId;
         quantity: Number;
-    }[];
+        price: Number;
+    };
 }
 export default IBill;

@@ -85,42 +85,6 @@ exports.addUserProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         next(error);
     }
 }));
-exports.addQuantityProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    const user = await User.findById(req.user?._id);
-    if (!user) {
-        return next(new AppError('User not found.', 404));
-    }
-    const existingProduct = user.products.find(
-        (product) => product.productId.toString() === req.params.prodId,
-    );
-    if (existingProduct) {
-        existingProduct.quantity += 1;
-    } else {
-        return next(new AppError('Product of user cannot be found', 400));
-    }
-    await user.save({ validateBeforeSave: false });
-    res.status(200).json({
-        status: 'success',
-    });
-}));
-exports.subQuantityProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    const user = await User.findById(req.user?._id);
-    if (!user) {
-        return next(new AppError('User not found.', 404));
-    }
-    const existingProduct = user.products.find(
-        (product) => product.productId.toString() === req.params.prodId,
-    );
-    if (existingProduct) {
-        existingProduct.quantity -= 1;
-    } else {
-        return next(new AppError('Product of user cannot be found', 400));
-    }
-    await user.save({ validateBeforeSave: false });
-    res.status(200).json({
-        status: 'success',
-    });
-}));
 exports.deleteUser = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json({

@@ -1,20 +1,10 @@
 import img from '../../../assets/img/user/lightmode.png';
 import img1 from '../../../assets/img/user/darkmode.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
 import SecuritySetting from './SecuritySetting';
-function Setting() {
-  const [themeState, setThemeState] = useState(1);
-  useEffect(() => {
-    if (localStorage.getItem('config')) {
-      const obj = JSON.parse(localStorage.getItem('config'));
-      if (obj.mode === 'dark') {
-        setThemeState(2);
-      }
-    }
-  }, []);
+function Setting({ themeState, setThemeState }) {
   const handleChangeDarkMode = () => {
     if (localStorage.getItem('config')) {
       const obj = JSON.parse(localStorage.getItem('config'));

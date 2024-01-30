@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
-import SuccessTransaction from '../Modals/SuccessTransaction';
 import Coupon from './Coupon';
+import { deleteProd } from '../../../slice/product.slice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
-function Payment({ subTotal, userData }) {
+import Dialog from '../../../components/Modals/Dialog';
+import http from '../../../utils/http';
+import { useDispatch } from 'react-redux';
+function Payment({ itemSelected, setItemSelected, userData, refreshUserData }) {
   const input1 = useRef();
   const input2 = useRef();
+  const dispatch = useDispatch();
   const [showMethod, setShowMethod] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
   const [couponList, setCouponList] = useState([]);
@@ -19,14 +23,16 @@ function Payment({ subTotal, userData }) {
   const shippingCost = 2;
 
   useEffect(() => {
-    setTotal(subTotal + shippingCost);
+    setTotal(itemSelected.price * itemSelected.quantity + shippingCost);
     const discount = getDiscount();
     setTotal((prev) => prev - discount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subTotal]);
+  }, [itemSelected]);
   useEffect(() => {
     const discount = getDiscount();
-    setTotal(subTotal + shippingCost - discount);
+    if (itemSelected.price * itemSelected.quantity + shippingCost - discount <= 0) {
+      setTotal(0);
+    } else setTotal(itemSelected.price * itemSelected.quantity + shippingCost - discount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponList]);
   const handleRemoveCoupon = (couponId) => {
@@ -35,13 +41,21 @@ function Payment({ subTotal, userData }) {
       setCouponList(newArr);
     }
   };
+  const handleDeleteProd = async (deleteId) => {
+    const data = {
+      userId: userData._id,
+      productId: deleteId,
+    };
+    await dispatch(deleteProd(data));
+    await refreshUserData();
+  };
   const getDiscount = () => {
     let discount = 0;
     couponList.forEach((el, idx) => {
       if (el.priceReduce !== 0) {
         discount += el.priceReduce;
       } else if (el.percentageReduce !== 0) {
-        discount += (el.percentageReduce * subTotal) / 100;
+        discount += (el.percentageReduce * itemSelected.price * itemSelected.quantity) / 100;
       }
     });
     setCouponDiscount(discount);
@@ -52,8 +66,31 @@ function Payment({ subTotal, userData }) {
       return `${el.priceReduce.toFixed(2)}$`;
     }
     if (el.percentageReduce !== 0) {
-      return `${el.percentageReduce}% (${((el.percentageReduce * subTotal) / 100).toFixed(1)}$)`;
+      return `${el.percentageReduce}% (${(
+        (el.percentageReduce * itemSelected.price * itemSelected.quantity) /
+        100
+      ).toFixed(1)}$)`;
     }
+  };
+  const buying = async () => {
+    const obj = {
+      status: 'pending',
+      method: 'ship',
+      products: {
+        product: itemSelected.prodId,
+        quantity: itemSelected.quantity,
+        price: total,
+      },
+    };
+    try {
+      const response = await http.post(`/bill/addBill/${userData._id}`, { data: obj });
+      if (response.data.status === 'success') {
+        setShowSuccess(false);
+        handleDeleteProd(itemSelected.prodId);
+        refreshUserData();
+        setItemSelected({ prodId: '', price: 0, quantity: 0 });
+      }
+    } catch (error) {}
   };
   return (
     <div>
@@ -111,11 +148,16 @@ function Payment({ subTotal, userData }) {
         <div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Sub Total</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${subTotal.toFixed(2)}`}</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${(
+              itemSelected.price * itemSelected.quantity
+            ).toFixed(2)}`}</p>
           </div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Tax(0%)</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${((subTotal * 0) / 100).toFixed(1)}`}</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${(
+              (itemSelected.price * itemSelected.quantity * 0) /
+              100
+            ).toFixed(1)}`}</p>
           </div>
           <div className="flex my-3 items-center justify-between">
             <header className="flex items-center gap-1 text-sm font-semibold ">
@@ -183,12 +225,24 @@ function Payment({ subTotal, userData }) {
         </div>
       </div>
       <div
-        onClick={() => setShowSuccess(true)}
+        onClick={() => {
+          setShowSuccess(true);
+        }}
         className="bg-primary-color text-white text-xl text-center py-3 dark:bg-primary-dark-color  rounded-full cursor-pointer transition-all hover:opacity-80"
       >
         {`Pay $${total.toFixed(2)}`}
       </div>
-      {showSuccess ? <SuccessTransaction setShowSuccess={setShowSuccess} /> : <></>}
+      {showSuccess && (
+        <Dialog
+          onClose={() => {
+            setShowSuccess(false);
+          }}
+          onYes={buying}
+          buttonContent={'Yes'}
+          message={'Are you sure want to buy this product??'}
+          content={'This product will be sent to your address !!'}
+        />
+      )}
       {showDeleteSelect && (
         <ShowDeleteSelect
           handleDelete={handleRemoveCoupon}

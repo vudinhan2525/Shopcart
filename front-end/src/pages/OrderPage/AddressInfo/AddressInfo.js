@@ -20,6 +20,7 @@ function AddressInfo({ userData }) {
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const [showDeleteSelect, setShowDeleteSelect] = useState(false);
+  const [showInput, setShowInput] = useState(false);
   const address = useSelector((state) => state.address.addressList);
   const isLoading = useSelector((state) => state.address.isLoading);
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ function AddressInfo({ userData }) {
     }
   }, [dispatch, userData]);
   const handleSubmitForm = () => {
+    if (showInput === false) {
+      setShowInput(true);
+      return;
+    }
     const newForm = {
       receiveName: formData.firstName + ' ' + formData.lastName,
       email: formData.email,
@@ -135,122 +140,126 @@ function AddressInfo({ userData }) {
             );
           })}
         </div>
-        <div className={`flex gap-6 ${address.length === 0 ? '' : 'mt-6'}`}>
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">First Name*</header>
-            <input
-              type="text"
-              value={formData.firstName}
-              onChange={(e) => {
-                setFormData((prev) => {
-                  return { ...prev, firstName: e.target.value };
-                });
-              }}
-              required
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
+        {showInput && (
+          <div className="animate-slideTopDown">
+            <div className={`flex gap-6 ${address.length === 0 ? '' : 'mt-6'}`}>
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">First Name*</header>
+                <input
+                  type="text"
+                  value={formData.firstName}
+                  onChange={(e) => {
+                    setFormData((prev) => {
+                      return { ...prev, firstName: e.target.value };
+                    });
+                  }}
+                  required
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">Last Name*</header>
+                <input
+                  type="text"
+                  required
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, lastName: e.target.value };
+                    })
+                  }
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+            </div>
+            <div>
+              <header className="text-sm font-semibold">Address*</header>
+              <input
+                type="text"
+                value={formData.address}
+                onChange={(e) =>
+                  setFormData((prev) => {
+                    return { ...prev, address: e.target.value };
+                  })
+                }
+                required
+                className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                placeholder="Type here..."
+              ></input>
+            </div>
+            <div className="flex gap-6">
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">City/ Town*</header>
+                <input
+                  type="text"
+                  value={formData.city_town}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, city_town: e.target.value };
+                    })
+                  }
+                  required
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">Zip Code*</header>
+                <input
+                  type="text"
+                  value={formData.zipcode}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, zipcode: e.target.value };
+                    })
+                  }
+                  required
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+            </div>
+            <div className="flex gap-6">
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">Mobile*</header>
+                <input
+                  type="text"
+                  value={formData.mobile}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, mobile: e.target.value };
+                    })
+                  }
+                  required
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+              <div className="basis-1/2">
+                <header className="text-sm font-semibold">Email*</header>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, email: e.target.value };
+                    })
+                  }
+                  required
+                  className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
+                  placeholder="Type here..."
+                ></input>
+              </div>
+            </div>
           </div>
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">Last Name*</header>
-            <input
-              type="text"
-              required
-              value={formData.lastName}
-              onChange={(e) =>
-                setFormData((prev) => {
-                  return { ...prev, lastName: e.target.value };
-                })
-              }
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
-          </div>
-        </div>
-        <div>
-          <header className="text-sm font-semibold">Address*</header>
-          <input
-            type="text"
-            value={formData.address}
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, address: e.target.value };
-              })
-            }
-            required
-            className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-            placeholder="Type here..."
-          ></input>
-        </div>
-        <div className="flex gap-6">
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">City/ Town*</header>
-            <input
-              type="text"
-              value={formData.city_town}
-              onChange={(e) =>
-                setFormData((prev) => {
-                  return { ...prev, city_town: e.target.value };
-                })
-              }
-              required
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
-          </div>
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">Zip Code*</header>
-            <input
-              type="text"
-              value={formData.zipcode}
-              onChange={(e) =>
-                setFormData((prev) => {
-                  return { ...prev, zipcode: e.target.value };
-                })
-              }
-              required
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
-          </div>
-        </div>
-        <div className="flex gap-6">
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">Mobile*</header>
-            <input
-              type="text"
-              value={formData.mobile}
-              onChange={(e) =>
-                setFormData((prev) => {
-                  return { ...prev, mobile: e.target.value };
-                })
-              }
-              required
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
-          </div>
-          <div className="basis-1/2">
-            <header className="text-sm font-semibold">Email*</header>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData((prev) => {
-                  return { ...prev, email: e.target.value };
-                })
-              }
-              required
-              className="mt-2 mb-3 dark:bg-[#3A3B3C] dark:border-[0px] placeholder:text-gray-400 text-sm border-[1px] border-gray-200 w-full px-4 py-[10px] rounded-lg outline-none"
-              placeholder="Type here..."
-            ></input>
-          </div>
-        </div>
+        )}
         <button
           onClick={handleSubmitForm}
           className={`${
             isEditing ? 'w-[100px]' : 'w-[150px]'
-          }  bg-primary-color dark:bg-primary-dark-color font-semibold hover:opacity-80  text-center py-3 rounded-full text-white cursor-pointer transition-all mt-2`}
+          }  bg-primary-color dark:bg-primary-dark-color font-semibold hover:opacity-80  text-center py-3 rounded-full text-white cursor-pointer transition-all mt-4`}
         >
           {isLoading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : <>{isEditing ? 'Save' : 'Add address'}</>}
         </button>

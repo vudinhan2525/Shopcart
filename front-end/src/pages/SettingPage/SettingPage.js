@@ -1,10 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
-import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon, LogoutIcon } from '../../utils/IconSVG';
-import { useContext } from 'react';
+import {
+  UserIcon,
+  GearIcon,
+  CartIcon,
+  LocationIcon,
+  MessageIcon,
+  LogoutIcon,
+  InvoiceIcon,
+  InvoiceIcon2,
+} from '../../utils/IconSVG';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
-import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved } from './index';
+import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved, Invoice } from './index';
 import { Link, useParams } from 'react-router-dom';
 export const settingItems = [
   {
@@ -16,6 +25,15 @@ export const settingItems = [
     text: 'Orders',
     icon: <CartIcon clx="w-7 h-7" />,
     link: '/order',
+  },
+  {
+    text: 'Invoices',
+    icon: (
+      <div className="ml-1">
+        <InvoiceIcon />
+      </div>
+    ),
+    link: '/setting/invoice',
   },
   {
     text: 'Saved',
@@ -46,6 +64,15 @@ export const settingItems = [
 function SettingPage() {
   const param = useParams();
   const { userData, refreshUserData } = useContext(AuthContext);
+  const [themeState, setThemeState] = useState(1);
+  useEffect(() => {
+    if (localStorage.getItem('config')) {
+      const obj = JSON.parse(localStorage.getItem('config'));
+      if (obj.mode === 'dark') {
+        setThemeState(2);
+      }
+    }
+  }, []);
   //if (!isLoggedIn) return <Navigate to={'/register'}></Navigate>;
   return (
     <div className="px-10 dark:bg-dark-ground">
@@ -72,6 +99,30 @@ function SettingPage() {
               if (idx === settingItems.length - 1) {
                 return <div key={idx}></div>;
               }
+              if (el.text === 'Invoice') {
+                return (
+                  <Link
+                    key={idx}
+                    to={el.link}
+                    className={` ${
+                      el.link.includes(param.settingOpt)
+                        ? 'bg-gray-200 dark:bg-gray-800'
+                        : 'hover:bg-gray-200 dark:hover:bg-gray-800'
+                    }   rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
+                  >
+                    <div className="text-[#384853] dark:text-dark-text ">
+                      {themeState === 1 ? (
+                        el.icon
+                      ) : (
+                        <div className="ml-1">
+                          <InvoiceIcon2 />
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-[#384853] dark:text-dark-text text-lg font-semibold">{el.text}</p>
+                  </Link>
+                );
+              }
               return (
                 <Link
                   key={idx}
@@ -93,8 +144,9 @@ function SettingPage() {
         <div className="basis-[80%]">
           {param.settingOpt === 'account' && <AccountSetting userData={userData} />}
           {param.settingOpt === 'message' && <MessageSetting />}
+          {param.settingOpt === 'invoice' && <Invoice userData={userData} />}
           {param.settingOpt === 'address' && <AddressSetting userData={userData} />}
-          {param.settingOpt === 'settings' && <Setting />}
+          {param.settingOpt === 'settings' && <Setting themeState={themeState} setThemeState={setThemeState} />}
           {param.settingOpt === 'saved' && <Saved userData={userData} refreshUserData={refreshUserData} />}
         </div>
       </div>
