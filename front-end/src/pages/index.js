@@ -7,4 +7,16 @@ import CartPage from './CartPage/CartPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import SettingPage from './SettingPage/SettingPage';
 import ShopPage from './ShopPage/ShopPage';
-export { HomePage, OrderPage, ProductPage, ErrorPage, ShopPage, TypePage, CartPage, RegisterPage, SettingPage };
+import SearchPage from './SearchPage/SearchPage';
+export {
+  HomePage,
+  OrderPage,
+  ProductPage,
+  ErrorPage,
+  ShopPage,
+  TypePage,
+  CartPage,
+  RegisterPage,
+  SettingPage,
+  SearchPage,
+};
