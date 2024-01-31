@@ -83,7 +83,7 @@ function CartComponent({ isSmall = false, product, userId, userProducts, userLik
           className={`${
             isSmall
               ? ' text-black dark:text-dark-text text-base h-[54px] line-clamp-2'
-              : 'text-lg h-[56px] line-clamp-2'
+              : 'text-lg h-[62px] line-clamp-2'
           } font-bold pt-2`}
         >
           {product?.name}

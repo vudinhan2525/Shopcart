@@ -1,16 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
-import {
-  UserIcon,
-  GearIcon,
-  CartIcon,
-  LocationIcon,
-  MessageIcon,
-  LogoutIcon,
-  InvoiceIcon,
-  InvoiceIcon2,
-} from '../../utils/IconSVG';
+import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon, LogoutIcon, InvoiceIcon } from '../../utils/IconSVG';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved, Invoice } from './index';
@@ -30,7 +21,7 @@ export const settingItems = [
     text: 'Invoices',
     icon: (
       <div className="ml-1">
-        <InvoiceIcon />
+        <InvoiceIcon fill={'#384853'} />
       </div>
     ),
     link: '/setting/invoice',
@@ -99,30 +90,6 @@ function SettingPage() {
               if (idx === settingItems.length - 1) {
                 return <div key={idx}></div>;
               }
-              if (el.text === 'Invoice') {
-                return (
-                  <Link
-                    key={idx}
-                    to={el.link}
-                    className={` ${
-                      el.link.includes(param.settingOpt)
-                        ? 'bg-gray-200 dark:bg-gray-800'
-                        : 'hover:bg-gray-200 dark:hover:bg-gray-800'
-                    }   rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
-                  >
-                    <div className="text-[#384853] dark:text-dark-text ">
-                      {themeState === 1 ? (
-                        el.icon
-                      ) : (
-                        <div className="ml-1">
-                          <InvoiceIcon2 />
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-[#384853] dark:text-dark-text text-lg font-semibold">{el.text}</p>
-                  </Link>
-                );
-              }
               return (
                 <Link
                   key={idx}
@@ -133,7 +100,24 @@ function SettingPage() {
                       : 'hover:bg-gray-200 dark:hover:bg-gray-800'
                   }   rounded-2xl cursor-pointer transition-all flex items-center gap-3 pl-5 py-3 mt-1`}
                 >
-                  <div className="text-[#384853] dark:text-dark-text ">{el.icon}</div>
+                  <div className="text-[#384853] dark:text-dark-text ">
+                    {el.text !== 'Invoices' ? (
+                      el.icon
+                    ) : (
+                      <>
+                        {themeState === 1 && (
+                          <div className="ml-1">
+                            <InvoiceIcon fill={'#384853'} />
+                          </div>
+                        )}
+                        {themeState === 2 && (
+                          <div className="ml-1">
+                            <InvoiceIcon fill={'#E4E6EB'} />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
                   <p className="text-[#384853] dark:text-dark-text text-lg font-semibold">{el.text}</p>
                 </Link>
               );
