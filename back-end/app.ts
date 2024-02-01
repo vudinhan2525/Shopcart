@@ -11,6 +11,7 @@ const notiRoute = require('./routes/notiRoute');
 const billRoute = require('./routes/billRoute');
 const ratingRoute = require('./routes/ratingRoute');
 const couponRoute = require('./routes/couponRoute');
+const searchRoute = require('./routes/searchRoute');
 const cookieParse = require('cookie-parser');
 const app = express();
 app.use(
@@ -34,6 +35,7 @@ app.use('/api/v1/address', addRoute);
 app.use('/api/v1/rating', ratingRoute);
 app.use('/api/v1/coupon', couponRoute);
 app.use('/api/v1/bill', billRoute);
+app.use('/api/v1/search', searchRoute);
 app.get('/', <MiddleWareFn>((req, res, next) => {
     res.status(200).send('Hello from the server ??!!!');
 }));
