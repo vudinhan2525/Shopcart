@@ -68,7 +68,7 @@ function HeaderComponent() {
             {userData.products?.length}
           </p>
         </ConditionalLink>
-        <NotificationMenu userData={userData} />
+        {userData && Object.keys(userData).length > 0 && <NotificationMenu userData={userData} />}
       </ul>
     </div>
   );

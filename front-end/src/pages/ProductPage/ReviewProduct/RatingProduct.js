@@ -1,14 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import img1 from '../../../assets/img/user/avatar.png';
 import { faPenToSquare, faStar } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import RatingModal from './RatingModal';
 import SkeletonRating from './SkeletonRating';
 import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../../../components/AuthProvider/AuthProvider';
 function RatingProduct({ product, ratings, getRatingProd, loading }) {
   const [sortState, setSortState] = useState('all');
+  const { userData } = useContext(AuthContext);
   const [sortStar, setSortStar] = useState(0);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editData, setEditData] = useState({});
   const location = useLocation();
   const lct = new URLSearchParams(location.search);
   const rating = lct.get('rating');
@@ -36,7 +40,7 @@ function RatingProduct({ product, ratings, getRatingProd, loading }) {
         </div>
       </div>
       {showRatingModal && <RatingModal setShowRatingModal={setShowRatingModal} product={product} />}
-
+      {showEditModal && <RatingModal setShowRatingModal={setShowEditModal} product={product} editRating={editData} />}
       <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700 my-4"></div>
       <header className="text-xl font-bold">Sort By</header>
       <div>
@@ -104,7 +108,11 @@ function RatingProduct({ product, ratings, getRatingProd, loading }) {
                         })}
                       </div>
                     </div>
-                    <div className=" text-[15px] leading-[20px] ">{el.contentRating}</div>
+                    <input
+                      type="text"
+                      className=" text-[15px] caret-transparent leading-[20px] outline-none bg-[#EBEDED] dark:bg-[#3A3B3C"
+                      defaultValue={el.contentRating}
+                    ></input>
                     <div className="flex gap-2">
                       {el?.images.map((image, idx) => {
                         return (
@@ -116,8 +124,19 @@ function RatingProduct({ product, ratings, getRatingProd, loading }) {
                         );
                       })}
                     </div>
-                    <div className="mt-[2px]">
+                    <div className="mt-[2px] flex justify-between">
                       <div className="text-xs text-gray-600 dark:text-gray-500">{el.dateRate}</div>
+                      {userData._id === el.id_user && (
+                        <div
+                          onClick={() => {
+                            setShowEditModal(true);
+                            setEditData(el);
+                          }}
+                          className="text-xs text-gray-600 dark:text-gray-500 hover:cursor-pointer hover:underline"
+                        >
+                          Edit
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

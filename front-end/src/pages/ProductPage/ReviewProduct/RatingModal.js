@@ -10,7 +10,7 @@ import { Textarea, Button } from '@material-tailwind/react';
 import http from '../../../utils/http';
 import { toast } from 'react-toastify';
 import SuccessToast from '../../../utils/ToastMessage/ToastMessage';
-function RatingModal({ product, setShowRatingModal }) {
+function RatingModal({ product, setShowRatingModal, editRating }) {
   const [files, setFiles] = useState([]);
   const [preview, setPreview] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -38,6 +38,13 @@ function RatingModal({ product, setShowRatingModal }) {
       };
     }
   }, [files]);
+  useEffect(() => {
+    if (editRating && Object.keys(editRating).length > 0) {
+      setContentRating(editRating.contentRating);
+      setRating(editRating.rating);
+      setPreview(editRating.images);
+    }
+  }, [editRating]);
   const handleClickDeleteImage = (idx) => {
     const updatedFiles = files.filter((el, id) => id !== idx);
     setFiles(updatedFiles);
@@ -53,7 +60,23 @@ function RatingModal({ product, setShowRatingModal }) {
     formData.append('id_user', userData._id);
     formData.append('id_prod', product._id);
     formData.append('id_shop', product.shop);
-
+    if (editRating && Object.keys(editRating).length > 0) {
+      formData.append('oldImages', JSON.stringify(editRating.images));
+      try {
+        const response = await http.patch(`/rating/updateRating/${editRating._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if (response.data.status === 'success') {
+          setShowRatingModal(false);
+          toast(<SuccessToast status="success" message="Your rating has been updated !" />);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
     try {
       const response = await http.post('/rating', formData, {
         headers: {
@@ -126,7 +149,7 @@ function RatingModal({ product, setShowRatingModal }) {
             onChange={(e) => {
               if (e.target.files && e.target.files.length > 0) {
                 const fileListAsArray = Array.from(e.target.files);
-                setFiles(fileListAsArray);
+                setFiles((prev) => [...prev, ...fileListAsArray]);
               }
             }}
           ></input>
@@ -147,12 +170,14 @@ function RatingModal({ product, setShowRatingModal }) {
                   className="relative rounded-xl w-[100px] h-[100px] border-[1px] bg-no-repeat bg-center bg-contain"
                   style={{ backgroundImage: `url(${pic})` }}
                 >
-                  <div
-                    onClick={() => handleClickDeleteImage(idx)}
-                    className="absolute bg-white top-[5%] flex items-center cursor-pointer justify-center  border-[1px] w-[25px] h-[25px] right-[5%] rounded-full"
-                  >
-                    <FontAwesomeIcon icon={faX} className="w-2 h-2 "></FontAwesomeIcon>
-                  </div>
+                  {files.length > 0 && (
+                    <div
+                      onClick={() => handleClickDeleteImage(idx)}
+                      className="absolute bg-white top-[5%] flex items-center cursor-pointer justify-center  border-[1px] w-[25px] h-[25px] right-[5%] rounded-full"
+                    >
+                      <FontAwesomeIcon icon={faX} className="w-2 h-2 "></FontAwesomeIcon>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -172,7 +197,7 @@ function RatingModal({ product, setShowRatingModal }) {
             className="bg-primary-color dark:bg-primary-dark-color"
             disabled={isError}
           >
-            Post
+            {editRating && Object.keys(editRating).length > 0 ? 'Edit' : 'Post'}
           </Button>
         </div>
       </div>

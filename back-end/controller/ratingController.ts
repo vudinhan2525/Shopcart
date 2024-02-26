@@ -3,7 +3,9 @@ import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import AppError from '../utils/AppError';
 import APIFeature from '../utils/apiFeature';
 import Rating from '../models/ratingModel';
-import uploadToAzureBlobStorage from '../services/azureBlob';
+import uploadToAzureBlobStorage, {
+    deleteFromAzureBlobStorage,
+} from '../services/azureBlob';
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -65,5 +67,53 @@ exports.getRatingProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: ratings,
+    });
+}));
+exports.updateRating = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const files = req.files as Express.Multer.File[];
+    const uploadedUrls = [];
+
+    if (files && files.length > 0) {
+        const containerName = 'shopcartctn';
+        const connectionString = process.env.AZURE_CONNECTION_STRING as string;
+        for (let i = 0; i < files.length; i++) {
+            const imageBuffer = files[i].buffer;
+            const blobName = `${Date.now()}-${files[i].originalname}`;
+            const imageUrl = await uploadToAzureBlobStorage(
+                imageBuffer,
+                containerName,
+                blobName,
+                connectionString,
+            );
+            uploadedUrls.push(imageUrl);
+        }
+        //delete old image
+        const oldImageUrls = JSON.parse(req.body.oldImages);
+        for (let i = 0; i < oldImageUrls.length; i++) {
+            const oldBlobName = oldImageUrls[i].substring(
+                oldImageUrls[i].lastIndexOf('/') + 1,
+            );
+            await deleteFromAzureBlobStorage(
+                containerName,
+                oldBlobName,
+                connectionString,
+            );
+        }
+    }
+    const data = await Rating.findByIdAndUpdate(
+        req.params.id,
+        {
+            rating: req.body.rating,
+            contentRating: req.body.contentRating,
+            images: uploadedUrls,
+        },
+        {
+            new: true,
+            runValidators: true,
+        },
+    );
+    res.status(200).json({
+        status: 'success',
+        data: data,
     });
 }));

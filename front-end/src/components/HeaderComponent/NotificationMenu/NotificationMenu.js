@@ -54,10 +54,11 @@ function NotificationMenu({ userData }) {
         <div className="dark:text-dark-text relative dark:hover:text-black ml-2 cursor-pointer px-3 py-3 rounded-full transition-all hover:bg-gray-200">
           <BellIcon width="26px" height="26px" />
           <div className="absolute rounded-full text-sm bg-orange-600 px-2 top-0 right-0 font-semibold text-dark-text">
-            {userData.notifications.reduce((acc, cur) => {
-              if (cur.isRead === false) return (acc += 1);
-              else return acc;
-            }, 0)}
+            {userData &&
+              userData.notifications.reduce((acc, cur) => {
+                if (cur.isRead === false) return (acc += 1);
+                else return acc;
+              }, 0)}
           </div>
         </div>
       </MenuHandler>
