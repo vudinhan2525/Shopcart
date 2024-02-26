@@ -155,20 +155,21 @@ function TypePage() {
                 Price: Low-High
               </Button>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-4 min-h-[720px]">
-              {products.map((el, idx) => {
-                return (
-                  <CartComponent
-                    product={el}
-                    key={idx}
-                    isSmall={true}
-                    userId={userData._id}
-                    userProducts={userData.products}
-                    refreshUserData={refreshUserData}
-                    userLikes={userData.likes}
-                  ></CartComponent>
-                );
-              })}
+            <div className="min-h-[720px]">
+              <div className="grid grid-cols-4 gap-4 mt-4">
+                {products.map((el, idx) => {
+                  return (
+                    <CartComponent
+                      product={el}
+                      key={idx}
+                      isSmall={true}
+                      userId={userData._id}
+                      refreshUserData={refreshUserData}
+                      userLikes={userData.likes}
+                    ></CartComponent>
+                  );
+                })}
+              </div>
             </div>
             <PaginateComponent cntProd={cntProd} paginate={paginate} setPaginate={setPaginate} />
           </div>

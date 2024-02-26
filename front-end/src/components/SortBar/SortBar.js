@@ -73,6 +73,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
         <div
           onClick={() => {
             setFilterObj((prev) => {
+              if (prev.rating === 5) return { ...prev, rating: 0 };
               return { ...prev, rating: 5 };
             });
           }}
@@ -88,6 +89,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
         <div
           onClick={() => {
             setFilterObj((prev) => {
+              if (prev.rating === 4) return { ...prev, rating: 0 };
               return { ...prev, rating: 4 };
             });
           }}
@@ -103,6 +105,7 @@ function SortBar({ types, shopProds, setFilterObj, setProductList }) {
         <div
           onClick={() => {
             setFilterObj((prev) => {
+              if (prev.rating === 3) return { ...prev, rating: 0 };
               return { ...prev, rating: 3 };
             });
           }}

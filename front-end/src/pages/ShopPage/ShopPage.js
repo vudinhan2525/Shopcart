@@ -51,7 +51,7 @@ function ShopPage() {
     <div className="px-10 pt-1 dark:bg-dark-ground dark:text-dark-text">
       <div className="border-[1px]  px-6 py-6 border-gray-500 dark:border-gray-700  w-full rounded-3xl mt-4">
         <div className="flex gap-12">
-          <div className="flex gap-4">
+          <div className="basis-[60%] flex gap-4">
             <div>
               <div
                 style={{ backgroundImage: `url(${shop.avatar})` }}
@@ -63,8 +63,8 @@ function ShopPage() {
                 <header className="text-2xl font-semibold">{shop.name}</header>
                 {shop.isChecked && <FontAwesomeIcon icon={faCircleCheck} className="text-lg text-[#20D5EC]" />}
               </div>
-              <p className="mt-1">{shop.summary}</p>
-              <p className="mt-2 text-sm text-gray-500 ">Last active: 6 minutes ago</p>
+              <p className="mt-1 line-clamp-2 h-[54px]">{shop.summary}</p>
+              <p className="mt-1 text-sm text-gray-500 ">Last active: 6 minutes ago</p>
 
               <div className="flex gap-8">
                 <div className="mt-2 text-white dark:bg-primary-dark-color dark:border-[0px] animate-slideTopDown flex items-center cursor-pointer px-4 gap-2 bg-primary-color border-[1.5px] border-primary-color  text-center rounded-full py-2 hover:opacity-90 transition-all">
@@ -77,7 +77,7 @@ function ShopPage() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="basis-[40%]">
             <div className="grid grid-cols-2 gap-x-20 gap-y-8 mt-4">
               <div className="flex items-center gap-1">
                 <div>

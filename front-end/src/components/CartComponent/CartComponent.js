@@ -10,7 +10,7 @@ import { useState } from 'react';
 import http from '../../utils/http';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../utils/ToastMessage/ToastMessage';
-function CartComponent({ isSmall = false, product, userId, userProducts, userLikes, refreshUserData }) {
+function CartComponent({ isSmall = false, product, userId, userLikes, refreshUserData }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CartComponent from '../CartComponent/CartComponent';
 import http from '../../utils/http';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 function CartList({ filter, sortBy, shopProducts }) {
   const [products, setProducts] = useState([]);
+  const { userData, refreshUserData } = useContext(AuthContext);
   const getProduct = async () => {
     try {
       const response = await http.post(
@@ -31,7 +33,16 @@ function CartList({ filter, sortBy, shopProducts }) {
   return (
     <div className="grid grid-cols-4 gap-4 mt-4">
       {products.map((el, idx) => {
-        return <CartComponent product={el} isSmall={true} key={idx} />;
+        return (
+          <CartComponent
+            product={el}
+            isSmall={true}
+            key={idx}
+            userId={userData._id}
+            refreshUserData={refreshUserData}
+            userLikes={userData.likes}
+          />
+        );
       })}
     </div>
   );
