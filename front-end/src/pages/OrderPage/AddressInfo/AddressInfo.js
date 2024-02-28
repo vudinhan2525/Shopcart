@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAddressList, addAddress, updateAddress, deleteAddress } from '../../../slice/address.slice';
-import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
 import SkeletonText from '../../../components/Skeleton/SkeletonText';
+import Dialog from '../../../components/Modals/Dialog';
 const initialForm = {
   firstName: '',
   lastName: '',
@@ -14,27 +14,27 @@ const initialForm = {
   mobile: '',
   email: '',
 };
-function AddressInfo({ userData }) {
+function AddressInfo({ userData, setAddressSelected }) {
   const [selectAddress, setSelectAddress] = useState(0);
   const [formData, setFormData] = useState(initialForm);
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const [showDeleteSelect, setShowDeleteSelect] = useState(false);
-  const [showInput, setShowInput] = useState(false);
   const address = useSelector((state) => state.address.addressList);
   const isLoading = useSelector((state) => state.address.isLoading);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (address && address.length > 0) {
+      setAddressSelected(address[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
   useEffect(() => {
     if (userData && Object.keys(userData).length > 0) {
       dispatch(getAddressList(userData.address));
     }
   }, [dispatch, userData]);
   const handleSubmitForm = () => {
-    if (showInput === false) {
-      setShowInput(true);
-      return;
-    }
     const newForm = {
       receiveName: formData.firstName + ' ' + formData.lastName,
       email: formData.email,
@@ -80,8 +80,7 @@ function AddressInfo({ userData }) {
   const handleDeleteAddress = (addressId) => {
     dispatch(deleteAddress(addressId));
     if (addressId === address[selectAddress]._id) {
-      if (address.length > 0) setSelectAddress((prev) => prev - 1);
-      else setSelectAddress(0);
+      setSelectAddress(0);
     }
   };
   return (
@@ -99,7 +98,10 @@ function AddressInfo({ userData }) {
                 onClick={(e) => {
                   if (e.target.classList.contains('delete-btn')) {
                     //handleEditingAddress
-                  } else setSelectAddress(idx);
+                  } else {
+                    setSelectAddress(idx);
+                    setAddressSelected(el);
+                  }
                 }}
                 className={`dark:bg-dark-flat dark:border-[0px] cursor-pointer border-[1px] relative px-4 py-2 bg-gray-100 rounded-xl ${
                   selectAddress === idx ? 'border-[1px] dark:border-[1px] border-gray-500 bg-gray-200' : ''
@@ -140,7 +142,7 @@ function AddressInfo({ userData }) {
             );
           })}
         </div>
-        {showInput && (
+        {
           <div className="animate-slideTopDown">
             <div className={`flex gap-6 ${address.length === 0 ? '' : 'mt-6'}`}>
               <div className="basis-1/2">
@@ -254,7 +256,7 @@ function AddressInfo({ userData }) {
               </div>
             </div>
           </div>
-        )}
+        }
         <button
           onClick={handleSubmitForm}
           className={`${
@@ -276,12 +278,20 @@ function AddressInfo({ userData }) {
         )}
       </div>
       {showDeleteSelect && (
-        <ShowDeleteSelect
-          deleteId={deleteId}
-          setDeleteId={setDeleteId}
-          setShowDeleteSelect={setShowDeleteSelect}
-          handleDelete={handleDeleteAddress}
-          buttonContent={'Delete'}
+        <Dialog
+          onClose={() => {
+            if (setDeleteId) {
+              setDeleteId('');
+            }
+            setShowDeleteSelect(false);
+          }}
+          onYes={() => {
+            if (handleDeleteAddress) {
+              handleDeleteAddress(deleteId);
+            }
+            setShowDeleteSelect(false);
+          }}
+          buttonContent={'Yes'}
           message={'Are you sure to delete this address ??'}
           content={'This address will be deleted permanently, you cannot undo this action !!'}
         />

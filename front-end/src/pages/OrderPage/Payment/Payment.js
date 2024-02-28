@@ -4,11 +4,10 @@ import Coupon from './Coupon';
 import { deleteProd } from '../../../slice/product.slice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
-import ShowDeleteSelect from '../Modals/ShowDeleteSelect';
 import Dialog from '../../../components/Modals/Dialog';
 import http from '../../../utils/http';
 import { useDispatch } from 'react-redux';
-function Payment({ itemSelected, setItemSelected, userData, refreshUserData }) {
+function Payment({ productSelected, addressSelected, itemSelected, setItemSelected, userData, refreshUserData }) {
   const input1 = useRef();
   const input2 = useRef();
   const dispatch = useDispatch();
@@ -233,23 +232,73 @@ function Payment({ itemSelected, setItemSelected, userData, refreshUserData }) {
         {`Pay $${total.toFixed(2)}`}
       </div>
       {showSuccess && (
-        <Dialog
-          onClose={() => {
-            setShowSuccess(false);
-          }}
-          onYes={buying}
-          buttonContent={'Yes'}
-          message={'Are you sure want to buy this product??'}
-          content={'This product will be sent to your address !!'}
-        />
+        <div className="modal fixed top-0 animate-slideTopDown right-0 left-0 bottom-0 bg-black/30 z-[51] ">
+          <div className="absolute py-6 px-6 top-[50%] translate-y-[-50%] overflow-hidden dark:bg-dark-flat w-[500px] right-[50%] rounded-xl translate-x-[50%] bg-white">
+            <header className="text-xl font-bold dark:text-dark-text">Are you sure want to buy this product??</header>
+            <div className="w-full h-[1px] bg-gray-300 mt-3"></div>
+            <div className="flex gap-4">
+              <div
+                style={{ backgroundImage: `url(${productSelected.images[0]})` }}
+                className="mt-2 w-[100px] h-[100px] bg-white bg-no-repeat bg-center bg-contain border-[1px] dark:border-gray-700 rounded-lg border-gray-300"
+              ></div>
+              <div className="mt-2 flex flex-col justify-between py-2">
+                <div>
+                  <p className="text-lg font-bold ">{productSelected.name}</p>
+                  <p className="text-sm text-gray-600">{`x${itemSelected.quantity}`}</p>
+                </div>
+                <p className="text-lg font-bold">{`${total.toFixed(2)}$`}</p>
+              </div>
+            </div>
+            <div className="w-full h-[1px] bg-gray-300 mt-3"></div>
+            <p className="mt-2 text-gray-700 text-sm">Product will be delivered to:</p>
+            <div className="px-4 mt-2 py-2 rounded-lg border-[1px] border-gray-700">
+              <div className=" gap-2 flex font-medium items-center">
+                <p className="text-gray-600 min-w-[60px] text-sm">Receiver: </p>
+                <p className="font-semibold">{addressSelected.receiveName}</p>
+              </div>
+              <div className=" gap-2 flex font-medium items-center">
+                <p className="text-gray-600 min-w-[60px] text-sm">Address: </p>
+                <p className="font-semibold">{addressSelected.address}</p>
+              </div>
+              <div className=" gap-2 flex font-medium items-center">
+                <p className="text-gray-600 min-w-[60px] text-sm">Phone: </p>
+                <p className="font-semibold">{addressSelected.phonenumber}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-6 mt-5">
+              <div
+                onClick={() => {
+                  setShowSuccess(false);
+                }}
+                className="bg-gray-300 dark:bg-gray-700 font-semibold px-6 cursor-pointer hover:opacity-80 transition-all py-2 rounded-lg"
+              >
+                Cancel
+              </div>
+              <div
+                onClick={buying}
+                className=" px-6 cursor-pointer py-2 rounded-lg font-semibold hover:opacity-80 transition-all bg-orange-400 text-white"
+              >
+                Yes
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       {showDeleteSelect && (
-        <ShowDeleteSelect
-          handleDelete={handleRemoveCoupon}
-          deleteId={deleteId}
-          buttonContent={'Remove'}
-          setDeleteId={setDeleteId}
-          setShowDeleteSelect={setShowDeleteSelect}
+        <Dialog
+          onClose={() => {
+            if (setDeleteId) {
+              setDeleteId('');
+            }
+            setShowDeleteSelect(false);
+          }}
+          onYes={() => {
+            if (handleRemoveCoupon) {
+              handleRemoveCoupon(deleteId);
+            }
+            setShowDeleteSelect(false);
+          }}
+          buttonContent={'Yes'}
           message={'Are you sure want to remove this coupon??'}
           content={'This coupon will be remove imediatedly, you cannot undo this action !!'}
         />
