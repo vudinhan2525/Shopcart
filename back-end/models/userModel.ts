@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema<IUser>({
     shop: [
         {
             type: Schema.ObjectId,
-            ref: 'Product',
+            ref: 'Shop',
         },
     ],
     address: [
@@ -106,6 +106,12 @@ const userSchema = new mongoose.Schema<IUser>({
                 type: Boolean,
                 default: false,
             },
+        },
+    ],
+    adminShop: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Shop',
         },
     ],
 });

@@ -5,9 +5,11 @@ import { AuthContext } from '../../AuthProvider/AuthProvider';
 import LoginModal from '../../Modals/LoginModal';
 import http from '../../../utils/http';
 import Dialog from '../../Modals/Dialog';
+import { useLocation } from 'react-router-dom';
 
 function DefaultLayout({ children }) {
   const { showLoginModal, showLogoutModal, logout, setShowLogoutModal } = useContext(AuthContext);
+  const location = useLocation();
   const handleLogout = async () => {
     try {
       const response = await http.get(`users/logout`, { withCredentials: true });
@@ -19,10 +21,10 @@ function DefaultLayout({ children }) {
   };
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
+      <HeaderComponent isAdminPage={location.pathname.split('/')[1] === 'admin'}></HeaderComponent>
       <div className="pt-[64px] dark:bg-dark-ground"></div>
       {children}
-      <FooterComponent />
+      {location.pathname.split('/')[1] !== 'admin' && <FooterComponent />}
       {showLoginModal === true && <LoginModal />}
       {showLogoutModal === true && (
         <Dialog

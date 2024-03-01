@@ -8,6 +8,7 @@ import RegisterPage from './RegisterPage/RegisterPage';
 import SettingPage from './SettingPage/SettingPage';
 import ShopPage from './ShopPage/ShopPage';
 import SearchPage from './SearchPage/SearchPage';
+import AdminPage from './AdminPage/AdminPage';
 export {
   HomePage,
   OrderPage,
@@ -19,4 +20,5 @@ export {
   RegisterPage,
   SettingPage,
   SearchPage,
+  AdminPage,
 };

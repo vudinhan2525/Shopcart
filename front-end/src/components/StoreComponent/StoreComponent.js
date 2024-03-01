@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TagIcon } from '../../utils/IconSVG';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-function StoreComponent({ shops, isSmall }) {
+function StoreComponent({ shops, isSmall, emptyShop }) {
   const [shop, setShop] = useState([]);
   useEffect(() => {
     if (shops && shops.length > 0) {
@@ -16,11 +16,11 @@ function StoreComponent({ shops, isSmall }) {
         {shop.map((el, id) => {
           return (
             <Link to={`/shop/${el._id}`} key={id}>
-              <div className="dark:text-dark-text dark:bg-dark-flat pb-4 rounded-lg">
+              <div className="dark:text-dark-text dark:bg-dark-flat  bg-gray-100 pb-4 shadow-md rounded-xl">
                 <div className="h-[250px] relative">
                   <div
                     style={{ backgroundImage: `url(${el.background})` }}
-                    className="h-[220px]  w-full rounded-xl bg-no-repeat transition-all bg-center bg-cover border-[1px] border-gray-300"
+                    className="h-[220px]  w-full rounded-xl bg-no-repeat transition-all bg-center bg-cover "
                   ></div>
                   <div className="absolute bottom-0 left-[10%] border-[2px] border-white dark:border-dark-flat rounded-full">
                     <div
@@ -44,6 +44,7 @@ function StoreComponent({ shops, isSmall }) {
             </Link>
           );
         })}
+        {emptyShop && emptyShop}
       </div>
     </div>
   );

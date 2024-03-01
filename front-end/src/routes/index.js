@@ -9,6 +9,7 @@ import {
   RegisterPage,
   SettingPage,
   SearchPage,
+  AdminPage,
 } from '../pages';
 import { BlankLayout } from '../components/Layout';
 
@@ -26,5 +27,7 @@ const publicRoutes = [
 const privateRoutes = [
   { path: '/setting/:settingOpt', component: SettingPage },
   { path: '/order', component: OrderPage },
+  { path: '/admin/:adminOpt', component: AdminPage },
+  { path: '/admin/shop/:shopId', component: AdminPage },
 ];
 export { publicRoutes, privateRoutes };

@@ -29,5 +29,6 @@ interface IUser {
     address: mongoose.Types.ObjectId[];
     bill: mongoose.Types.ObjectId[];
     notifications: mongoose.Types.ObjectId[];
+    adminShop: mongoose.Types.ObjectId[];
 }
 export default IUser;
