@@ -2,8 +2,13 @@ import AppError from '../utils/AppError';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import Shop from '../models/shopModel';
 import APIFeature from '../utils/apiFeature';
-
+const mongoose = require('mongoose');
 import catchAsync from '../utils/catchAsync';
+import uploadToAzureBlobStorage from '../services/azureBlob';
+import User from '../models/userModel';
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 exports.getAllShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
     const doc = new APIFeature(Shop.find({}), req.query);
     doc.filter().sort().fields().pagination();
@@ -13,18 +18,47 @@ exports.getAllShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         data: users,
     });
 }));
+exports.upLoad = upload.array('images', 2);
 exports.addShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
-    const data = await Shop.create({
+    const files = req.files as Express.Multer.File[];
+    const uploadedUrls = [];
+    if (files && files.length !== 0) {
+        for (let i = 0; i < files.length; i++) {
+            const imageBuffer = files[i].buffer;
+            const containerName = 'shopcartctn';
+            const blobName = `${Date.now()}-${files[i].originalname}`;
+            const connectionString = process.env
+                .AZURE_CONNECTION_STRING as string;
+            const imageUrl = await uploadToAzureBlobStorage(
+                imageBuffer,
+                containerName,
+                blobName,
+                connectionString,
+            );
+            uploadedUrls.push(imageUrl);
+        }
+    }
+    const shop = await Shop.create({
         name: req.body.name,
-        summary: req.body.summary,
-        type: req.body.type,
-        isChecked: req.body.isChecked,
-        avatar: req.body.avatar,
-        background: req.body.background,
+        summary: req.body.description,
+        type: JSON.parse(req.body.types),
+        avatar: uploadedUrls[0],
+        background: uploadedUrls[1],
     });
+    const user = await User.findById(req.user?._id);
+
+    if (!user) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'User not found',
+        });
+    }
+    const shopId = new mongoose.Types.ObjectId(shop._id);
+    user.adminShop.push(shopId);
+    await user.save({ validateBeforeSave: false });
     res.status(200).json({
         status: 'success',
-        data: data,
+        data: shop,
     });
 }));
 exports.getShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {

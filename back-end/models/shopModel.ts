@@ -5,6 +5,7 @@ const shopSchema = new Schema<IShop>({
     name: {
         type: String,
         required: [true, 'Shop must have a name'],
+        unique: true,
     },
     summary: {
         type: String,
