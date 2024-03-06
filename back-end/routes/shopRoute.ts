@@ -9,4 +9,6 @@ router.post('/getRelatedShop', shopController.getRelatedShop);
 router.patch('/:id', shopController.updateShop);
 router.use(authController.protect);
 router.post('/', shopController.upLoad, shopController.addShop);
+router.post('/addCategories', shopController.addCategories);
+router.post('/deleteCategories', shopController.deleteCategories);
 module.exports = router;

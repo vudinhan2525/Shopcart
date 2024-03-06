@@ -9,6 +9,7 @@ import SuggestProdShop from './SuggestProdShop';
 import SortBar from '../../components/SortBar/SortBar';
 import { Button } from '@material-tailwind/react';
 import CartList from '../../components/CartList/CartList';
+import AddProductModal from './AddProductModal';
 const initialSortObj = {
   newest: '0',
   price: '0',
@@ -22,6 +23,8 @@ function ShopPage() {
   const [sortObj, setSortObj] = useState({});
   const [activeSort, setActiveSort] = useState(0);
   const [theme, setTheme] = useState(1);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAddProduct, setShowAddProduct] = useState(false);
   const getShop = async () => {
     try {
       const response = await http.get(`shop/${param.id}`);
@@ -47,6 +50,12 @@ function ShopPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
+  useEffect(() => {
+    if (userData && Object.keys(userData).length > 0 && userData.adminShop.includes(param.id)) {
+      setIsAdmin(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
   return (
     <div className="px-10 pt-1 dark:bg-dark-ground dark:text-dark-text">
       <div className="border-[1px]  px-6 py-6 border-gray-500 dark:border-gray-700  w-full rounded-3xl mt-4">
@@ -71,9 +80,11 @@ function ShopPage() {
                   {userData.shop?.includes(shop._id) && <FontAwesomeIcon icon={faCheck} />}
                   <p className="">{userData.shop?.includes(shop._id) ? 'Followed' : 'Follow'}</p>
                 </div>
-                <div className="mt-2 dark:text-primary-dark-color dark:hover:bg-primary-dark-color dark:border-[0px] dark:hover:text-dark-text text-primary-color cursor-pointer bg-white border-[1.5px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
-                  Chat Now
-                </div>
+                {!isAdmin && (
+                  <div className="mt-2 dark:text-primary-dark-color dark:hover:bg-primary-dark-color dark:border-[0px] dark:hover:text-dark-text text-primary-color cursor-pointer bg-white border-[1.5px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
+                    Chat Now
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -115,8 +126,15 @@ function ShopPage() {
           </div>
         </div>
       </div>
+      {showAddProduct && <AddProductModal />}
       <div className="px-6">
-        <SuggestProdShop shopProds={shop.products} userData={userData} refreshUserData={refreshUserData} />
+        <SuggestProdShop
+          isAdmin={isAdmin}
+          setShowAddProduct={setShowAddProduct}
+          shopProds={shop.products}
+          userData={userData}
+          refreshUserData={refreshUserData}
+        />
         <div className=" mt-6">
           <div
             style={{ backgroundImage: `url(${shop.background})` }}
@@ -127,7 +145,9 @@ function ShopPage() {
           <div className="basis-[20%] ">
             <div className="border-[1px] dark:border-[0px] dark:bg-dark-flat rounded-xl border-gray-300">
               <SortBar
+                isAdmin={isAdmin}
                 shopProds={shop.products}
+                shopId={shop._id}
                 setProductList={setProductList}
                 types={shop.categories}
                 setFilterObj={setFilterObj}

@@ -94,3 +94,45 @@ exports.getRelatedShop = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         data: data,
     });
 }));
+exports.addCategories = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const { newCategories, shopId } = req.body.data;
+    if (!newCategories || !shopId) {
+        return next(
+            new AppError('Please provide all information needed!!', 400),
+        );
+    }
+    const shop = await Shop.findByIdAndUpdate(
+        shopId,
+        {
+            $push: { categories: { category: newCategories } },
+        },
+        { new: true },
+    );
+    if (!shop) {
+        return next(new AppError('Shop not found', 404));
+    }
+    res.status(200).json({
+        status: 'success',
+    });
+}));
+exports.deleteCategories = catchAsync(<MiddleWareFn>(async (req, res, next) => {
+    const { categoryId, shopId } = req.body.data;
+    if (!categoryId || !shopId) {
+        return next(
+            new AppError('Please provide all information needed!!', 400),
+        );
+    }
+    const shop = await Shop.findByIdAndUpdate(
+        shopId,
+        {
+            $pull: { categories: { _id: categoryId } },
+        },
+        { new: true },
+    );
+    if (!shop) {
+        return next(new AppError('Shop not found', 404));
+    }
+    res.status(200).json({
+        status: 'success',
+    });
+}));

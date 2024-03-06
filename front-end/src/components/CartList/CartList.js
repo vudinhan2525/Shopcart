@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import CartComponent from '../CartComponent/CartComponent';
 import http from '../../utils/http';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import AddProductCart from '../../pages/ShopPage/AddProductCart';
 
 function CartList({ filter, sortBy, shopProducts }) {
   const [products, setProducts] = useState([]);
@@ -32,6 +33,7 @@ function CartList({ filter, sortBy, shopProducts }) {
   }, [filter, sortBy, shopProducts]);
   return (
     <div className="grid grid-cols-4 gap-4 mt-4">
+      <AddProductCart />
       {products.map((el, idx) => {
         return (
           <CartComponent
