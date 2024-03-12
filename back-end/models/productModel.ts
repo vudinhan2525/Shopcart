@@ -24,13 +24,17 @@ const productSchema = new mongoose.Schema<IProduct>({
         type: String,
         required: [true, 'Product must have a summary'],
     },
+    originalPrice: {
+        type: Number,
+        required: [true, 'Product must have a original price'],
+    },
     price: {
         type: Number,
         required: [true, 'Product must have a price'],
     },
     avgRatings: {
         type: Number,
-        default: 4.5,
+        default: 0,
         min: [0, 'rating must be above 0'],
         max: [5, 'rating must be below 5.0'],
         set: (prev: number) => Math.round(prev * 10) / 10,
@@ -68,6 +72,16 @@ const productSchema = new mongoose.Schema<IProduct>({
         ref: 'Shop',
         required: [true, 'Product must belong to a shop'],
     },
+    variants: [
+        {
+            name: String,
+            content: [
+                {
+                    type: String,
+                },
+            ],
+        },
+    ],
 });
 const Product = model<IProduct>('Product', productSchema);
 export default Product;

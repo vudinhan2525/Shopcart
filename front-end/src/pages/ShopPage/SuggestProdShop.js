@@ -32,7 +32,7 @@ function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refr
     <div className="">
       <header className="text-2xl font-OpenSans mt-4 font-semibold">Suggest Products</header>
       <div className="grid grid-cols-5 gap-4 mt-4">
-        <AddProductCart />
+        <AddProductCart setShowAddProduct={setShowAddProduct} />
         {product.map((el, idx) => {
           return (
             <CartComponent

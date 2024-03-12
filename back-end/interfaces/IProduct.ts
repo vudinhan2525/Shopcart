@@ -6,6 +6,7 @@ interface IProduct {
     type: string[];
     brand: string;
     summary: string;
+    originalPrice: number;
     price: number;
     avgRatings: number;
     numberRatings: number;
@@ -15,5 +16,9 @@ interface IProduct {
     dateUp: Date;
     ratings: mongoose.Types.ObjectId[];
     shop: mongoose.Types.ObjectId;
+    variants: {
+        name: string;
+        content: string[];
+    }[];
 }
 export default IProduct;

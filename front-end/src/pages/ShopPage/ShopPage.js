@@ -126,7 +126,7 @@ function ShopPage() {
           </div>
         </div>
       </div>
-      {showAddProduct && <AddProductModal />}
+      {showAddProduct && <AddProductModal categories={shop.categories} setShowAddProduct={setShowAddProduct} />}
       <div className="px-6">
         <SuggestProdShop
           isAdmin={isAdmin}
@@ -204,7 +204,12 @@ function ShopPage() {
                 Price: Low-High
               </Button>
             </div>
-            <CartList filter={filterObj} sortBy={sortObj} shopProducts={productList} />
+            <CartList
+              setShowAddProduct={setShowAddProduct}
+              filter={filterObj}
+              sortBy={sortObj}
+              shopProducts={productList}
+            />
           </div>
         </div>
       </div>

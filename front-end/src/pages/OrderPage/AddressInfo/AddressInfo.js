@@ -24,7 +24,7 @@ function AddressInfo({ userData, setAddressSelected }) {
   const isLoading = useSelector((state) => state.address.isLoading);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (address && address.length > 0) {
+    if (address && address.length > 0 && setAddressSelected) {
       setAddressSelected(address[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +100,9 @@ function AddressInfo({ userData, setAddressSelected }) {
                     //handleEditingAddress
                   } else {
                     setSelectAddress(idx);
-                    setAddressSelected(el);
+                    if (setAddressSelected) {
+                      setAddressSelected(el);
+                    }
                   }
                 }}
                 className={`dark:bg-dark-flat dark:border-[0px] cursor-pointer border-[1px] relative px-4 py-2 bg-gray-100 rounded-xl ${
