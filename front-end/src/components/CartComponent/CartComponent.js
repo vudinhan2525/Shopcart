@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faPencil, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeart2 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 import http from '../../utils/http';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../utils/ToastMessage/ToastMessage';
-function CartComponent({ isSmall = false, product, userId, userLikes, refreshUserData }) {
+function CartComponent({ isEditing, setEditProd, isSmall = false, product, userId, userLikes, refreshUserData }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,8 +68,29 @@ function CartComponent({ isSmall = false, product, userId, userLikes, refreshUse
   return (
     <Link
       to={`/product/${product?._id}`}
-      className="relative   border-[1px] dark:border-[0px] border-gray-300 animate-slideTopDown cursor-pointer transition-all rounded-lg"
+      className="relative group  border-[1px] dark:border-[0px] border-gray-300 animate-slideTopDown cursor-pointer transition-all rounded-lg"
     >
+      {isEditing && (
+        <div>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              const newObj = JSON.parse(JSON.stringify(product));
+              setEditProd(newObj);
+            }}
+            className="absolute hidden group-hover:block animate-slideTopDown border-black/80 border-b-transparent border-r-transparent  w-[0px] border-[50px] h-[0px] top-0 z-10 rounded-tl-lg"
+          ></div>
+          <FontAwesomeIcon
+            onClick={(e) => {
+              e.preventDefault();
+              const newObj = JSON.parse(JSON.stringify(product));
+              setEditProd(newObj);
+            }}
+            icon={faPencil}
+            className="absolute hidden group-hover:block animate-slideTopDown text-white z-[11] text-xl top-4 left-6"
+          />
+        </div>
+      )}
       <div className={` overflow-hidden dark:bg-white  pb-3 rounded-t-lg`}>
         <div
           style={{ backgroundImage: `url(${product?.images[0]})` }}

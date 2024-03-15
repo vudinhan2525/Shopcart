@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import http from '../../utils/http';
 import CartComponent from '../../components/CartComponent/CartComponent';
 import AddProductCart from './AddProductCart';
-function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refreshUserData }) {
+function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refreshUserData, setEditProd }) {
   const [product, setProduct] = useState([]);
 
   const getProducts = async () => {
@@ -10,7 +10,7 @@ function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refr
     for (let i = 0; i < Math.min(shopProds.length, 5); i++) {
       newArr.push(shopProds[i]);
     }
-    if (isAdmin) {
+    if (isAdmin && newArr.length === 5) {
       newArr.pop();
     }
     try {
@@ -23,7 +23,7 @@ function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refr
     }
   };
   useEffect(() => {
-    if (shopProds) {
+    if (shopProds && shopProds.length > 0) {
       getProducts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,10 +32,12 @@ function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refr
     <div className="">
       <header className="text-2xl font-OpenSans mt-4 font-semibold">Suggest Products</header>
       <div className="grid grid-cols-5 gap-4 mt-4">
-        <AddProductCart setShowAddProduct={setShowAddProduct} />
+        {isAdmin && <AddProductCart setShowAddProduct={setShowAddProduct} />}
         {product.map((el, idx) => {
           return (
             <CartComponent
+              isEditing={true}
+              setEditProd={setEditProd}
               product={el}
               key={idx}
               isSmall={true}

@@ -4,7 +4,7 @@ import http from '../../utils/http';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import AddProductCart from '../../pages/ShopPage/AddProductCart';
 
-function CartList({ filter, sortBy, shopProducts, setShowAddProduct }) {
+function CartList({ isAdmin, filter, sortBy, shopProducts, setShowAddProduct, setEditProd }) {
   const [products, setProducts] = useState([]);
   const { userData, refreshUserData } = useContext(AuthContext);
   const getProduct = async () => {
@@ -33,10 +33,12 @@ function CartList({ filter, sortBy, shopProducts, setShowAddProduct }) {
   }, [filter, sortBy, shopProducts]);
   return (
     <div className="grid grid-cols-4 gap-4 mt-4">
-      <AddProductCart setShowAddProduct={setShowAddProduct} />
+      {isAdmin && <AddProductCart setShowAddProduct={setShowAddProduct} />}
       {products.map((el, idx) => {
         return (
           <CartComponent
+            isEditing={true}
+            setEditProd={setEditProd}
             product={el}
             isSmall={true}
             key={idx}

@@ -11,7 +11,7 @@ interface IProduct {
     avgRatings: number;
     numberRatings: number;
     itemLeft: number;
-    images: mongoose.Types.ObjectId[];
+    images: string[];
     details: mongoose.Types.ObjectId;
     dateUp: Date;
     ratings: mongoose.Types.ObjectId[];

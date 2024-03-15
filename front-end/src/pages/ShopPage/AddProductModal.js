@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import convertBackType from '../../utils/convertBackType';
+import convertType from '../../utils/convertType';
+import http from '../../utils/http';
+import Dialog from '../../components/Modals/Dialog';
 const types = ['Education', 'Furniture', 'Technologies', 'Beauty', 'Fashion', 'Other'];
-function AddProductModal({ setShowAddProduct, categories }) {
+function AddProductModal({ editProd, setShowEditProduct, setShowAddProduct, categories, shopId }) {
   const [productTypes, setProdTypes] = useState([]);
   const [editorHtml, setEditorHtml] = useState('');
   const [name, setName] = useState('');
@@ -19,6 +23,8 @@ function AddProductModal({ setShowAddProduct, categories }) {
   const [preview, setPreview] = useState([]);
   const [cateGory, setCategory] = useState('');
   const [variants, setVariants] = useState([]);
+  const [oldCateGory, setOldCateGory] = useState('');
+  const [showDelete, setShowDelete] = useState(false);
   const inputRef = useRef();
   useEffect(() => {
     if (!files) return;
@@ -34,6 +40,44 @@ function AddProductModal({ setShowAddProduct, categories }) {
       };
     }
   }, [files]);
+  useEffect(() => {
+    if (editProd && Object.keys(editProd).length > 0) {
+      setName(editProd.name);
+      setSummary(editProd.summary);
+      setOPrice(editProd?.originalPrice);
+      setLPrice(editProd.price);
+      setBrand(editProd.brand);
+      setAvail(editProd.itemLeft);
+      let newArr = [];
+      for (let i = 0; i < editProd.type.length; i++) {
+        newArr.push(convertType(editProd.type[i]));
+      }
+      setProdTypes(newArr);
+      for (let i = 0; i < categories.length; i++) {
+        if (categories[i].prods.includes(editProd._id)) {
+          setCategory(categories[i].category);
+          setOldCateGory(categories[i].category);
+          break;
+        }
+      }
+      getDetailProd(editProd.details);
+      setVariants(editProd.variants);
+      setPreview(editProd.images);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editProd]);
+  const getDetailProd = async (dtId) => {
+    try {
+      const response = await http.get(`/detailprods/${dtId}`);
+      if (response.data.status === 'success') {
+        let html = response.data.data.text;
+        if (html.startsWith('"')) {
+          html = JSON.parse(response.data.data.text);
+        }
+        setEditorHtml(html);
+      }
+    } catch (error) {}
+  };
   const handleAddProd = async () => {
     if (name.trim() === '') {
       setError((prev) => [...prev, 'name']);
@@ -56,13 +100,13 @@ function AddProductModal({ setShowAddProduct, categories }) {
     if (!avail) {
       setError((prev) => [...prev, 'avail']);
     }
-    if (files.length !== 5) {
+    if (files.length !== 5 && !editProd) {
       setError((prev) => [...prev, 'files']);
     }
     if (
       name.trim() === '' ||
       !avail ||
-      files.length !== 5 ||
+      (files.length !== 5 && !editProd) ||
       summary.trim() === '' ||
       !oPrice ||
       !lPrice ||
@@ -70,6 +114,50 @@ function AddProductModal({ setShowAddProduct, categories }) {
       productTypes.length === 0
     ) {
       return;
+    }
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
+    formData.append('name', name);
+    formData.append('summary', summary);
+    formData.append('originalPrice', oPrice);
+    formData.append('price', lPrice);
+    const newArr = [];
+    for (let i = 0; i < productTypes.length; i++) {
+      newArr.push(convertBackType(productTypes[i]));
+    }
+    formData.append('type', JSON.stringify(newArr));
+    formData.append('brand', brand);
+    formData.append('itemLeft', avail);
+    formData.append('shop', shopId);
+    if (cateGory) formData.append('cateGory', cateGory);
+    if (variants.length > 0) {
+      formData.append('variants', JSON.stringify(variants));
+    }
+    if (editorHtml) formData.append('description', JSON.stringify(editorHtml));
+    if (editProd && Object.keys(editProd).length > 0) {
+      try {
+        formData.append('oldImages', JSON.stringify(editProd.images));
+        formData.append('details', editProd.details);
+        formData.append('oldCateGory', oldCateGory);
+        const response = await http.patch(`/prods/${editProd._id}`, formData, { withCredentials: true });
+        if (response.data.status === 'success') {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    } else {
+      try {
+        const response = await http.post(`/prods/`, formData, { withCredentials: true });
+        if (response.data.status === 'success') {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   const handleClickDeleteImage = (idx) => {
@@ -79,15 +167,23 @@ function AddProductModal({ setShowAddProduct, categories }) {
   const handleAddVariant = (idx) => {
     const doc = document.querySelector(`.input-${idx}`).value;
     if (doc.trim() === '') return;
-    const data = variants[idx].variant;
-    const updatedVariants = variants.map((vari, i) => (i === idx ? { ...vari, variant: [...data, doc] } : vari));
+    const data = variants[idx].content;
+    const updatedVariants = variants.map((vari, i) => (i === idx ? { ...vari, content: [...data, doc] } : vari));
     setVariants(updatedVariants);
     document.querySelector(`.input-${idx}`).value = '';
   };
   const handleDeleteVariant = (idx, i) => {
-    const data = variants[idx].variant.filter((q, u) => u !== i);
-    const updatedVariants = variants.map((vari, id) => (id === idx ? { ...vari, variant: data } : vari));
+    const data = variants[idx].content.filter((q, u) => u !== i);
+    const updatedVariants = variants.map((vari, id) => (id === idx ? { ...vari, content: data } : vari));
     setVariants(updatedVariants);
+  };
+  const deleteProd = async () => {
+    try {
+      const response = await http.delete(`/prods/${editProd._id}`, { withCredentials: true });
+      if (response.data.status === 'success') {
+        window.location.reload();
+      }
+    } catch (error) {}
   };
   return (
     <div className="z-[51] fixed top-0 bottom-0 animate-slideTopDown right-0 left-0 bg-black/20">
@@ -96,7 +192,10 @@ function AddProductModal({ setShowAddProduct, categories }) {
           <header className="text-2xl font-bold">Add new product</header>
           <div className="">
             <FontAwesomeIcon
-              onClick={() => setShowAddProduct(false)}
+              onClick={() => {
+                setShowAddProduct(false);
+                if (setShowEditProduct) setShowEditProduct(false);
+              }}
               className="text-3xl cursor-pointer text-gray-700 hover:text-gray-900 transition-all"
               icon={faXmark}
             />
@@ -423,7 +522,7 @@ function AddProductModal({ setShowAddProduct, categories }) {
                           />
                         </div>
                         <div className="mx-4 grid grid-cols-5 gap-4">
-                          {el.variant.map((e, i) => {
+                          {el?.content.map((e, i) => {
                             return (
                               <div
                                 className="flex items-center justify-between px-3 py-1 bg-white rounded-lg text-sm"
@@ -447,19 +546,39 @@ function AddProductModal({ setShowAddProduct, categories }) {
               <FontAwesomeIcon
                 icon={faCirclePlus}
                 onClick={() => {
-                  setVariants((prev) => [...prev, { name: '', variant: [] }]);
+                  setVariants((prev) => [...prev, { name: '', content: [] }]);
                 }}
                 className="text-3xl mt-1 cursor-pointer text-gray-400 hover:text-gray-500 transition-all"
               ></FontAwesomeIcon>
             </div>
-            <div className="flex justify-end  ">
+            <div className="flex justify-end gap-6">
+              {editProd && (
+                <div
+                  onClick={() => setShowDelete(true)}
+                  className="cursor-pointer hover:bg-red-700 transition-all mt-4 px-4 py-3 bg-red-600 w-[25%] text-center rounded-lg font-bold text-white"
+                >
+                  DELETE
+                </div>
+              )}
               <div
                 onClick={() => handleAddProd()}
                 className="cursor-pointer hover:bg-blue-700 transition-all mt-4 px-4 py-3 bg-blue-600 w-[45%] text-center rounded-lg font-bold text-white"
               >
-                ADD PRODUCT
+                {editProd ? 'SAVE CHANGE' : 'ADD PRODUCT'}
               </div>
             </div>
+            {showDelete && (
+              <Dialog
+                onClose={() => setShowDelete(false)}
+                onYes={() => {
+                  deleteProd();
+                  setShowDelete(false);
+                }}
+                buttonContent={'Delete'}
+                message={'Are you sure to delete this product??'}
+                content={'This product will be deleted permanently, you cannot undo this action !!'}
+              />
+            )}
           </div>
         </div>
       </div>

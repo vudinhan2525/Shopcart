@@ -84,7 +84,7 @@ function AccountSetting({ userData }) {
               onClick={() => {
                 inputBgRef.current.click();
               }}
-              className="w-[0px] h-[0px] hidden  group-hover:block animate-slideTopDown border-[50px] border-black/50 border-t-[50px] border-l-[50px] border-t-transparent border-l-transparent bg-transparent absolute bottom-0 right-0 rounded-br-3xl"
+              className="w-[0px] h-[0px] hidden  group-hover:block animate-slideTopDown border-[50px] border-black/50  border-t-transparent border-l-transparent bg-transparent absolute bottom-0 right-0 rounded-br-3xl"
             >
               <input
                 type="file"

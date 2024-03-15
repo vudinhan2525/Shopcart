@@ -14,7 +14,7 @@ interface IShop {
     numberRating: number;
     categories: {
         category: string;
-        products: mongoose.Types.ObjectId[];
+        prods: mongoose.Types.ObjectId[];
     }[];
 }
 export default IShop;

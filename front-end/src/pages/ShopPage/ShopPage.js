@@ -25,6 +25,13 @@ function ShopPage() {
   const [theme, setTheme] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showEditProduct, setShowEditProduct] = useState(false);
+  const [editProd, setEditProd] = useState();
+  useEffect(() => {
+    if (editProd && Object.keys(editProd).length > 0) {
+      setShowEditProduct(true);
+    }
+  }, [editProd]);
   const getShop = async () => {
     try {
       const response = await http.get(`shop/${param.id}`);
@@ -126,10 +133,22 @@ function ShopPage() {
           </div>
         </div>
       </div>
-      {showAddProduct && <AddProductModal categories={shop.categories} setShowAddProduct={setShowAddProduct} />}
+      {showAddProduct && (
+        <AddProductModal shopId={shop._id} categories={shop.categories} setShowAddProduct={setShowAddProduct} />
+      )}
+      {showEditProduct && (
+        <AddProductModal
+          editProd={editProd}
+          setShowEditProduct={setShowEditProduct}
+          shopId={shop._id}
+          categories={shop.categories}
+          setShowAddProduct={setShowAddProduct}
+        />
+      )}
       <div className="px-6">
         <SuggestProdShop
           isAdmin={isAdmin}
+          setEditProd={setEditProd}
           setShowAddProduct={setShowAddProduct}
           shopProds={shop.products}
           userData={userData}
@@ -205,6 +224,8 @@ function ShopPage() {
               </Button>
             </div>
             <CartList
+              isAdmin={isAdmin}
+              setEditProd={setEditProd}
               setShowAddProduct={setShowAddProduct}
               filter={filterObj}
               sortBy={sortObj}

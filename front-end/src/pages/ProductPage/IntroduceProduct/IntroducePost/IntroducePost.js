@@ -1,11 +1,29 @@
 // eslint-disable-next-line no-unused-vars
-import img1 from '../../../../assets/img/introduceprod/1.webp';
+import { useEffect, useState } from 'react';
+const ReactDOMServer = require('react-dom/server');
+const HtmlToReactParser = require('html-to-react').Parser;
 function IntroducePost({ product }) {
+  const [renderedHtml, setRenderedHtml] = useState('');
+  useEffect(() => {
+    if (product && Object.keys(product).length > 0) {
+      if (product.text.startsWith('"')) {
+        const htmlToReactParser = new HtmlToReactParser();
+        const reactElement = htmlToReactParser.parse(JSON.parse(product.text));
+        const reactHtml = ReactDOMServer.renderToStaticMarkup(reactElement);
+        setRenderedHtml(reactHtml);
+        // how to render it to my component
+      }
+    }
+  }, [product]);
   return (
     <div className="mt-5">
       <header className="text-xl font-bold">{product.header}</header>
       <div className="text-[15px] leading-[23px] ">
-        <p className="mt-3">{product.text}</p>
+        {renderedHtml ? (
+          <p className="mt-3" dangerouslySetInnerHTML={{ __html: renderedHtml }} />
+        ) : (
+          <p>{product.text}</p>
+        )}
         {/* <h2 className="mt-3 text-lg font-semibold">Designed with many breakthroughs</h2>
         <p className="mt-3">
           In terms of size, iPhone 13 will have 4 different versions and the size will not change compared to the
