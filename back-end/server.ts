@@ -12,9 +12,9 @@ mongoose
     .then(() => console.log('Connecting to database successfully!!'))
     .catch(() => console.log('Error when connecting to database'));
 
-const _app = require('./app.ts');
+const server = require('./app.ts');
 const port = process.env.PORT || 9000;
-_app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App is running in port ${port}`);
 });
 process.on('unhandledRejection', (reason, promise) => {

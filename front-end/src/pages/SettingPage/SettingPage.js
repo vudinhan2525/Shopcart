@@ -4,7 +4,7 @@ import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { UserIcon, GearIcon, CartIcon, LocationIcon, MessageIcon, LogoutIcon, InvoiceIcon } from '../../utils/IconSVG';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
-import { MessageSetting, AccountSetting, AddressSetting, Setting, Saved, Invoice } from './index';
+import { Message, AccountSetting, AddressSetting, Setting, Saved, Invoice } from './index';
 import { Link, useParams } from 'react-router-dom';
 export const settingItems = [
   {
@@ -127,7 +127,7 @@ function SettingPage() {
         <div className="w-[1px] ml-5 bg-gray-300 dark:bg-gray-700"></div>
         <div className="basis-[80%]">
           {param.settingOpt === 'account' && <AccountSetting userData={userData} />}
-          {param.settingOpt === 'message' && <MessageSetting />}
+          {param.settingOpt === 'message' && <Message />}
           {param.settingOpt === 'invoice' && <Invoice userData={userData} />}
           {param.settingOpt === 'address' && <AddressSetting userData={userData} />}
           {param.settingOpt === 'settings' && <Setting themeState={themeState} setThemeState={setThemeState} />}
