@@ -2,6 +2,7 @@ const express = require('express');
 import { MiddleWareFn } from './interfaces/MiddleWareFn';
 import globalHandleError from './controller/errorController';
 import { Server } from 'socket.io';
+import { getChatList } from './controller/socketController';
 const cors = require('cors');
 const http = require('http');
 const userRoute = require('./routes/userRoute');
@@ -62,6 +63,10 @@ io.on('connection', async (socket) => {
     console.log('Have someone!!', socket.id);
     socket.on('disconnect', (reason) => {
         console.log('Disconnect', socket.id);
+    });
+    socket.on('get-chat-list-from-client', async (userId: string) => {
+        const response = await getChatList(userId);
+        socket.emit('return-chat-from-server', response);
     });
 });
 module.exports = server;
