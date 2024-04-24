@@ -15,7 +15,7 @@ function ProductLastSeen({ data, userData, refreshUserData }) {
     }
   };
   useEffect(() => {
-    if (data.length > 0) {
+    if (data && data.length > 0) {
       getLastSeenProd(data);
     }
   }, [data]);

@@ -27,10 +27,24 @@ export default function ChatList({ chatList, chatSelected, setChatSelected }) {
                 </div>
               </div>
               <div className="flex gap-1 w-full ">
-                <p className="text-sm text-gray-500 basis-[70%] h-[24px] line-clamp-1">
+                <p
+                  className={`${
+                    el.message[el.message.length - 1].fromUser === false &&
+                    el.message[el.message.length - 1].createdAt > el.userSeenAt
+                      ? 'text-gray-900 font-semibold'
+                      : ' text-gray-500'
+                  } text-sm basis-[70%] h-[24px] line-clamp-1`}
+                >
                   {el.message[el.message.length - 1].message}
                 </p>
-                <div className="basis-[30%] text-sm text-gray-500 line-clamp-1">
+                <div
+                  className={`${
+                    el.message[el.message.length - 1].fromUser === false &&
+                    el.message[el.message.length - 1].createdAt > el.userSeenAt
+                      ? 'text-gray-900 font-semibold'
+                      : ' text-gray-500'
+                  } basis-[30%] text-sm line-clamp-1`}
+                >
                   {formatDate(el.message[el.message.length - 1].createdAt)}
                 </div>
               </div>

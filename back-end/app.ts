@@ -2,7 +2,13 @@ const express = require('express');
 import { MiddleWareFn } from './interfaces/MiddleWareFn';
 import globalHandleError from './controller/errorController';
 import { Server } from 'socket.io';
-import { getChatList } from './controller/socketController';
+import {
+    getChatListForUser,
+    addMessage,
+    getShopList,
+    getChatListForShop,
+} from './controller/socketController';
+import Conversation from './models/conversationModel';
 const cors = require('cors');
 const http = require('http');
 const userRoute = require('./routes/userRoute');
@@ -64,9 +70,58 @@ io.on('connection', async (socket) => {
     socket.on('disconnect', (reason) => {
         console.log('Disconnect', socket.id);
     });
-    socket.on('get-chat-list-from-client', async (userId: string) => {
-        const response = await getChatList(userId);
-        socket.emit('return-chat-from-server', response);
+    socket.on('get-shop-list-from-client', async ({ userShop }) => {
+        const response = await getShopList(userShop);
+        socket.emit('return-shop-list-from-server', response);
     });
+    socket.on(
+        'get-chat-list-from-client',
+        async (data: { userId: string; fromUser: boolean; shopId: string }) => {
+            if (data.fromUser) {
+                const response = await getChatListForUser(data.userId);
+                socket.emit('return-chat-from-server', response);
+            } else if (data.fromUser === false) {
+                const response = await getChatListForShop(data.shopId);
+                socket.emit('return-chat-from-server', response);
+            }
+        },
+    );
+    socket.on(
+        'send-message-from-client',
+        async (data: {
+            fromUser: boolean;
+            convId: string;
+            message: string;
+        }) => {
+            const message = await addMessage(data);
+            io.sockets.emit('send-message-from-server', message);
+        },
+    );
+    socket.on(
+        'update-seen',
+        async (data: { fromUser: boolean; convId: string }) => {
+            if (data.fromUser) {
+                await Conversation.updateOne(
+                    { _id: data.convId },
+                    {
+                        userSeenAt: Date.now(),
+                    },
+                );
+            } else {
+                await Conversation.updateOne(
+                    { _id: data.convId },
+                    {
+                        shopSeenAt: Date.now(),
+                    },
+                );
+            }
+            let conv = await Conversation.findById(data.convId);
+            io.sockets.emit('return-updateseen-from-server', {
+                shopSeenAt: conv?.shopSeenAt,
+                convId: data.convId,
+                userSeenAt: conv?.userSeenAt,
+            });
+        },
+    );
 });
 module.exports = server;

@@ -71,7 +71,7 @@ function TypePage() {
     setBreadProps(ans);
   };
   useEffect(() => {
-    let response = JSON.parse(localStorage.getItem('prodLastSeen'));
+    let response = JSON.parse(localStorage.getItem('prodLastSeen')) || {};
     setProdLastSeen(response.data);
 
     if (scrollRef.current) {
