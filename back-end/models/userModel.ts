@@ -114,6 +114,14 @@ const userSchema = new mongoose.Schema<IUser>({
             ref: 'Shop',
         },
     ],
+    isActive: {
+        type: Boolean,
+        default: false,
+    },
+    lastActive: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 
 userSchema.pre('save', async function (next) {

@@ -16,7 +16,6 @@ function Message() {
     });
     socket.emit('get-chat-list-from-client', { userId: userData._id, fromUser: true });
     socket.on('return-chat-from-server', (res) => {
-      console.log(res);
       setChatList(res);
     });
     socket.on('send-message-from-server', (msg) => {
@@ -44,19 +43,36 @@ function Message() {
         return prev;
       });
     });
+
     return () => {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      socket.emit('get-chat-list-from-client', { userId: userData._id, fromUser: true });
+    }, 120000);
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
   return (
-    <div className="flex py-4 px-4 gap-4">
-      <div className="basis-[31%]">
-        <ChatList chatList={chatList} chatSelected={chatSelected} setChatSelected={setChatSelected} />
-      </div>
-      <div className="basis-[69%]">
-        <ChatBox socket={socket} forUser={true} chatItem={chatList.length > 0 && chatList[chatSelected]} />
-      </div>
+    <div>
+      {chatList.length === 0 && (
+        <div className="flex flex-col justify-center items-center mt-20">
+          <p>You currently have no chats</p>
+        </div>
+      )}
+      {chatList.length !== 0 && (
+        <div className="flex py-4 px-4 gap-4">
+          <div className="basis-[31%]">
+            <ChatList chatList={chatList} chatSelected={chatSelected} setChatSelected={setChatSelected} />
+          </div>
+          <div className="basis-[69%]">
+            <ChatBox socket={socket} forUser={true} chatItem={chatList.length > 0 && chatList[chatSelected]} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

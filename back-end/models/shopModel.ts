@@ -58,6 +58,14 @@ const shopSchema = new Schema<IShop>({
             ],
         },
     ],
+    isActive: {
+        type: Boolean,
+        default: false,
+    },
+    lastActive: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 const Shop = model<IShop>('Shop', shopSchema);
 export default Shop;

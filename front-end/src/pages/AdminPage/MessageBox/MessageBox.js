@@ -40,7 +40,6 @@ export default function MessageBox() {
           }
           return conversation;
         });
-        console.log(updatedChatData);
         return updatedChatData;
       });
     });
@@ -66,6 +65,13 @@ export default function MessageBox() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shopSelected, shopList]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      socket.emit('get-chat-list-from-client', { shopId: shopList[shopSelected]._id, fromUser: false });
+    }, 120000);
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
   return (
     <div className="flex">
       {showShopList && (

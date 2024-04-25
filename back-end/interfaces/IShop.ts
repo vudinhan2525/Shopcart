@@ -16,5 +16,7 @@ interface IShop {
         category: string;
         prods: mongoose.Types.ObjectId[];
     }[];
+    isActive: boolean;
+    lastActive: Date;
 }
 export default IShop;

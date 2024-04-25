@@ -30,5 +30,7 @@ interface IUser {
     bill: mongoose.Types.ObjectId[];
     notifications: mongoose.Types.ObjectId[];
     adminShop: mongoose.Types.ObjectId[];
+    isActive: boolean;
+    lastActive: Date;
 }
 export default IUser;

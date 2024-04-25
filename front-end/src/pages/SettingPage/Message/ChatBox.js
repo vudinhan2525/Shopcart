@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { formatDate } from '../../../utils/formatDate';
+import { calculateTimeAgo, formatDate } from '../../../utils/formatDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import parseIcons, { emojis } from '../../../utils/parseIcon';
 import { faFaceSmile, faPaperPlane, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,13 @@ export default function ChatBox({ socket, forUser, chatItem }) {
         fromUser: forUser,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatItem]);
+  useEffect(() => {
+    if (chatHistoryRef.current) {
+      chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+    }
+  }, [chatData]);
   const handleSendMessage = () => {
     if (!socket || !chatData || inputChat.trim() === '') return;
     socket.emit('send-message-from-client', {
@@ -102,26 +108,54 @@ export default function ChatBox({ socket, forUser, chatItem }) {
               style={{ backgroundImage: `url(${forUser ? chatData?.shop.avatar : chatData?.user.avatar})` }}
               className=" h-[50px] min-w-[50px] bg-no-repeat bg-center bg-cover rounded-full"
             ></div>
-            <div
-              className={` bg-green-500 w-[13px] h-[13px] border-[2px] border-white absolute bottom-[1px] right-[1px] rounded-full`}
-            ></div>
-            {/* {chatData?.friend.isActive === false && calculateTimeAgo(chatData?.friend.lastActive) && (
+            {forUser && (
+              <div
+                className={`${
+                  chatData?.shop.isActive ? 'block' : 'hidden'
+                } bg-green-500 w-[13px] h-[13px] border-[2px] border-white absolute bottom-[1px] right-[1px] rounded-full`}
+              ></div>
+            )}
+            {forUser && chatData?.shop.isActive === false && calculateTimeAgo(chatData?.shop.lastActive) && (
               <div className="bg-green-200 w-[23px] h-[13px] justify-center text-[11px] px-3 py-2 font-bold flex items-center border-[2px] text-green-600 border-white absolute bottom-[3px] right-[-6px] rounded-full">
-                {`${calculateTimeAgo(chatData?.friend.lastActive)}m`}
+                {`${calculateTimeAgo(chatData?.shop.lastActive)}m`}
               </div>
-            )} */}
+            )}
+            {!forUser && (
+              <div
+                className={`${
+                  chatData?.user.isActive ? 'block' : 'hidden'
+                } bg-green-500 w-[13px] h-[13px] border-[2px] border-white absolute bottom-[1px] right-[1px] rounded-full`}
+              ></div>
+            )}
+            {!forUser && chatData?.user.isActive === false && calculateTimeAgo(chatData?.user.lastActive) && (
+              <div className="bg-green-200 w-[23px] h-[13px] justify-center text-[11px] px-3 py-2 font-bold flex items-center border-[2px] text-green-600 border-white absolute bottom-[3px] right-[-6px] rounded-full">
+                {`${calculateTimeAgo(chatData?.user.lastActive)}m`}
+              </div>
+            )}
           </div>
           <div className="flex flex-col">
             <p className="font-bold">
               {forUser ? chatData?.shop.name : `${chatData?.user.firstName + ' ' + chatData?.user.lastName}`}
             </p>
             <p className="text-gray-400 text-sm font-medium">
-              2 Minutes ago
-              {/* {chatData?.friend.isActive === true
-                ? 'Active now'
-                : calculateTimeAgo(chatData?.friend.lastActive)
-                ? `Active ${calculateTimeAgo(chatData?.friend.lastActive)} minutes ago`
-                : ''} */}
+              {forUser && (
+                <>
+                  {chatData?.shop.isActive === true
+                    ? 'Active now'
+                    : calculateTimeAgo(chatData?.shop.lastActive)
+                    ? `Active ${calculateTimeAgo(chatData?.shop.lastActive)} minutes ago`
+                    : ''}
+                </>
+              )}
+              {!forUser && (
+                <>
+                  {chatData?.user.isActive === true
+                    ? 'Active now'
+                    : calculateTimeAgo(chatData?.user.lastActive)
+                    ? `Active ${calculateTimeAgo(chatData?.user.lastActive)} minutes ago`
+                    : ''}
+                </>
+              )}
             </p>
           </div>
         </div>

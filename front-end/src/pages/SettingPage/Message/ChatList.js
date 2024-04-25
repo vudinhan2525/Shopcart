@@ -1,6 +1,6 @@
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatDate } from '../../../utils/formatDate';
+import { calculateTimeAgo, formatDate } from '../../../utils/formatDate';
 export default function ChatList({ chatList, chatSelected, setChatSelected }) {
   return (
     <div className="flex flex-col ">
@@ -17,8 +17,20 @@ export default function ChatList({ chatList, chatSelected, setChatSelected }) {
           >
             <div
               style={{ backgroundImage: `url(${el?.shop.avatar})` }}
-              className=" h-[50px] min-w-[50px] bg-no-repeat bg-center bg-cover rounded-full"
-            ></div>
+              className=" h-[50px] relative min-w-[50px] bg-no-repeat bg-center bg-cover rounded-full"
+            >
+              <div
+                className={`${
+                  el?.shop.isActive ? 'block' : 'hidden'
+                } bg-green-500 w-[15px] h-[15px] border-[2px] border-white absolute bottom-[0px] right-[0px] rounded-full`}
+              ></div>
+              {el?.shop.isActive === false && calculateTimeAgo(el?.shop.lastActive) && (
+                <div className="bg-green-200 w-[23px] h-[11px] justify-center text-[11px] px-3 py-2 font-bold flex items-center border-[2px] text-green-600 border-white absolute bottom-[1px] right-[-6px] rounded-full">
+                  {`${calculateTimeAgo(el?.shop.lastActive)}m`}
+                </div>
+              )}
+            </div>
+
             <div className="flex flex-col flex-1 gap-1">
               <div className="flex gap-1">
                 <p className="font-bold h-[24px] line-clamp-1">{el.shop.name}</p>

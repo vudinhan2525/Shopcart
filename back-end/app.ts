@@ -1,7 +1,7 @@
 const express = require('express');
 import { MiddleWareFn } from './interfaces/MiddleWareFn';
 import globalHandleError from './controller/errorController';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import {
     getChatListForUser,
     addMessage,
@@ -9,6 +9,8 @@ import {
     getChatListForShop,
 } from './controller/socketController';
 import Conversation from './models/conversationModel';
+import User from './models/userModel';
+import Shop from './models/shopModel';
 const cors = require('cors');
 const http = require('http');
 const userRoute = require('./routes/userRoute');
@@ -65,10 +67,24 @@ const io = new Server(server, {
         methods: ['GET', 'POST'],
     },
 });
+const mp = new Map();
 io.on('connection', async (socket) => {
     console.log('Have someone!!', socket.id);
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', async (reason) => {
         console.log('Disconnect', socket.id);
+        const data = mp.get(socket.id);
+        mp.delete(socket.id);
+        if (data.fromUser) {
+            await User.updateOne(
+                { _id: data.id },
+                { isActive: false, lastActive: Date.now() },
+            );
+        } else if (data.fromUser === false) {
+            await Shop.updateOne(
+                { _id: data.id },
+                { isActive: false, lastActive: Date.now() },
+            );
+        }
     });
     socket.on('get-shop-list-from-client', async ({ userShop }) => {
         const response = await getShopList(userShop);
@@ -78,9 +94,19 @@ io.on('connection', async (socket) => {
         'get-chat-list-from-client',
         async (data: { userId: string; fromUser: boolean; shopId: string }) => {
             if (data.fromUser) {
+                await User.updateOne(
+                    { _id: data.userId },
+                    { isActive: true, lastActive: Date.now() },
+                );
+                mp.set(socket.id, { id: data.userId, fromUser: data.fromUser });
                 const response = await getChatListForUser(data.userId);
                 socket.emit('return-chat-from-server', response);
             } else if (data.fromUser === false) {
+                await Shop.updateOne(
+                    { _id: data.shopId },
+                    { isActive: true, lastActive: Date.now() },
+                );
+                mp.set(socket.id, { id: data.shopId, fromUser: data.fromUser });
                 const response = await getChatListForShop(data.shopId);
                 socket.emit('return-chat-from-server', response);
             }
