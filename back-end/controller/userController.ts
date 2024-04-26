@@ -73,8 +73,21 @@ exports.addUserProd = catchAsync(<MiddleWareFn>(async (req, res, next) => {
         );
         if (existingProduct) {
             existingProduct.quantity += quantity;
+            if (req.body.pushFront) {
+                const index = user.products.findIndex(
+                    (product) => product.productId.toString() === productId,
+                );
+                if (index !== -1) {
+                    const element = user.products.splice(index, 1)[0];
+                    user.products.unshift(element);
+                }
+            }
         } else {
-            user.products.push({ productId, quantity });
+            if (req.body.pushFront) {
+                user.products.unshift({ productId, quantity });
+            } else {
+                user.products.push({ productId, quantity });
+            }
         }
         await user.save({ validateBeforeSave: false });
         res.status(200).json({

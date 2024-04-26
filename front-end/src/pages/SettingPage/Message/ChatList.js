@@ -38,28 +38,30 @@ export default function ChatList({ chatList, chatSelected, setChatSelected }) {
                   {el?.shop.isChecked && <FontAwesomeIcon icon={faCircleCheck} className="text-sm text-[#20D5EC]" />}
                 </div>
               </div>
-              <div className="flex gap-1 w-full ">
-                <p
-                  className={`${
-                    el.message[el.message.length - 1].fromUser === false &&
-                    el.message[el.message.length - 1].createdAt > el.userSeenAt
-                      ? 'text-gray-900 font-semibold'
-                      : ' text-gray-500'
-                  } text-sm basis-[70%] h-[24px] line-clamp-1`}
-                >
-                  {el.message[el.message.length - 1].message}
-                </p>
-                <div
-                  className={`${
-                    el.message[el.message.length - 1].fromUser === false &&
-                    el.message[el.message.length - 1].createdAt > el.userSeenAt
-                      ? 'text-gray-900 font-semibold'
-                      : ' text-gray-500'
-                  } basis-[30%] text-sm line-clamp-1`}
-                >
-                  {formatDate(el.message[el.message.length - 1].createdAt)}
+              {el.message.length > 0 && (
+                <div className="flex gap-1 w-full ">
+                  <p
+                    className={`${
+                      el.message[el.message.length - 1].fromUser === false &&
+                      el.message[el.message.length - 1].createdAt > el.userSeenAt
+                        ? 'text-gray-900 font-semibold'
+                        : ' text-gray-500'
+                    } text-sm basis-[70%] h-[24px] line-clamp-1`}
+                  >
+                    {el.message[el.message.length - 1].message}
+                  </p>
+                  <div
+                    className={`${
+                      el.message[el.message.length - 1].fromUser === false &&
+                      el.message[el.message.length - 1].createdAt > el.userSeenAt
+                        ? 'text-gray-900 font-semibold'
+                        : ' text-gray-500'
+                    } basis-[30%] text-sm line-clamp-1`}
+                  >
+                    {formatDate(el.message[el.message.length - 1].createdAt)}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         );

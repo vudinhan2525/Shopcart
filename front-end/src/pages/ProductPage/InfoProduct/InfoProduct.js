@@ -3,34 +3,39 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import Button from '../../../utils/Button';
-import { useDispatch } from 'react-redux';
-import { addProdList } from '../../../slice/product.slice';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../../utils/ToastMessage/ToastMessage';
-function InfoProduct({ product, userId, userProducts, refreshUserData }) {
-  const dispatch = useDispatch();
-
+import http from '../../../utils/http';
+function InfoProduct({ product, userId, refreshUserData }) {
   const [itemCnt, setItemCnt] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleAddProd = async (e) => {
+  const handleAddProd = async (e, pushFront) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!pushFront) setIsLoading(true);
     const data = {
       userId: userId,
       newData: { prodId: product._id, quantity: 1 },
       isChanged: true,
     };
-    dispatch(addProdList(data))
-      .then(() => {
-        refreshUserData();
+    try {
+      const response = await http.patch(
+        `users/addUserProd/${data.userId}`,
+        { data: data.newData, pushFront: pushFront },
+        { withCredentials: true },
+      );
+      if (response.data.status === 'success') {
         toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error dispatching action:', error);
-        setIsLoading(false);
-      });
+        await refreshUserData();
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+  const handleBuyNow = (e) => {
+    handleAddProd(e, true);
+    window.location.href = '/order';
   };
   return (
     <div className="bg-white px-8 py-6 rounded-xl border-[1px] dark:border-gray-700 dark:bg-dark-ground border-gray-300">
@@ -93,12 +98,15 @@ function InfoProduct({ product, userId, userProducts, refreshUserData }) {
         <p>{`${product.price * itemCnt}$`}</p>
       </div>
       <div className="flex gap-8 items-center my-6">
-        <Button className="border-[2px] dark:bg-primary-dark-color border-primary-color font-semibold basis-[40%] text-center text-white py-3 rounded-full bg-primary-color  hover:opacity-90 transition-all">
+        <Button
+          onClick={(e) => handleBuyNow(e)}
+          className="border-[2px] dark:bg-primary-dark-color border-primary-color font-semibold basis-[40%] text-center text-white py-3 rounded-full bg-primary-color  hover:opacity-90 transition-all"
+        >
           Buy Now
         </Button>
         <Button
           onClick={(e) => {
-            handleAddProd(e);
+            handleAddProd(e, false);
           }}
           className="font-semibold min-w-[150px] basis-[40%] text-center dark:hover:bg-primary-dark-color text-primary-color py-3 rounded-full bg-white border-primary-color border-[2px] hover:bg-primary-color hover:text-white transition-all"
         >

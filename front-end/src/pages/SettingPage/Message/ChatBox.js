@@ -134,9 +134,11 @@ export default function ChatBox({ socket, forUser, chatItem }) {
             )}
           </div>
           <div className="flex flex-col">
-            <p className="font-bold">
-              {forUser ? chatData?.shop.name : `${chatData?.user.firstName + ' ' + chatData?.user.lastName}`}
-            </p>
+            {chatData && (
+              <p className="font-bold">
+                {forUser ? chatData?.shop.name : `${chatData?.user.firstName + ' ' + chatData?.user.lastName}`}
+              </p>
+            )}
             <p className="text-gray-400 text-sm font-medium">
               {forUser && (
                 <>
@@ -163,6 +165,14 @@ export default function ChatBox({ socket, forUser, chatItem }) {
       <div ref={chatHistoryRef} className="h-[60vh] overflow-auto py-4">
         {getChatHistory(chatData)}
       </div>
+      {chatData?.message.length === 0 && (
+        <div className="absolute top-[40%] left-[50%] translate-x-[-50%] flex flex-col justify-center items-center">
+          <p className="text-xl text-gray-600 font-bold">This chat have no messages</p>
+          <p className="text-base text-gray-600">
+            {forUser ? 'Send first message to this shop' : 'User want to chat with you'}
+          </p>
+        </div>
+      )}
       <div className="sticky bottom-0 flex items-center justify-center bg-white py-2">
         <div className="basis-[10%]"></div>
         <div className="flex basis-[80%] items-center relative">

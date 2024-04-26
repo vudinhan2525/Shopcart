@@ -1,4 +1,3 @@
-import ICovnersation from '../interfaces/IConversation';
 import { MiddleWareFn } from '../interfaces/MiddleWareFn';
 import Conversation from '../models/conversationModel';
 import AppError from '../utils/AppError';

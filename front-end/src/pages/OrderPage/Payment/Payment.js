@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import OnlineMethod from '../OnlineMethod/OnlineMethod';
 import Coupon from './Coupon';
-import { deleteProd } from '../../../slice/product.slice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Dialog from '../../../components/Modals/Dialog';
 import http from '../../../utils/http';
-import { useDispatch } from 'react-redux';
-function Payment({ productSelected, addressSelected, itemSelected, setItemSelected, userData, refreshUserData }) {
+function Payment({ addressSelected, prodSelected, setProdSelected, userData, refreshUserData }) {
   const input1 = useRef();
   const input2 = useRef();
-  const dispatch = useDispatch();
   const [showMethod, setShowMethod] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
   const [couponList, setCouponList] = useState([]);
@@ -19,19 +16,27 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
   const [deleteId, setDeleteId] = useState('');
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [total, setTotal] = useState(0);
-  const shippingCost = 2;
-
+  const [product, setProduct] = useState({});
+  const [shippingCost, setShippingCost] = useState(2);
   useEffect(() => {
-    setTotal(itemSelected.price * itemSelected.quantity + shippingCost);
+    if (prodSelected && Object.keys(prodSelected).length > 0) {
+      if (prodSelected._id === 'none') {
+        setShippingCost(0);
+      }
+      setProduct(prodSelected);
+    }
+  }, [prodSelected]);
+  useEffect(() => {
+    setTotal(product.price * product.quantity + shippingCost);
     const discount = getDiscount();
     setTotal((prev) => prev - discount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemSelected]);
+  }, [product]);
   useEffect(() => {
     const discount = getDiscount();
-    if (itemSelected.price * itemSelected.quantity + shippingCost - discount <= 0) {
+    if (product.price * product.quantity + shippingCost - discount <= 0) {
       setTotal(0);
-    } else setTotal(itemSelected.price * itemSelected.quantity + shippingCost - discount);
+    } else setTotal(product.price * product.quantity + shippingCost - discount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponList]);
   const handleRemoveCoupon = (couponId) => {
@@ -41,12 +46,16 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
     }
   };
   const handleDeleteProd = async (deleteId) => {
-    const data = {
-      userId: userData._id,
-      productId: deleteId,
-    };
-    await dispatch(deleteProd(data));
-    await refreshUserData();
+    try {
+      const response = await http.post(
+        `prods/deleteProdFromUserList/${userData._id}`,
+        { data: deleteId },
+        { withCredentials: true },
+      );
+      if (response.data.status === 'success') {
+        await refreshUserData();
+      }
+    } catch (error) {}
   };
   const getDiscount = () => {
     let discount = 0;
@@ -54,7 +63,7 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
       if (el.priceReduce !== 0) {
         discount += el.priceReduce;
       } else if (el.percentageReduce !== 0) {
-        discount += (el.percentageReduce * itemSelected.price * itemSelected.quantity) / 100;
+        discount += (el.percentageReduce * product.price * product.quantity) / 100;
       }
     });
     setCouponDiscount(discount);
@@ -65,19 +74,21 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
       return `${el.priceReduce.toFixed(2)}$`;
     }
     if (el.percentageReduce !== 0) {
-      return `${el.percentageReduce}% (${(
-        (el.percentageReduce * itemSelected.price * itemSelected.quantity) /
-        100
-      ).toFixed(1)}$)`;
+      return `${el.percentageReduce}% (${((el.percentageReduce * product.price * product.quantity) / 100).toFixed(
+        1,
+      )}$)`;
     }
   };
   const buying = async () => {
+    if (product._id === 'none') {
+      return;
+    }
     const obj = {
       status: 'pending',
       method: 'ship',
       products: {
-        product: itemSelected.prodId,
-        quantity: itemSelected.quantity,
+        product: product._id,
+        quantity: product.quantity,
         price: total,
       },
     };
@@ -85,9 +96,10 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
       const response = await http.post(`/bill/addBill/${userData._id}`, { data: obj });
       if (response.data.status === 'success') {
         setShowSuccess(false);
-        handleDeleteProd(itemSelected.prodId);
+        handleDeleteProd(product._id);
         refreshUserData();
-        setItemSelected({ prodId: '', price: 0, quantity: 0 });
+        const obj = { _id: '', price: 0, quantity: 0 };
+        setProdSelected(obj);
       }
     } catch (error) {}
   };
@@ -147,14 +159,14 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
         <div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Sub Total</header>
-            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${(
-              itemSelected.price * itemSelected.quantity
-            ).toFixed(2)}`}</p>
+            <p className="text-sm text-gray-900 dark:text-dark-text">{`$${(product.price * product.quantity).toFixed(
+              2,
+            )}`}</p>
           </div>
           <div className="flex my-3 items-center justify-between">
             <header className="text-sm font-semibold">Tax(0%)</header>
             <p className="text-sm text-gray-900 dark:text-dark-text">{`$${(
-              (itemSelected.price * itemSelected.quantity * 0) /
+              (product.price * product.quantity * 0) /
               100
             ).toFixed(1)}`}</p>
           </div>
@@ -225,6 +237,7 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
       </div>
       <div
         onClick={() => {
+          if (product._id === 'none') return;
           setShowSuccess(true);
         }}
         className="bg-primary-color text-white text-xl text-center py-3 dark:bg-primary-dark-color  rounded-full cursor-pointer transition-all hover:opacity-80"
@@ -238,13 +251,13 @@ function Payment({ productSelected, addressSelected, itemSelected, setItemSelect
             <div className="w-full h-[1px] bg-gray-300 mt-3"></div>
             <div className="flex gap-4">
               <div
-                style={{ backgroundImage: `url(${productSelected.images[0]})` }}
+                style={{ backgroundImage: `url(${product?.images[0]})` }}
                 className="mt-2 w-[100px] h-[100px] bg-white bg-no-repeat bg-center bg-contain border-[1px] dark:border-gray-700 rounded-lg border-gray-300"
               ></div>
               <div className="mt-2 flex flex-col justify-between py-2">
                 <div>
-                  <p className="text-lg font-bold ">{productSelected.name}</p>
-                  <p className="text-sm text-gray-600">{`x${itemSelected.quantity}`}</p>
+                  <p className="text-lg font-bold ">{product.name}</p>
+                  <p className="text-sm text-gray-600">{`x${product.quantity}`}</p>
                 </div>
                 <p className="text-lg font-bold">{`${total.toFixed(2)}$`}</p>
               </div>

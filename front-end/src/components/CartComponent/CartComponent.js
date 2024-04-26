@@ -3,15 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faPencil, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeart2 } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
 import Button from '../../utils/Button';
-import { addProdList } from '../../slice/product.slice';
 import { useState } from 'react';
 import http from '../../utils/http';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../utils/ToastMessage/ToastMessage';
 function CartComponent({ isEditing, setEditProd, isSmall = false, product, userId, userLikes, refreshUserData }) {
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddProd = async (e) => {
@@ -22,16 +19,22 @@ function CartComponent({ isEditing, setEditProd, isSmall = false, product, userI
       newData: { prodId: product._id, quantity: 1 },
       isChanged: true,
     };
-    dispatch(addProdList(data))
-      .then(() => {
-        refreshUserData();
+    try {
+      const response = await http.patch(
+        `users/addUserProd/${data.userId}`,
+        { data: data.newData, pushFront: false },
+        { withCredentials: true },
+      );
+      if (response.data.status === 'success') {
         toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error dispatching action:', error);
-        setIsLoading(false);
-      });
+        await refreshUserData();
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+    // toast(<ToastMessage status={'success'} message={'Product added successfully !!'} />);
   };
   const handleAddLikedProd = async (e) => {
     e.preventDefault();

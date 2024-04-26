@@ -13,6 +13,7 @@ export default function MessageBox() {
   const [shopList, setShopList] = useState([]);
   const [chatSelected, setChatSelected] = useState(0);
   const [chatList, setChatList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { userData } = useContext(AuthContext);
   useEffect(() => {
     const socket = io('http://localhost:8002/');
@@ -28,6 +29,7 @@ export default function MessageBox() {
     //socket.emit('get-chat-list-from-client', { userId: userData._id, fromUser: false });
     socket.on('return-chat-from-server', (res) => {
       setChatList(res);
+      setIsLoading(false);
     });
     socket.on('send-message-from-server', (msg) => {
       setChatList((prevChatData) => {
@@ -67,7 +69,9 @@ export default function MessageBox() {
   }, [shopSelected, shopList]);
   useEffect(() => {
     const intervalId = setInterval(() => {
-      socket.emit('get-chat-list-from-client', { shopId: shopList[shopSelected]._id, fromUser: false });
+      if (socket && shopList.length > 0) {
+        socket.emit('get-chat-list-from-client', { shopId: shopList[shopSelected]._id, fromUser: false });
+      }
     }, 120000);
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,6 +87,7 @@ export default function MessageBox() {
                 <div
                   key={idx}
                   onClick={() => {
+                    setIsLoading(true);
                     setShopSelected(idx);
                     setShowShopList(false);
                   }}
@@ -115,10 +120,43 @@ export default function MessageBox() {
             <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
           </div>
           <div className="basis-[25%]">
-            <ChatList chatList={chatList} chatSelected={chatSelected} setChatSelected={setChatSelected}></ChatList>
+            {!isLoading && (
+              <ChatList
+                setIsLoading={setIsLoading}
+                chatList={chatList}
+                chatSelected={chatSelected}
+                setChatSelected={setChatSelected}
+              ></ChatList>
+            )}
+            {isLoading && (
+              <div className="mt-12">
+                {[1, 2, 3, 4].map((el, idx) => {
+                  return (
+                    <div key={idx} className="px-6 animate-pulse flex">
+                      <div className="w-[60px] h-[60px]">
+                        <svg
+                          className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 20 18"
+                        >
+                          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2" />
+                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2" />
+                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2" />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <div className="basis-[75%]">
-            <ChatBox socket={socket} forUser={false} chatItem={chatList.length > 0 && chatList[chatSelected]}></ChatBox>
+            {!isLoading && <ChatBox socket={socket} forUser={false} chatItem={chatList[chatSelected]}></ChatBox>}
           </div>
         </div>
       )}

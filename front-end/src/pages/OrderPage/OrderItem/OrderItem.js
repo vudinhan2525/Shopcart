@@ -3,24 +3,17 @@ import { MinusIcon, PlusIcon } from '../../../utils/IconSVG/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-function OrderItem({ setItemSelected, selected, userProds, product, setDeleteId, setShowDeleteSelect }) {
-  const [itemCnt, setItemCnt] = useState(1);
-
+function OrderItem({ setProducts, product, setDeleteId, setShowDeleteSelect }) {
+  const [itemCnt, setItemCnt] = useState(product.quantity);
   useEffect(() => {
-    if (userProds.length > 0 && product) {
-      userProds.forEach((element) => {
-        if (element.productId === product._id) {
-          setItemCnt(element.quantity);
-        }
-      });
-    }
-  }, [product, product._id, userProds]);
-  useEffect(() => {
-    if (product._id === userProds[selected]?.productId) {
-      setItemSelected({ prodId: product._id, price: product.price, quantity: itemCnt });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+    setItemCnt(product.quantity);
+  }, [product.quantity]);
+  // useEffect(() => {
+  //   // if (product._id === userProds[selected]?.productId) {
+  //   //   setItemSelected({ prodId: product._id, price: product.price, quantity: itemCnt });
+  //   // }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selected]);
   return (
     <div className="flex items-center gap-6 relative">
       <div
@@ -47,10 +40,18 @@ function OrderItem({ setItemSelected, selected, userProds, product, setDeleteId,
                 onClick={(e) => {
                   e.preventDefault();
                   if (itemCnt === 1) return;
-                  setItemCnt((prev) => prev - 1);
-                  setItemSelected((prev) => {
-                    return { ...prev, quantity: itemCnt - 1 };
-                  });
+                  (() => {
+                    setItemCnt((prev) => prev - 1);
+                    setProducts((prev) => {
+                      const newArr = [...prev];
+                      for (let i = 0; i < newArr.length; i++) {
+                        if (newArr[i]._id === product._id) {
+                          newArr[i].quantity = itemCnt - 1;
+                        }
+                      }
+                      return newArr;
+                    });
+                  })();
                 }}
                 className="px-2 cursor-pointer dark:hover:text-dark-flat rounded-l-full hover:bg-gray-300 transition-all  h-[36px] flex items-center"
               >
@@ -60,10 +61,18 @@ function OrderItem({ setItemSelected, selected, userProds, product, setDeleteId,
               <div
                 onClick={(e) => {
                   e.preventDefault();
-                  setItemCnt((prev) => prev + 1);
-                  setItemSelected((prev) => {
-                    return { ...prev, quantity: itemCnt + 1 };
-                  });
+                  (() => {
+                    setItemCnt((prev) => prev + 1);
+                    setProducts((prev) => {
+                      const newArr = [...prev];
+                      for (let i = 0; i < newArr.length; i++) {
+                        if (newArr[i]._id === product._id) {
+                          newArr[i].quantity = itemCnt + 1;
+                        }
+                      }
+                      return newArr;
+                    });
+                  })();
                 }}
                 className="px-2 cursor-pointer dark:hover:text-dark-flat rounded-r-full hover:bg-gray-300 transition-all  h-[36px] flex items-center"
               >

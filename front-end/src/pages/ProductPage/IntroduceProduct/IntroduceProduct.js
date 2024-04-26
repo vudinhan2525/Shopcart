@@ -7,10 +7,13 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import http from '../../../utils/http';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ToastMessage from '../../../utils/ToastMessage/ToastMessage';
 function IntroduceProduct({ product, userData, refreshUserData }) {
   const [detailProd, setDetailProd] = useState({});
   const [shop, setShop] = useState({});
+  const navigate = useNavigate();
   const getDetailProd = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}detailprods/${product.details}`, {
@@ -57,7 +60,7 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
         const response = await http.patch(`users/${userData._id}`, { shop: newArr }, { withCredentials: true });
         await refreshUserData();
         if (response.data.status === 'success') {
-          console.log('unfollow success');
+          toast(<ToastMessage status={'success'} message={'Unfollowed successfully !!'} />);
         }
       } catch (error) {
         console.log(error);
@@ -68,25 +71,36 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
         const response = await http.patch(`users/${userData._id}`, { shop: newArr }, { withCredentials: true });
         await refreshUserData();
         if (response.data.status === 'success') {
-          console.log('follow success');
+          toast(<ToastMessage status={'success'} message={'Followed successfully !!'} />);
         }
       } catch (error) {
         console.log(error);
       }
     }
   };
+  const handleAddChat = async () => {
+    try {
+      const response = await http.post(`/conv/addConversation`, { user_id: userData._id, shop_id: shop._id });
+      if (response.data.status === 'success') {
+        navigate('/setting/message');
+      }
+    } catch (error) {}
+  };
   return (
     <div className=" w-full bg-white rounded-xl dark:bg-dark-ground dark:border-gray-700 mt-10 border-[1px] py-7 px-7 overflow-hidden relative">
       <div className="flex gap-4">
         <div>
-          <div
+          <Link
+            to={`/shop/${shop._id}`}
             style={{ backgroundImage: `url(${shop.avatar})` }}
-            className="w-[120px] h-[120px] bg-no-repeat bg-center bg-contain rounded-full"
-          ></div>
+            className="w-[120px] block h-[120px] bg-no-repeat bg-center bg-contain rounded-full"
+          ></Link>
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <header className="text-2xl font-semibold">{shop.name}</header>
+            <Link to={`/shop/${shop._id}`} className="text-2xl font-semibold">
+              {shop.name}
+            </Link>
             {shop.isChecked && <FontAwesomeIcon icon={faCircleCheck} className="text-lg text-[#20D5EC]" />}
           </div>
           <p className="mt-1">{shop.summary}</p>
@@ -113,7 +127,10 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
               {userData.shop?.includes(shop._id) && <FontAwesomeIcon icon={faCheck} />}
               <p className="">{userData.shop?.includes(shop._id) ? 'Followed' : 'Follow'}</p>
             </div>
-            <div className="mt-2 text-primary-color cursor-pointer bg-white border-[1.5px] dark:hover:bg-primary-dark-color dark:border-[0px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all">
+            <div
+              onClick={() => handleAddChat()}
+              className="mt-2 text-primary-color cursor-pointer bg-white border-[1.5px] dark:hover:bg-primary-dark-color dark:border-[0px] border-primary-color w-[120px] text-center rounded-full py-2 hover:bg-primary-color hover:text-white transition-all"
+            >
               Chat Now
             </div>
           </div>
