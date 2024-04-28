@@ -2,7 +2,6 @@ import { faCheck, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserIcon, StarDefault } from '../../../utils/IconSVG';
 import IntroducePost from './IntroducePost/IntroducePost';
-import { ChevronDown } from '../../../utils/IconSVG';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -138,12 +137,6 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
       </div>
       <IntroducePost product={detailProd} />
       <div className="absolute bottom-0 w-[100%] h-[30px] dark:hidden linear-ct"></div>
-      <div className="absolute bottom-[0px] cursor-pointer dark:bg-[#3A3B3C] dark:border-[0px] flex border-2 translate-x-[-50%] left-[50%] mx-auto w-[120px] text-center rounded-full bg-white ">
-        <div className="flex items-center mx-auto ">
-          <div className="py-[6px]">More</div>
-          <ChevronDown />
-        </div>
-      </div>
     </div>
   );
 }

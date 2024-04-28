@@ -1,17 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import DashBoard from './DashBoard/DashBoard';
-import { DashBoardIcon, ShopIcon, MessageIcon } from '../../utils/IconSVG';
+import { ShopIcon, MessageIcon } from '../../utils/IconSVG';
 import Shop from './Shop/Shop';
 import ShopDetail from './Shop/ShopDetail';
 import { useContext } from 'react';
 import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import MessageBox from './MessageBox/MessageBox';
 const adminItems = [
-  {
-    text: 'Dashboard',
-    icon: <DashBoardIcon clx="w-10 h-10" />,
-    link: '/admin/dashboard',
-  },
   {
     text: 'Shop',
     icon: <ShopIcon clx="w-10 h-10" />,
@@ -51,7 +45,6 @@ function AdminPage() {
         </div>
         {/* <div className="w-[1px] ml-5 bg-gray-300 dark:bg-gray-700"></div> */}
         <div className="basis-[82%]">
-          {param.adminOpt === 'dashboard' && <DashBoard />}
           {param.adminOpt === 'shop' && <Shop userData={userData} />}
           {param.adminOpt === 'message' && <MessageBox />}
           {param.shopId && <ShopDetail />}

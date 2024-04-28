@@ -41,7 +41,7 @@ function HeaderComponent({ isAdminPage }) {
               <CategoryMenu />
             </div>
             <li className="flex hover:bg-gray-200 dark:text-dark-text dark:hover:text-black justify-center items-center gap-2 cursor-pointer p-3 text-[15px] rounded-full transition-all text-black">
-              <Link to="/admin/dashboard" target="_blank">
+              <Link to="/admin/shop" target="_blank">
                 Become Seller
               </Link>
             </li>

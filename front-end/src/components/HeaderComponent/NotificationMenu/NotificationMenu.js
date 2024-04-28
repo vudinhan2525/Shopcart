@@ -1,14 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { BellIcon } from '../../../utils/IconSVG/index';
 import { Menu, MenuHandler, MenuList, Tabs, TabsHeader, TabsBody, Tab, TabPanel } from '@material-tailwind/react';
-import InboxList from './InboxList';
 import GeneralNoti from './GeneralNoti';
 import http from '../../../utils/http';
 const data = [
-  {
-    label: 'Inbox',
-    value: 'inbox',
-  },
   {
     label: 'General',
     value: 'general',
@@ -111,7 +106,6 @@ function NotificationMenu({ userData }) {
             {data.map((el) => {
               return (
                 <TabPanel key={el.value} value={el.value} className="px-0 font-OpenSans font-medium">
-                  {el.value === 'inbox' && <InboxList />}
                   {el.value === 'general' && (
                     <GeneralNoti getAllNoti={getAllNoti} ref={childRef} userData={userData} notiGeneral={notiGeneral} />
                   )}
