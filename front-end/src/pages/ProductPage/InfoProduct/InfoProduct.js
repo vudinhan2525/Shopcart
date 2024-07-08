@@ -6,14 +6,18 @@ import Button from '../../../utils/Button';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../../utils/ToastMessage/ToastMessage';
 import http from '../../../utils/http';
-function InfoProduct({ product, userId, refreshUserData }) {
+function InfoProduct({ product, userData, refreshUserData, setShowLoginModal }) {
   const [itemCnt, setItemCnt] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const handleAddProd = async (e, pushFront) => {
     e.preventDefault();
+    if (!userData || Object.keys(userData).length === 0) {
+      setShowLoginModal(true);
+      return;
+    }
     if (!pushFront) setIsLoading(true);
     const data = {
-      userId: userId,
+      userId: userData._id,
       newData: { prodId: product._id, quantity: 1 },
       isChanged: true,
     };
@@ -33,8 +37,12 @@ function InfoProduct({ product, userId, refreshUserData }) {
       setIsLoading(false);
     }
   };
-  const handleBuyNow = (e) => {
-    handleAddProd(e, true);
+  const handleBuyNow = async (e) => {
+    if (!userData || Object.keys(userData).length === 0) {
+      setShowLoginModal(true);
+      return;
+    }
+    await handleAddProd(e, true);
     window.location.href = '/order';
   };
   return (

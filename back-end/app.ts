@@ -8,12 +8,14 @@ import {
     getShopList,
     getChatListForShop,
 } from './controller/socketController';
+import bodyParser from 'body-parser';
 import Conversation from './models/conversationModel';
 import User from './models/userModel';
 import Shop from './models/shopModel';
 const cors = require('cors');
 const http = require('http');
 const userRoute = require('./routes/userRoute');
+const webhookRoute = require('./routes/webhookStripe');
 const prodRoute = require('./routes/prodRoute');
 const detailProdRoute = require('./routes/detailProdRoute');
 const addRoute = require('./routes/addressRoute');
@@ -36,6 +38,7 @@ app.use(
 );
 
 app.use(cookieParse());
+app.use('/api/v1/webhook', webhookRoute);
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 

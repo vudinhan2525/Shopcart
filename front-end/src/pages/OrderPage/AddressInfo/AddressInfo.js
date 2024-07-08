@@ -1,6 +1,6 @@
 import { faCheck, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAddressList, addAddress, updateAddress, deleteAddress } from '../../../slice/address.slice';
 import SkeletonText from '../../../components/Skeleton/SkeletonText';
@@ -23,6 +23,7 @@ function AddressInfo({ userData, setAddressSelected }) {
   const address = useSelector((state) => state.address.addressList);
   const isLoading = useSelector((state) => state.address.isLoading);
   const dispatch = useDispatch();
+  const editRef = useRef(null);
   useEffect(() => {
     if (address && address.length > 0 && setAddressSelected) {
       setAddressSelected(address[0]);
@@ -48,7 +49,6 @@ function AddressInfo({ userData, setAddressSelected }) {
         userAddress: userData.address,
       };
       dispatch(addAddress(data));
-      console.log(userData.address);
       setFormData(initialForm);
     } else {
       const data = {
@@ -125,7 +125,13 @@ function AddressInfo({ userData, setAddressSelected }) {
                 </div>
                 <div className="absolute flex  bottom-[20px] right-[20px] gap-2">
                   <div
-                    onClick={() => handleEditAddress(el)}
+                    onClick={() => {
+                      if (editRef.current) {
+                        console.log(1);
+                        editRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }
+                      handleEditAddress(el);
+                    }}
                     className="edit-btn dark:bg-gray-800 dark:hover:bg-gray-500 bg-gray-300 text-xs hover:bg-gray-400 transition-all font-semibold py-1 rounded-full px-3 "
                   >
                     Edit
@@ -193,6 +199,7 @@ function AddressInfo({ userData, setAddressSelected }) {
                 placeholder="Type here..."
               ></input>
             </div>
+            <div ref={editRef}></div>
             <div className="flex gap-6">
               <div className="basis-1/2">
                 <header className="text-sm font-semibold">City/ Town*</header>

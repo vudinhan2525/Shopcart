@@ -15,7 +15,7 @@ const initialSortObj = {
   price: '0',
 };
 function ShopPage() {
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
   const param = useParams();
   const [shop, setShop] = useState({});
   const [productList, setProductList] = useState([]);
@@ -149,6 +149,7 @@ function ShopPage() {
         <SuggestProdShop
           isAdmin={isAdmin}
           setEditProd={setEditProd}
+          setShowLoginModal={setShowLoginModal}
           setShowAddProduct={setShowAddProduct}
           shopProds={shop.products}
           userData={userData}

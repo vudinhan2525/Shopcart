@@ -9,7 +9,7 @@ import http from '../../../utils/http';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../../utils/ToastMessage/ToastMessage';
-function IntroduceProduct({ product, userData, refreshUserData }) {
+function IntroduceProduct({ setShowLoginModal, product, userData, refreshUserData }) {
   const [detailProd, setDetailProd] = useState({});
   const [shop, setShop] = useState({});
   const navigate = useNavigate();
@@ -45,6 +45,10 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
   const handleAddShopLiked = async () => {
+    if (!userData || Object.keys(userData).length === 0) {
+      setShowLoginModal(true);
+      return;
+    }
     let flag = 0;
     userData.shop?.forEach((el, idx) => {
       if (el === shop._id) {
@@ -78,6 +82,10 @@ function IntroduceProduct({ product, userData, refreshUserData }) {
     }
   };
   const handleAddChat = async () => {
+    if (!userData || Object.keys(userData).length === 0) {
+      setShowLoginModal(true);
+      return;
+    }
     try {
       const response = await http.post(`/conv/addConversation`, { user_id: userData._id, shop_id: shop._id });
       if (response.data.status === 'success') {

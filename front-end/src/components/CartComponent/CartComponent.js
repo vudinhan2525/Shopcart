@@ -8,11 +8,24 @@ import { useState } from 'react';
 import http from '../../utils/http';
 import { toast } from 'react-toastify';
 import ToastMessage from '../../utils/ToastMessage/ToastMessage';
-function CartComponent({ isEditing, setEditProd, isSmall = false, product, userId, userLikes, refreshUserData }) {
+function CartComponent({
+  setShowLoginModal,
+  isEditing,
+  setEditProd,
+  isSmall = false,
+  product,
+  userId,
+  userLikes,
+  refreshUserData,
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddProd = async (e) => {
     e.preventDefault();
+    if (!userId) {
+      setShowLoginModal(true);
+      return;
+    }
     setIsLoading(true);
     const data = {
       userId: userId,
@@ -38,6 +51,10 @@ function CartComponent({ isEditing, setEditProd, isSmall = false, product, userI
   };
   const handleAddLikedProd = async (e) => {
     e.preventDefault();
+    if (!userId) {
+      setShowLoginModal(true);
+      return;
+    }
     let flag = 0;
     userLikes?.forEach((el, idx) => {
       if (el === product._id) {

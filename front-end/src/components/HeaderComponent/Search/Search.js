@@ -102,10 +102,18 @@ function Search() {
               <SearchHistory setIsFocused={setIsFocused} />
             </>
           )}
-          <header className="text-[13px] leading-[20px] px-4 text-gray-700">Products</header>
-          <SearchProduct searchProd={searchProd} handleClickToProd={handleClickToProd} />
-          <header className="text-[13px] leading-[20px] px-4 text-gray-700">Shops</header>
-          <SearchShop searchShop={searchShop} />
+          {searchProd && searchProd.length > 0 && (
+            <div>
+              <header className="text-[13px] leading-[20px] px-4 text-gray-700">Products</header>
+              <SearchProduct searchProd={searchProd} handleClickToProd={handleClickToProd} />
+            </div>
+          )}
+          {searchShop && searchShop.length > 0 && (
+            <div>
+              <header className="text-[13px] leading-[20px] px-4 text-gray-700">Shops</header>
+              <SearchShop searchShop={searchShop} />
+            </div>
+          )}
         </div>
       </div>
     </div>

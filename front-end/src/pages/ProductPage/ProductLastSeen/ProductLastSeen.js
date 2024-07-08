@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import CartComponent from '../../../components/CartComponent/CartComponent';
 import { useState } from 'react';
 import axios from 'axios';
-function ProductLastSeen({ data, userData, refreshUserData }) {
+function ProductLastSeen({ data, userData, refreshUserData, setShowLoginModal }) {
   const [products, setProducts] = useState([]);
   const getLastSeenProd = async (data) => {
     try {
@@ -25,6 +25,7 @@ function ProductLastSeen({ data, userData, refreshUserData }) {
       <div className="grid grid-cols-5 mt-6 gap-4">
         {products.map((el, idx) => (
           <CartComponent
+            setShowLoginModal={setShowLoginModal}
             isSmall={true}
             key={idx}
             product={el}

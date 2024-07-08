@@ -202,7 +202,9 @@ function RegisterPage() {
               Register with your personal details to use all of site features
             </p>
             <div className="group mt-4 text-center select-none bg-[#FFE6CC] text-primary-color w-[170px] cursor-pointer mx-auto py-3 rounded-full">
-              <div className="group-hover:pl-2 inline-block transition-all">Visit Shopcart</div>
+              <a href="/" target="_blank" className="group-hover:pl-2 inline-block transition-all">
+                Visit Shopcart
+              </a>
               <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
             </div>
             <div className="absolute w-[10px] top-0 h-[100%] bg-primary-color right-[-1px] "></div>

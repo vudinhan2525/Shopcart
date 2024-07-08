@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import CartComponent from '../../../components/CartComponent/CartComponent';
 import http from '../../../utils/http';
-function ProductSaved({ userData, refreshUserData }) {
+function ProductSaved({ userData, refreshUserData, setShowLoginModal }) {
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
@@ -24,6 +24,7 @@ function ProductSaved({ userData, refreshUserData }) {
       <div className="grid grid-cols-4 gap-4">
         {products.map((el, idx) => (
           <CartComponent
+            setShowLoginModal={setShowLoginModal}
             key={idx}
             isSmall={true}
             product={el}

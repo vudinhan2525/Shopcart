@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import img1 from '../../../assets/img/paymentsmethod/Amazon.png';
-import img2 from '../../../assets/img/paymentsmethod/Mastercard.png';
-import img3 from '../../../assets/img/paymentsmethod/visa.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+// import img1 from '../../../assets/img/paymentsmethod/Amazon.png';
+// import img2 from '../../../assets/img/paymentsmethod/Mastercard.png';
+// import img3 from '../../../assets/img/paymentsmethod/visa.png';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faWallet } from '@fortawesome/free-solid-svg-icons';
 const image = [
-  { img: img1, name: 'Amazon' },
-  { img: img2, name: 'MasterCard' },
-  { img: img3, name: 'Visa' },
+  { img: 'https://shopcartimg2.blob.core.windows.net/shopcartctn/stripe.png', name: 'Stripe' },
+  // { img: img2, name: 'MasterCard' },
+  // { img: img3, name: 'Visa' },
 ];
 //https://www.youtube.com/watch?v=rEaKl8_mwmQ
 //https://www.youtube.com/watch?v=uQBnBnupn-M
@@ -22,7 +22,7 @@ function OnlineMethod() {
               key={idx}
               className={`${
                 method === idx ? 'border-[#08AC0A] border-[2px]' : 'border-[2px] border-gray-200'
-              } flex items-center px-3 cursor-pointer py-2 rounded-md dark:bg-dark-text dark:border-[3px]`}
+              } flex items-center px-3 cursor-pointer w-[70px] py-2 rounded-md dark:bg-dark-text dark:border-[3px]`}
               onClick={() => setMethod(idx)}
             >
               <img src={el.img} alt={el.name}></img>
@@ -30,7 +30,7 @@ function OnlineMethod() {
           );
         })}
       </div>
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <header className="text-sm font-semibold">Email*</header>
         <input
           type="email"
@@ -77,7 +77,7 @@ function OnlineMethod() {
             ></input>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

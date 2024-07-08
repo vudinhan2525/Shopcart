@@ -16,7 +16,7 @@ import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs';
 import convertType from '../../utils/convertType';
 function ProductPage() {
   const param = useParams();
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [prodLastSeen, setProdLastSeen] = useState([]);
@@ -90,7 +90,12 @@ function ProductPage() {
           {isLoading ? (
             <SkeletonShopProd />
           ) : (
-            <IntroduceProduct userData={userData} refreshUserData={refreshUserData} product={product} />
+            <IntroduceProduct
+              setShowLoginModal={setShowLoginModal}
+              userData={userData}
+              refreshUserData={refreshUserData}
+              product={product}
+            />
           )}
         </div>
         <div className="basis-[40%]">
@@ -101,8 +106,8 @@ function ProductPage() {
           ) : (
             <InfoProduct
               product={product}
-              userId={userData._id}
-              userProducts={userData.products}
+              userData={userData}
+              setShowLoginModal={setShowLoginModal}
               refreshUserData={refreshUserData}
             />
           )}
@@ -111,10 +116,20 @@ function ProductPage() {
       </div>
       <ReviewProduct product={product} />
       <div className="mt-8">
-        <RelatedProduct type={product.type} userData={userData} refreshUserData={refreshUserData} />
+        <RelatedProduct
+          setShowLoginModal={setShowLoginModal}
+          type={product.type}
+          userData={userData}
+          refreshUserData={refreshUserData}
+        />
       </div>
       <div className="mt-8">
-        <ProductLastSeen data={prodLastSeen} userData={userData} refreshUserData={refreshUserData} />
+        <ProductLastSeen
+          setShowLoginModal={setShowLoginModal}
+          data={prodLastSeen}
+          userData={userData}
+          refreshUserData={refreshUserData}
+        />
       </div>
     </div>
   );

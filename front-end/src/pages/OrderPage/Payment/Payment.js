@@ -91,7 +91,17 @@ function Payment({ addressSelected, prodSelected, setProdSelected, userData, ref
         quantity: product.quantity,
         price: total,
       },
+      userId: userData._id,
     };
+    if (showMethod === 2) {
+      const response = await http.post(`/bill/getStripe`, { data: obj }, { withCredentials: true });
+      if (response.data.status === 'success') {
+        // setShowSuccess(false);
+        // await handleDeleteProd(product._id);
+        window.location.href = response.data.data.url;
+      }
+      return;
+    }
     try {
       const response = await http.post(`/bill/addBill/${userData._id}`, { data: obj });
       if (response.data.status === 'success') {

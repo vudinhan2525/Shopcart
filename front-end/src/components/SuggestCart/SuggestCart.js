@@ -5,7 +5,7 @@ import { AuthContext } from '../../components/AuthProvider/AuthProvider';
 import PaginateComponent from '../PaginateComponent/PaginateComponent';
 import http from '../../utils/http';
 function SuggestCart() {
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [paginate, setPaginate] = useState(1);
   const [cntProd, setCntProd] = useState(1);
@@ -43,6 +43,7 @@ function SuggestCart() {
         {products.map((el, idx) => {
           return (
             <CartComponent
+              setShowLoginModal={setShowLoginModal}
               product={el}
               key={idx}
               refreshUserData={refreshUserData}

@@ -9,7 +9,7 @@ function BestDealComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [tab, setTab] = useState(1);
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
 
   const getBestDealProd = async (a) => {
     try {
@@ -57,6 +57,7 @@ function BestDealComponent() {
           if (isLoading) return <SkeletonItem key={idx} />;
           return (
             <CartComponent
+              setShowLoginModal={setShowLoginModal}
               key={idx}
               product={el}
               userId={userData._id}

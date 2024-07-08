@@ -6,7 +6,7 @@ import AddProductCart from '../../pages/ShopPage/AddProductCart';
 
 function CartList({ isAdmin, filter, sortBy, shopProducts, setShowAddProduct, setEditProd }) {
   const [products, setProducts] = useState([]);
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
   const getProduct = async () => {
     try {
       const response = await http.post(
@@ -37,7 +37,8 @@ function CartList({ isAdmin, filter, sortBy, shopProducts, setShowAddProduct, se
       {products.map((el, idx) => {
         return (
           <CartComponent
-            isEditing={true}
+            setShowLoginModal={setShowLoginModal}
+            isEditing={isAdmin}
             setEditProd={setEditProd}
             product={el}
             isSmall={true}

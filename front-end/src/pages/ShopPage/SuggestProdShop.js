@@ -2,7 +2,15 @@ import { useEffect, useState } from 'react';
 import http from '../../utils/http';
 import CartComponent from '../../components/CartComponent/CartComponent';
 import AddProductCart from './AddProductCart';
-function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refreshUserData, setEditProd }) {
+function SuggestProdShop({
+  isAdmin,
+  setShowLoginModal,
+  setShowAddProduct,
+  shopProds,
+  userData,
+  refreshUserData,
+  setEditProd,
+}) {
   const [product, setProduct] = useState([]);
 
   const getProducts = async () => {
@@ -36,7 +44,8 @@ function SuggestProdShop({ isAdmin, setShowAddProduct, shopProds, userData, refr
         {product.map((el, idx) => {
           return (
             <CartComponent
-              isEditing={true}
+              setShowLoginModal={setShowLoginModal}
+              isEditing={isAdmin}
               setEditProd={setEditProd}
               product={el}
               key={idx}

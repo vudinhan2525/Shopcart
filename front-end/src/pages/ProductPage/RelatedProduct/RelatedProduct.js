@@ -3,7 +3,7 @@ import CartComponent from '../../../components/CartComponent/CartComponent';
 import axios from 'axios';
 import SkeletonItem from '../../../components/Skeleton/SkeletonItem';
 import { useState } from 'react';
-function RelatedProduct({ type, userData, refreshUserData }) {
+function RelatedProduct({ type, userData, refreshUserData, setShowLoginModal }) {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,6 +38,7 @@ function RelatedProduct({ type, userData, refreshUserData }) {
           if (isLoading) return <SkeletonItem key={idx} />;
           return (
             <CartComponent
+              setShowLoginModal={setShowLoginModal}
               key={idx}
               isSmall={true}
               product={el}

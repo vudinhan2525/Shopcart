@@ -6,6 +6,7 @@ function ForgotPassword({ setMethod }) {
   const [email, setEmail] = useState('');
   const [showErrorEmail, setShowErrorEmail] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -28,6 +29,7 @@ function ForgotPassword({ setMethod }) {
           { withCredentials: true },
         );
         setLoading(false);
+        setShowSuccess(true);
       } catch (error) {
         setShowErrorEmail(true);
         setLoading(false);
@@ -49,6 +51,7 @@ function ForgotPassword({ setMethod }) {
             required
             onChange={(e) => {
               setShowErrorEmail(false);
+              setShowSuccess(false);
               setEmail(e.target.value);
             }}
             className={`dark:bg-[#3A3B3C] dark:border-[0px] w-full bg-[#F1EFF1] outline-none px-12 border-[1px] border-[#F1EFF1] font-semibold py-3 rounded-full ${
@@ -57,7 +60,11 @@ function ForgotPassword({ setMethod }) {
           ></input>
         </div>
         {showErrorEmail && <p className="text-xs text-red-600 ml-2 mt-1 font-medium">Email is invalid !!!</p>}
-
+        {showSuccess && (
+          <p className="text-sm font-semibold italic mt-2">
+            * An email to reset your password has been sent to your email address. Check and reset the password.
+          </p>
+        )}
         <button
           onClick={(e) => handleLogin(e)}
           className={`dark:bg-primary-dark-color mt-[15px] block select-none cursor-pointer transition-all  mx-auto text-center bg-primary-color  px-6 py-3 rounded-full text-white text-lg font-semibold ${

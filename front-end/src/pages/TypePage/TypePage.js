@@ -16,7 +16,7 @@ const initialSortObj = {
   price: '0',
 };
 function TypePage() {
-  const { userData, refreshUserData } = useContext(AuthContext);
+  const { userData, refreshUserData, setShowLoginModal } = useContext(AuthContext);
   const scrollRef = useRef(null);
   const param = useParams();
   const [prodLastSeen, setProdLastSeen] = useState([]);
@@ -157,25 +157,50 @@ function TypePage() {
             </div>
             <div className="min-h-[720px]">
               <div className="grid grid-cols-4 gap-4 mt-4">
-                {products.map((el, idx) => {
-                  return (
-                    <CartComponent
-                      product={el}
-                      key={idx}
-                      isSmall={true}
-                      userId={userData._id}
-                      refreshUserData={refreshUserData}
-                      userLikes={userData.likes}
-                    ></CartComponent>
-                  );
-                })}
+                {products &&
+                  products.length > 0 &&
+                  products.map((el, idx) => {
+                    return (
+                      <CartComponent
+                        setShowLoginModal={setShowLoginModal}
+                        product={el}
+                        key={idx}
+                        isSmall={true}
+                        userId={userData._id}
+                        refreshUserData={refreshUserData}
+                        userLikes={userData.likes}
+                      ></CartComponent>
+                    );
+                  })}
               </div>
+              {(!products || products.length === 0) && (
+                <div className="px-4 py-4 w-full flex gap-8 mt-2 border-[1px] rounded-md">
+                  <div
+                    style={{
+                      backgroundImage: `url(https://shopcartimg2.blob.core.windows.net/shopcartctn/emptyInvoice.webp)`,
+                    }}
+                    className="w-[120px] h-[120px] bg-no-repeat bg-center bg-contain rounded-full"
+                  ></div>
+                  <div className="">
+                    <header className="font-bold text-lg mt-4">No result found</header>
+                    <p className="text-sm">
+                      We couldn't find any products that match your current filter settings. Please adjust the filter
+                      criteria to find the products you are looking for.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
             <PaginateComponent cntProd={cntProd} paginate={paginate} setPaginate={setPaginate} />
           </div>
         </div>
         <div className="mt-10">
-          <ProductLastSeen data={prodLastSeen} userData={userData} refreshUserData={refreshUserData} />
+          <ProductLastSeen
+            setShowLoginModal={setShowLoginModal}
+            data={prodLastSeen}
+            userData={userData}
+            refreshUserData={refreshUserData}
+          />
         </div>
       </div>
     </div>

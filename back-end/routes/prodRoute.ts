@@ -16,6 +16,7 @@ router.post('/getRelatedProd', prodController.getRelatedProd);
 router.post('/getProdInArray', prodController.getProdInArray);
 
 router.use(authController.protect);
+
 router.delete('/:id', prodController.deleteProd);
 router.patch('/:id', prodController.upLoad, prodController.updateProd);
 router.post('/', prodController.upLoad, prodController.addProd);
